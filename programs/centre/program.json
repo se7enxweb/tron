@@ -1,7 +1,7 @@
 {
     "name": "centre",
     "class": "tronCentreProgram",
-    "version": "0.0.0.12",
+    "version": "0.0.0.13",
     "requires": "0.0.0.1",
     "title": "Centre",
     "description": "Tickets, cards and decisions of the 7x centre: create, update, comment, move, close, list, weekly decision review, links to gnubus messages and session to-dos."

@@ -419,6 +419,10 @@ final class TronRulesTest extends TronTestCase
         $this->assertNotContains( 'canaryco', $out );
         $this->assertNotContains( '10.200.', $out );
         $this->assertContains( 'KEEP-THIS', $out );
+        $out = $s->sanitize( "# A\n\n## Conventions\n\n- Use canarysrv-editor for edits.\n- Ask x-othersrv first.\n- KEEP-THESE canarysrvs and canarysrv_x.\n" );
+        $this->assertNotContains( 'canarysrv-editor', $out, 'a hyphen ends the name, as \\b does' );
+        $this->assertNotContains( 'x-othersrv', $out );
+        $this->assertContains( 'KEEP-THESE', $out, 'a longer word is not the name' );
         $names = array_column( $s->leaks( "OTHERSRV is up\nsee www.canaryco.example.net\nping 10.200.9.9\n" ), 'pattern' );
         foreach ( array( 'private name', 'internal host', 'private network address' ) as $n )
             $this->assertContains( $n, $names, "leaks() misses $n" );

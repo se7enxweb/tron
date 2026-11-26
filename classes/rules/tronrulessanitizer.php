@@ -186,7 +186,8 @@ final class tronRulesSanitizer
     {
         if ( !$this->names )
             return null;
-        return '~(?<![\w-])(?:' . implode( '|', array_map( function ( $n ) { return preg_quote( $n, '~' ); }, $this->names ) ) . ')(?![\w-])~i';
+        // word boundaries as \b sees them: "name-editor" and "x-name" name it too, "names" and "name_x" do not
+        return '~(?<!\w)(?:' . implode( '|', array_map( function ( $n ) { return preg_quote( $n, '~' ); }, $this->names ) ) . ')(?!\w)~i';
     }
 
     /** The internal domains (and their subdomains) as one pattern, or null when none is set. */

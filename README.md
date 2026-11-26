@@ -14,7 +14,7 @@ the work; the control stays with you.
 ![Status: preview](https://img.shields.io/badge/status-preview-orange)
 [![Packagist](https://img.shields.io/packagist/v/se7enxweb/tron)](https://packagist.org/packages/se7enxweb/tron)
 
-> **Preview.** tron 0.0.0.12 is the first public release, built and proven on a development installation (every PHP
+> **Preview.** tron is public since 0.0.0.12, and built and proven on a development installation (every PHP
 > from 7.4 to 8.5, proving runs through PHP-FPM, Velocity and a load balancer; see [doc/testing.md](doc/testing.md)).
 > Interfaces may still change between preview releases.
 

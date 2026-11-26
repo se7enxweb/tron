@@ -1,7 +1,7 @@
 {
     "name": "class",
     "class": "tronUnitsClassProgram",
-    "version": "0.0.0.12",
+    "version": "0.0.0.13",
     "title": "Class units",
     "description": "Read units for content classes: the list, one class with its attributes, the difference between two classes or two installations' copies of one.",
     "units": [

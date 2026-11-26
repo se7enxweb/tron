@@ -83,6 +83,7 @@ documentation. Every page lives in this directory; the README at the top of the 
 | [contributing.md](contributing.md) | Ground rules, setup, a change step by step, commit messages, versions, security reports |
 | [changelog/0.0.0.1.md](changelog/0.0.0.1.md) | The first version |
 | [changelog/0.0.0.12.md](changelog/0.0.0.12.md) | The first public release |
+| [changelog/0.0.0.13.md](changelog/0.0.0.13.md) | Private names end where a word ends |
 
 ## Files that are not pages
 

@@ -8,7 +8,7 @@
 /** The release number of tron (the same number as VERSION, ezinfo.php and extension.xml) and a four-part compare. */
 final class tronVersion
 {
-    const VERSION = '0.0.0.12';
+    const VERSION = '0.0.0.13';
 
     /** The copyright notice every file of tron carries (tests/unit/CopyrightNoticeTest.php), and its license sentence. */
     const NOTICE = 'Copyright (C) 1998 - 2026 Exponential Foundation and 7x; All rights reserved.';

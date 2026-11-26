@@ -47,6 +47,11 @@ deploy. The tables can stay; they hold the audit and tokens.
 
 ## Notes per version
 
+### 0.0.0.13
+
+No schema change. Fixes the word boundary of `[PromptRules] PrivateNames[]` in 0.0.0.12
+([changelog/0.0.0.13.md](changelog/0.0.0.13.md)).
+
 ### 0.0.0.12 (first public release)
 
 No schema change. An installation whose generated MASTER.md must leave out private server names, internal domains

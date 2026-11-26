@@ -1,7 +1,7 @@
 {
     "name": "role",
     "class": "tronUnitsRoleProgram",
-    "version": "0.0.0.12",
+    "version": "0.0.0.13",
     "title": "Role units",
     "description": "Read units for roles and accounts: a role's policies and assignments, users by login or name (login and name only).",
     "units": [
