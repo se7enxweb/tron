@@ -25,16 +25,16 @@ Runs the stdio MCP server: newline-delimited JSON-RPC on stdin and stdout, until
 ```bash
 tron.php serve --siteaccess=<sa> --token-file=<file>
 TRON_TOKEN=<token> tron.php serve --siteaccess=<sa>
-tron.php serve --siteaccess=<sa> --user=<login>
 ```
 
 | Option | Meaning |
 |---|---|
 | `TRON_TOKEN` (environment) | the token; checked first |
 | `--token-file=<file>` | read the token from a file (whitespace trimmed) |
-| `--user=<login>` | act as this user without a token; refused when `[StdioSettings] AllowLoginOption=disabled` |
+| `--user=<login>` | act as this user without a token; refused (exit 1) unless an override sets `[StdioSettings] AllowLoginOption=enabled`. A token wins over it |
 
-Refuses to start (exit 1, reason on stderr) when the token is refused, the user is missing or disabled, the user
+Refuses to start (exit 1, reason on stderr) when the token is refused, `--user` is given without a token while
+it is disabled (the default), the user is missing or disabled, the user
 lacks `tron/use`, or a tron table is missing. On start it prints
 `tron 0.0.0.1 serving stdio as <login>, <n> tools` to stderr. The session must begin with `initialize` (`ping`
 excepted). A line longer than 4 MB is refused with a parse error and the server carries on. Role changes and switches

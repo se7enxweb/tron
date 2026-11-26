@@ -1,7 +1,7 @@
 {
     "name": "node",
     "class": "tronUnitsNodeProgram",
-    "version": "0.0.0.13",
+    "version": "0.0.0.14",
     "title": "Node units",
     "description": "Read units for content nodes, as the calling user may read them: one node with plain attribute values, a subtree, a search, the versions.",
     "units": [

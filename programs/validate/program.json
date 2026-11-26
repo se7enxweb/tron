@@ -1,7 +1,7 @@
 {
     "name": "validate",
     "class": "tronValidateProgram",
-    "version": "0.0.0.13",
+    "version": "0.0.0.14",
     "requires": "0.0.0.5",
     "title": "Validators",
     "description": "Validators with one result format (severity, rule, message, location): HTML, CSS, JSON and JSON Schema, XML and XSD, YAML, Exponential INI, templates, PHP lint, links, accessibility, e-mail/URL/phone formats, SEO basics."

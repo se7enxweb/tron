@@ -57,9 +57,12 @@ DefaultLifetimeDays=90
 MaxLifetimeDays=365
 
 [StdioSettings]
-# enabled: tron.php serve --user=<login> is allowed (whoever runs it already has the installation's database
-# credentials); disabled: stdio needs a token too (TRON_TOKEN or --token-file)
-AllowLoginOption=enabled
+# disabled (the default): tron.php serve needs a token on stdio too, TRON_TOKEN=<token> or --token-file=<file>
+# (tron.php token:create makes one), and serve --user=<login> is refused. Without a token, --user would let whoever
+# can start the process act as any user, an administrator included.
+# enabled: serve --user=<login> is allowed without a token. Set it only in settings/override, only where every
+# account that can run tron.php may act as every user anyway.
+AllowLoginOption=disabled
 
 [HTTPSettings]
 # The endpoint /tron/mcp answers 404 until this is true and the siteaccess is listed

@@ -84,6 +84,7 @@ documentation. Every page lives in this directory; the README at the top of the 
 | [changelog/0.0.0.1.md](changelog/0.0.0.1.md) | The first version |
 | [changelog/0.0.0.12.md](changelog/0.0.0.12.md) | The first public release |
 | [changelog/0.0.0.13.md](changelog/0.0.0.13.md) | Private names end where a word ends |
+| [changelog/0.0.0.14.md](changelog/0.0.0.14.md) | `serve --user` disabled by default; stdio needs a token |
 
 ## Files that are not pages
 

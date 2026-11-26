@@ -251,7 +251,7 @@ Master=disabled
 One stdio run without MASTER.md, whatever the site says (short of the file marker):
 
 ```bash
-TRON_MASTER_RULES=disabled php extension/tron/bin/php/tron.php serve --user=<login>
+TRON_MASTER_RULES=disabled php extension/tron/bin/php/tron.php serve --siteaccess=<sa> --token-file=<file>
 ```
 
 Checking the state:

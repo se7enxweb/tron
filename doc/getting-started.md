@@ -55,6 +55,12 @@ assigned to the user the agent will act as. [guides/site-admin.md](guides/site-a
 
 ## 3. Connect an agent over stdio
 
+Make a token for the user the agent acts as, written to a file only that account can read:
+
+```bash
+php extension/tron/bin/php/tron.php token:create --siteaccess=<sa> --user=<login> --name="agent on this node" --out=<token file>
+```
+
 On the server, Claude Code's `.mcp.json`:
 
 ```json
@@ -62,7 +68,7 @@ On the server, Claude Code's `.mcp.json`:
   "mcpServers": {
     "tron": {
       "command": "php",
-      "args": ["<installation root>/extension/tron/bin/php/tron.php", "serve", "--siteaccess=<sa>", "--user=<login>"]
+      "args": ["<installation root>/extension/tron/bin/php/tron.php", "serve", "--siteaccess=<sa>", "--token-file=<token file>"]
     }
   }
 }
@@ -71,7 +77,7 @@ On the server, Claude Code's `.mcp.json`:
 Ask the agent: "Which tron tools do you have, and who are you?" It calls `tron_whoami`. Then: "Make a ticket to renew
 the certificate, high priority." It calls `centre_ticket_create`.
 
-From another machine on your network, run the same command over SSH with a token instead of `--user`
+From another machine on your network, run the same command over SSH; the token file stays on the node
 ([guides/agent-operator.md](guides/agent-operator.md)).
 
 ## 4. Check the audit

@@ -7,7 +7,7 @@ how to connect, what the agent sees, how to keep its power small, and how to see
 
 | Situation | Transport | Identity |
 |---|---|---|
-| The agent runs on the server | stdio: `tron.php serve` | `--user=<login>` or a token |
+| The agent runs on the server | stdio: `tron.php serve` | a token (`--token-file`, `TRON_TOKEN`) |
 | The agent runs on another node of your private network | stdio over SSH | a token file on the server |
 | The agent runs anywhere else | HTTP: `https://<host>/tron/mcp` | a bearer token |
 

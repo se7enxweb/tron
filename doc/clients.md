@@ -5,7 +5,7 @@ common clients, for each of the three ways in:
 
 | Way in | When | Identity | Network |
 |---|---|---|---|
-| **stdio on the server** | the agent runs on a node of the installation | `--token-file`, `TRON_TOKEN` or `--user=<login>` | nothing listens |
+| **stdio on the server** | the agent runs on a node of the installation | `--token-file` or `TRON_TOKEN` | nothing listens |
 | **stdio over SSH** | the agent runs on another machine that may SSH to a node | a token file that stays on the node | SSH only |
 | **HTTP** | the agent runs anywhere else | `Authorization: Bearer <token>` | the endpoint `/tron/mcp` over HTTPS |
 
@@ -28,9 +28,9 @@ Every stdio configuration runs this command:
 |---|---|---|
 | `TRON_TOKEN` | the environment | checked first |
 | `--token-file=<file>` | a file holding the token (one line) | the usual choice; keep the file 0600 |
-| `--user=<login>` | the command line | no token at all; allowed only while `[StdioSettings] AllowLoginOption=enabled` |
+| `--user=<login>` | the command line | no token at all; refused unless an override sets `[StdioSettings] AllowLoginOption=enabled` (off by default since 0.0.0.14) |
 
-The server refuses to start when the user is missing or disabled, when the user lacks `tron/use`, or when tron's tables
+The server refuses to start when it has no token (or a refused one), when the user is missing or disabled, when the user lacks `tron/use`, or when tron's tables
 are missing; the reason is printed on stderr (MCP clients show it in their server log). `tron.php` changes into the
 installation root itself, so an absolute path from any working directory works. stdout carries only MCP messages.
 

@@ -3,7 +3,7 @@
  * The units over a real stdio connection: initialize, tools/list (every page), the 20 units and tron_pipe listed,
  * the resource tron://units, and the pipe "node.find class=article limit 3 | node.read | tpl.resolve". Read only.
  *
- *   php <tron>/tests/kernel/units_stdio_smoke.php [--siteaccess=site] -- php extension/tron/bin/php/tron.php serve --user=<login> [--allow-root-user]
+ *   php <tron>/tests/kernel/units_stdio_smoke.php [--siteaccess=site] -- php extension/tron/bin/php/tron.php serve --token-file=<file> [--allow-root-user]
  *
  * Exit 0 PASS, 1 FAIL.
  *

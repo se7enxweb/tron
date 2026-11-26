@@ -32,7 +32,7 @@ line created first. If you create the file by hand, give it to the web server's 
 |---|---|
 | `created` | Unix time (UTC) |
 | `user_id`, `login` | who; `0` and empty for a sign-in that named no valid user |
-| `token_id` | the token's row id; `0` for stdio with `--user`, the command line and the administration |
+| `token_id` | the token's row id; `0` for stdio with `--user` (where enabled), the command line and the administration |
 | `transport` | `stdio`, `http`, `cli` (`tron.php call`) or `admin` (Setup > tron) |
 | `remote` | the client address over HTTP (`REMOTE_ADDR`; behind a proxy, what the proxy or PROXY protocol hands PHP); `stdio`/`cli` otherwise |
 | `method` | `tools/call`, `resources/read`, `prompts/get`, `auth` (an HTTP sign-in refused), `admin/token.create`, `admin/token.rotate`, `admin/token.revoke`, `admin/switch.on`, `admin/switch.off` |

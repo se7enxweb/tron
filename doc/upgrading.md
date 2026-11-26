@@ -47,6 +47,12 @@ deploy. The tables can stay; they hold the audit and tokens.
 
 ## Notes per version
 
+### 0.0.0.14
+
+No schema change. `serve --user=<login>` is disabled by default: stdio needs a token. Anything that starts
+`tron.php serve --user=...` must switch to `--token-file` or `TRON_TOKEN` before the upgrade, or the installation sets
+`[StdioSettings] AllowLoginOption=enabled` in `settings/override` ([changelog/0.0.0.14.md](changelog/0.0.0.14.md)).
+
 ### 0.0.0.13
 
 No schema change. Fixes the word boundary of `[PromptRules] PrivateNames[]` in 0.0.0.12

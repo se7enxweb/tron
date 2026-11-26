@@ -3,7 +3,7 @@
 /**
  * tron on the command line. Run from the installation root:
  *
- *   php extension/tron/bin/php/tron.php serve       --siteaccess=<sa> (--user=<login> | TRON_TOKEN=... | --token-file=<f>)
+ *   TRON_TOKEN=<token> php extension/tron/bin/php/tron.php serve --siteaccess=<sa>   (or --token-file=<f>)
  *   php extension/tron/bin/php/tron.php install     --siteaccess=<sa> [--dry-run]     create the missing tables
  *   php extension/tron/bin/php/tron.php status      --siteaccess=<sa>                 programs, tools, tables
  *   php extension/tron/bin/php/tron.php token:create --siteaccess=<sa> --user=<login> --name=<what for> [--days=90] [--scopes=centre,katalyst] [--out=<file>]
@@ -11,6 +11,9 @@
  *   php extension/tron/bin/php/tron.php token:revoke --siteaccess=<sa> <id|prefix>
  *   php extension/tron/bin/php/tron.php audit:tail  --siteaccess=<sa> [--limit=50] [--user=<login>]
  *   php extension/tron/bin/php/tron.php call <tool> --siteaccess=<sa> --user=<login> [--json='{"a":1}']
+ *
+ * serve acts as the token's user. serve --user=<login> (no token) is refused unless an override sets
+ * [StdioSettings] AllowLoginOption=enabled (see doc/security.md).
  *
  * Exit codes: 0 PASS, 1 FAIL, 2 usage.
  *
@@ -63,29 +66,14 @@ try
         case 'serve':
             while ( ob_get_level() > 0 )
                 ob_end_clean();
-            $tokens = tronKernel::tokens();
-            $principal = null;
             $token = getenv( 'TRON_TOKEN' ) ?: '';
             if ( $token === '' && $options['token-file'] )
                 $token = trim( (string)@file_get_contents( $options['token-file'] ) );
-            if ( $token !== '' )
-            {
-                $reason = null;
-                $principal = $tokens->authenticate( $token, $reason );
-                if ( !$principal )
-                    $finish( 1, "FAIL: tron: the token was refused ($reason)" );
-            }
-            else if ( $options['user'] )
-            {
-                if ( ( $settings['StdioSettings']['AllowLoginOption'] ?? 'enabled' ) !== 'enabled' )
-                    $finish( 1, 'FAIL: tron: --user is disabled here ([StdioSettings] AllowLoginOption); give a token' );
-                $u = ( new tronKernelUserDirectory() )->byLogin( (string)$options['user'] );
-                if ( !$u || !$u['enabled'] )
-                    $finish( 1, "FAIL: tron: no enabled user '{$options['user']}'" );
-                $principal = new tronPrincipal( $u['id'], $u['login'] );
-            }
-            else
-                $finish( 2, 'tron serve needs --user=<login>, TRON_TOKEN or --token-file' );
+            // a token decides; --user only where an override enables [StdioSettings] AllowLoginOption
+            list( $principal, $code, $line ) = tronStdioIdentity::resolve( $settings, $token, (string)$options['user'],
+                                                                           tronKernel::tokens(), new tronKernelUserDirectory() );
+            if ( !$principal )
+                $finish( $code, $line );
 
             $access = new tronKernelAccessChecker();
             if ( $access->check( $principal, 'tron', 'use' ) !== tronAccessChecker::YES )

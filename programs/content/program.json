@@ -1,7 +1,7 @@
 {
     "name": "content",
     "class": "tronContentProgram",
-    "version": "0.0.0.13",
+    "version": "0.0.0.14",
     "requires": "0.0.0.9",
     "title": "Content",
     "description": "Edits a content node's simple attributes as a new published version, with a dry run that shows the exact change first."

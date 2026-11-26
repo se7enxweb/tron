@@ -162,7 +162,7 @@ Then: *"Make a ticket to renew the certificate of www, high priority."* and chec
 
 | Way in | When | Identity |
 |---|---|---|
-| stdio on the server | the agent runs on a node | `--token-file`, `TRON_TOKEN`, or `--user=<login>` |
+| stdio on the server | the agent runs on a node | `--token-file` or `TRON_TOKEN` (`--user=<login>` only where an override enables it) |
 | stdio over SSH | the agent runs on a machine that may SSH to a node | a token file that stays on the node |
 | HTTP | anywhere else | `Authorization: Bearer <token>` |
 
@@ -330,7 +330,7 @@ or per siteaccess. Every key: [doc/configuration.md](doc/configuration.md).
 | AuditSettings | `Sinks[]` | database | `database` and/or `file` |
 | | `FilePath` | var/log/tron-audit.log | the file sink |
 | TokenSettings | `DefaultLifetimeDays` / `MaxLifetimeDays` | 90 / 365 | token lifetimes |
-| StdioSettings | `AllowLoginOption` | enabled | allow `serve --user=<login>`; `disabled` requires a token |
+| StdioSettings | `AllowLoginOption` | disabled | stdio needs a token; `enabled` (in an override) allows `serve --user=<login>` without one |
 | HTTPSettings | `Enabled` | false | the endpoint answers 404 until `true` |
 | | `SiteAccesses[]` | (none) | siteaccesses that serve the endpoint |
 | | `AllowedOrigins[]` | (none) | browser origins; empty refuses every request with an Origin |
@@ -349,7 +349,7 @@ php extension/tron/bin/php/tron.php <command> --siteaccess=<sa> [options]
 
 | Command | Does |
 |---|---|
-| `serve [--token-file=<f> \| --user=<login>]` | the stdio MCP server (`TRON_TOKEN` also works) |
+| `serve --token-file=<f>` | the stdio MCP server (`TRON_TOKEN` also works; `--user=<login>` only where `[StdioSettings] AllowLoginOption=enabled`) |
 | `install [--dry-run]` | create the missing tables (idempotent) |
 | `status` | programs, tools, tables; exit 1 when something is wrong |
 | `token:create --user=<login> --name=<what for> [--days=<n>] [--scopes=a,b] [--out=<file>]` | a token, shown once or written 0600 |
@@ -441,7 +441,7 @@ flowchart TB
     ADMIN --> AUD
 ```
 
-A request: the transport authenticates (token or `--user`) and checks `tron/use`; the server routes the JSON-RPC
+A request: the transport authenticates (a token; on stdio `--user` where an override allows it) and checks `tron/use`; the server routes the JSON-RPC
 method; for a call it finds the tool (scope and switches), checks the policy, validates the arguments against the
 schema, writes the `started` entry for a write tool, runs the handler, and audits the outcome. Details:
 [doc/architecture.md](doc/architecture.md); the guarantees and their proofs: [doc/theory.md](doc/theory.md).
@@ -509,7 +509,7 @@ php tests/run.php                  # unit, permission matrix, MCP conformance ov
 php tests/matrix.php               # lint + suite on every PHP 7.4+ found
 php examples/scripts/01-first-call.php
 php bin/php/ezexec.php extension/tron/tests/kernel/kernel_probe.php --allow-root-user     # read only, in an installation
-php extension/tron/tests/kernel/stdio_smoke.php -- php extension/tron/bin/php/tron.php serve --siteaccess=<sa> --user=<test user>
+TRON_TOKEN=<test token> php extension/tron/tests/kernel/stdio_smoke.php -- php extension/tron/bin/php/tron.php serve --siteaccess=<sa>
 php extension/tron/tests/kernel/http_smoke.php --url=https://<host>/tron/mcp --token-file=<file>
 ```
 

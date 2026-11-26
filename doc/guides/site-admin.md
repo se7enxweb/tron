@@ -92,7 +92,7 @@ new one like any extension before activating it.
 ```bash
 php extension/tron/bin/php/tron.php status --siteaccess=<sa>                                        # PASS
 php bin/php/ezexec.php extension/tron/tests/kernel/kernel_probe.php                                # read only, PASS
-php extension/tron/tests/kernel/stdio_smoke.php -- php extension/tron/bin/php/tron.php serve --siteaccess=<sa> --user=<test login>
+php extension/tron/tests/kernel/stdio_smoke.php -- php extension/tron/bin/php/tron.php serve --siteaccess=<sa> --token-file=<test token file>
 ```
 
 Use a throwaway test user for the smoke tests and remove it afterwards.

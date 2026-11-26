@@ -1,7 +1,7 @@
 {
     "name": "skill",
     "class": "tronSkillProgram",
-    "version": "0.0.0.13",
+    "version": "0.0.0.14",
     "title": "Skills",
     "description": "The skill library: reviewed chains of units as data, offered as tools and prompts once proven and approved; catalog, draft, validate, fork."
 }

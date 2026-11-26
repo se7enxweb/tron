@@ -1,7 +1,7 @@
 {
     "name": "layout",
     "class": "tronUnitsLayoutProgram",
-    "version": "0.0.0.13",
+    "version": "0.0.0.14",
     "title": "Exponential Layouts units",
     "description": "Read units for Exponential Layouts: layouts with zones and blocks (linked zones resolved), rules, which layout a page gets, the block types.",
     "units": [

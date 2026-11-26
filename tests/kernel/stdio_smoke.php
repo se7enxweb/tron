@@ -2,9 +2,9 @@
 /**
  * Speaks MCP over stdio to a real tron server and checks the answers: the smoke test of an installation.
  *
- *   php <tron>/tests/kernel/stdio_smoke.php [--write] -- php extension/tron/bin/php/tron.php serve --siteaccess=<sa> --user=<login> [--allow-root-user]
+ *   TRON_TOKEN=<token> php <tron>/tests/kernel/stdio_smoke.php [--write] -- php extension/tron/bin/php/tron.php serve --siteaccess=<sa> [--allow-root-user]
  *
- * Read-only by default: initialize, tools/list, tron_whoami, tron_status, a centre list, prompts and resources.
+ * Read-only by default: initialize, tools/list (every page), tron_whoami, tron_status, a centre list, prompts and resources.
  * With --write it also creates one ticket titled "tron smoke <time>", comments, moves and closes it (on an
  * installation where tron's own centre tables are used), and prints its id. Exit 0 PASS, 1 FAIL.
  *
@@ -84,9 +84,18 @@ $tool = function ( string $name, array $a = array() ) use ( $rpc ) {
 $init = $rpc( 'initialize', array( 'protocolVersion' => '2025-11-25', 'capabilities' => new stdClass(), 'clientInfo' => array( 'name' => 'tron-smoke', 'version' => '1' ) ) );
 $check( ( $init['result']['serverInfo']['name'] ?? '' ) === 'tron', 'initialize: serverInfo.name tron, version ' . ( $init['result']['serverInfo']['version'] ?? '?' ) );
 fwrite( $pipes[0], json_encode( array( 'jsonrpc' => '2.0', 'method' => 'notifications/initialized' ) ) . "\n" );
-$list = $rpc( 'tools/list' );
-$names = array_column( $list['result']['tools'] ?? array(), 'name' );
-$check( in_array( 'tron_status', $names, true ), 'tools/list: ' . count( $names ) . ' tools' );
+// every page: a user with many tools gets them in pages ([ServerSettings] PageSize), sorted by name
+$names = array();
+$cursor = null;
+$pages = 0;
+do
+{
+    $list = $rpc( 'tools/list', $cursor !== null ? array( 'cursor' => $cursor ) : null );
+    $names = array_merge( $names, array_column( $list['result']['tools'] ?? array(), 'name' ) );
+    $cursor = $list['result']['nextCursor'] ?? null;
+}
+while ( $cursor !== null && ++$pages < 100 );
+$check( in_array( 'tron_status', $names, true ), 'tools/list: ' . count( $names ) . ' tools in ' . ( $pages + 1 ) . ' page(s)' );
 list( $ok, $who ) = $tool( 'tron_whoami' );
 $check( $ok, 'tron_whoami: ' . ( $ok ? $who['login'] . ' over ' . $who['transport'] : json_encode( $who ) ) );
 list( $ok, $st ) = $tool( 'tron_status' );

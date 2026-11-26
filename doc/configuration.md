@@ -17,7 +17,7 @@ instead of adding to it. After a change: `php bin/php/ezcache.php --clear-tag=in
 | | FilePath | var/log/tron-audit.log | the file sink, JSON lines |
 | TokenSettings | DefaultLifetimeDays | 90 | token:create without --days |
 | | MaxLifetimeDays | 365 | upper limit |
-| StdioSettings | AllowLoginOption | enabled | `serve --user=<login>`; `disabled` requires a token on stdio too |
+| StdioSettings | AllowLoginOption | disabled | stdio needs a token (`TRON_TOKEN`, `--token-file`); `enabled` allows `serve --user=<login>` without one |
 | HTTPSettings | Enabled | false | the endpoint /tron/mcp answers 404 until `true` |
 | | SiteAccesses[] | (none) | siteaccesses that serve the endpoint |
 | | AllowedOrigins[] | (none) | browser origins (scheme://host[:port]); empty refuses any request with an Origin header |
@@ -82,11 +82,12 @@ Disabled[]
 Disabled[]=katalyst
 ```
 
-**Tokens on stdio too (no `--user`):**
+**`serve --user=<login>` without a token** (off by default since 0.0.0.14). Whoever can start `tron.php` could then
+act as any user, an administrator included, so enable it only where every account that can run it may do that anyway:
 
 ```ini
 [StdioSettings]
-AllowLoginOption=disabled
+AllowLoginOption=enabled
 ```
 
 **Shorter tokens:**

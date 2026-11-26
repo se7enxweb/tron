@@ -2,7 +2,7 @@
 /**
  * Example 8: a client over real stdio, as an MCP client sees tron. It starts a server process and speaks
  * newline-delimited JSON-RPC to it. Against an installation, start instead:
- *   php extension/tron/bin/php/tron.php serve --siteaccess=<sa> --user=<login> [--allow-root-user]
+ *   TRON_TOKEN=<token> php extension/tron/bin/php/tron.php serve --siteaccess=<sa> [--allow-root-user]
  *
  * @copyright Copyright (C) 1998 - 2026 Exponential Foundation and 7x; All rights reserved.
  * @license GNU General Public License v2.0 (or any later version)

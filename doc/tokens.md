@@ -1,7 +1,7 @@
 # Tokens: create, hand out, rotate, revoke, expire
 
-A tron token stands for one Exponential user. It is the identity of every HTTP request and, where
-`[StdioSettings] AllowLoginOption=disabled`, of every stdio server too. Code: `classes/core/trontokenservice.php`,
+A tron token stands for one Exponential user. It is the identity of every HTTP request and of every stdio server
+(`serve --user=<login>` without a token is refused unless an override sets `[StdioSettings] AllowLoginOption=enabled`). Code: `classes/core/trontokenservice.php`,
 table `tron_token`.
 
 ## Anatomy

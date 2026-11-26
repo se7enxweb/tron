@@ -67,13 +67,18 @@ reaches a running stdio server when it restarts.
 | | stdio | HTTP |
 |---|---|---|
 | Who | whoever may run PHP in the installation (they already hold its database credentials) | anyone with a valid token who can reach the endpoint |
-| Identity | `--user=<login>` (allowed by `[StdioSettings] AllowLoginOption`) or a token (`TRON_TOKEN`, `--token-file`) | a bearer token, always |
+| Identity | a token (`TRON_TOKEN`, `--token-file`); `--user=<login>` only where an override sets `[StdioSettings] AllowLoginOption=enabled` | a bearer token, always |
 | Checks | the user holds `tron/use`; tables present | method POST, Origin allowlist (empty: browsers refused), Host allowlist, `application/json`, body size, protocol version header, token, `tron/use` |
 | Session | for the process; initialize first | none (stateless) |
 
 Unlike servers that keep writes on stdio, tron allows write tools over HTTP: each HTTP caller is a named user with
 their own token and policies, which is the identity a write needs. An installation that wants read-only HTTP grants
 HTTP users no write functions, or scopes their tokens.
+
+**stdio needs a token by default.** `serve --user=<login>` names a user without any token, so whoever can start the
+process could act as any user, an administrator included, and nothing would record who really started it. Since
+0.0.0.14 it is refused unless the installation sets `[StdioSettings] AllowLoginOption=enabled` in `settings/override`.
+A token keeps the stdio server to one user, can be scoped, expires, can be revoked, and its id is in every audit entry.
 
 ## Audit
 

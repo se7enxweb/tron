@@ -33,7 +33,7 @@ Nothing is enabled over HTTP by these steps: the endpoint answers 404 until `[HT
 
 ```bash
 <php> bin/php/ezexec.php extension/tron/tests/kernel/kernel_probe.php --allow-root-user          # PASS
-<php> extension/tron/tests/kernel/stdio_smoke.php -- <php> extension/tron/bin/php/tron.php serve --siteaccess=<sa> --user=<test admin> --allow-root-user
+TRON_TOKEN=<test admin token> <php> extension/tron/tests/kernel/stdio_smoke.php -- <php> extension/tron/bin/php/tron.php serve --siteaccess=<sa> --allow-root-user
 <php> extension/tron/tests/kernel/stdio_smoke.php --write -- <same server command>                 # one ticket, created and closed
 <php> extension/tron/bin/php/tron.php audit:tail --siteaccess=<sa> --limit=20
 ```

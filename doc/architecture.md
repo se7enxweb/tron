@@ -10,7 +10,7 @@ and `tron_status`, and those come from a program too (the built-in program `tron
    v                                              v
  bin/php/tron.php serve                       modules/tron/mcp.php
    tronStdioTransport                           tronHttpTransport   (method, Origin, Host, type, size,
-   (principal: --user or token)                                      version header, token, tron/use)
+   (principal: a token)                                              version header, token, tron/use)
             \                                     /
              +------------> tronServer <---------+      JSON-RPC 2.0 + MCP: initialize, ping, tools/*, resources/*, prompts/*
                                |
