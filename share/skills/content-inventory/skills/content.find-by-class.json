@@ -1,0 +1,137 @@
+{
+    "name": "content.find-by-class",
+    "title": "Find content of a class",
+    "purpose": "Lists the nodes of one or more classes below a node, sorted as asked.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "content",
+        "inventory"
+    ],
+    "use_case": "Inventory of one content type",
+    "parameters": {
+        "node_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 2,
+            "description": "The node to start from.",
+            "examples": [
+                2
+            ]
+        },
+        "class": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_]+(\\s*,\\s*[A-Za-z0-9_]+)*$",
+            "maxLength": 500,
+            "default": "ng_article",
+            "description": "A class identifier, or a comma list of them.",
+            "examples": [
+                "ng_article",
+                "ng_news,ng_blog_post"
+            ],
+            "short": "-c"
+        },
+        "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 20,
+            "description": "At most this many rows in the answer.",
+            "examples": [
+                5,
+                20
+            ],
+            "short": "-n"
+        },
+        "sort": {
+            "type": "string",
+            "enum": [
+                "published",
+                "modified",
+                "name",
+                "priority",
+                "path"
+            ],
+            "default": "published",
+            "description": "The order.",
+            "examples": [
+                "name"
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "node_find"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "find",
+            "unit": "node_find",
+            "args": {
+                "node_id": "$param.node_id",
+                "class": "$param.class",
+                "limit": "$param.limit",
+                "sort": "$param.sort"
+            }
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.find.items",
+            "fields": [
+                "node_id",
+                "name",
+                "class_identifier",
+                "url_alias",
+                "published"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "total": "$steps.find.total",
+            "shown": "$steps.rows|count",
+            "nodes": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "total",
+                "shown",
+                "nodes"
+            ],
+            "properties": {
+                "total": {
+                    "type": "integer",
+                    "description": "How many match in all"
+                },
+                "shown": {
+                    "type": "integer"
+                },
+                "nodes": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With class ng_article",
+            "params": {
+                "class": "ng_article"
+            }
+        },
+        {
+            "title": "With class ng_news,ng_blog_post, sort name",
+            "params": {
+                "class": "ng_news,ng_blog_post",
+                "sort": "name"
+            }
+        }
+    ]
+}

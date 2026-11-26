@@ -1,0 +1,440 @@
+{
+    "pack": "layouts-and-blocks",
+    "pack_version": "0.0.0.1",
+    "tron": "0.0.0.7",
+    "at": "2026-11-25T06:53:36Z",
+    "skills": {
+        "layout.block-categories": {
+            "version": "0.0.0.1",
+            "hash": "6aa4f254892092345e0c8c402ee71c224494b11395a59b9da8fa4a7d0f53afd5",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.block-definitions": {
+            "version": "0.0.0.1",
+            "hash": "fa91c18fd312e24a25c03f9ce1b6f1884f32b6a56f8f1489f4b51c8e2be9d38f",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.block-definitions-collections": {
+            "version": "0.0.0.1",
+            "hash": "e63387da26c46dced26db615ecf9652533fddc6e502502c85dd5d870bfd81067",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.blocks": {
+            "version": "0.0.0.1",
+            "hash": "5d662bafa0c2a082179245c6c4c2e30202c25e426d7460925b161b075998bbd2",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.blocks.container": {
+            "version": "0.0.0.1",
+            "hash": "b8861ac2896b1b62b9dcc5c6079b234e379463fab678c30211f4c49757dc701f",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.blocks.form": {
+            "version": "0.0.0.1",
+            "hash": "e7b844b182b0733801aff1f4209910a937a00646fcae8e3f165e64df3055d395",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.blocks.listing": {
+            "version": "0.0.0.1",
+            "hash": "a6dcf8a5a0cdda44198b5f88f3351343cf480136278bca02f10cc6598cf2204d",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.blocks.media": {
+            "version": "0.0.0.1",
+            "hash": "bb3224b63c1212808db111b1e96746d4d0e06f7f83ee4d50da27b68396334b90",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.blocks.navigation": {
+            "version": "0.0.0.1",
+            "hash": "ad0d9e95771c347b46372d1e2dc58019ce7a963a49bb5f2b353c3ea813aeafa1",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.blocks.text": {
+            "version": "0.0.0.1",
+            "hash": "72684d88b3e151af506dc48ba962072ed9105e524a9a78bada9839dfd8f23094",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.drafts": {
+            "version": "0.0.0.1",
+            "hash": "5e11bcdb4d3796a94e201cd34254eaef99bc9081e6a0f075511daafd30e0206f",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.empty-blocks": {
+            "version": "0.0.0.1",
+            "hash": "16dbba7399892553dc66f1a7dea3b7273b976a261db4ed3306e42fb82456857a",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.for-node": {
+            "version": "0.0.0.1",
+            "hash": "0c2b365b68f64d12be277a291395cb417e9104355e751e0ade90c67a47f6847e",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.for-path": {
+            "version": "0.0.0.1",
+            "hash": "515e68ade65f025360eb819f5899b50d196aa890464831dee83acaa71958181c",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.inventory": {
+            "version": "0.0.0.1",
+            "hash": "2863d6cb0a9a40a99e5ea13546d7e33f3572a3a1d090ba329ea38b6c8b6ab6e4",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.recent": {
+            "version": "0.0.0.1",
+            "hash": "bec7d84e93490ba96ce7defd44ee49ef2220822bb8c3373aaa942ed6fe13a142",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.rules": {
+            "version": "0.0.0.1",
+            "hash": "44dec53de35bf557fccf365a49e3f964efbfaa7dde11fec53ce77211847a46d8",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.rules-disabled": {
+            "version": "0.0.0.1",
+            "hash": "8501d6fdf0f3b642184e9d74aaa6e58015e6c7beb7770412b16cc511578bb5e9",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.rules-of-layout": {
+            "version": "0.0.0.1",
+            "hash": "76b6fe72aa779f7d9ec7820c17cd65371c7981c5dc1f8e9c03240886ffc1ba9a",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.rules-per-layout": {
+            "version": "0.0.0.1",
+            "hash": "dce3ed2808afe8c5198f740b2278e7457e1a1452e7ffe8195d68127644268f32",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.rules-unconditional": {
+            "version": "0.0.0.1",
+            "hash": "6aff72d3198fb898edcb8c54a2be5095d92e3d2194e5e137a2888c0e0af19bc2",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.shared": {
+            "version": "0.0.0.1",
+            "hash": "b234f8581aa80745aa4dac536089f6f469b34a3da8aa794acfd70f9197c34aae",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.types": {
+            "version": "0.0.0.1",
+            "hash": "639da8d424e493282bbf6f37230b35a922648958d906234ec9fe1be9f6910faf",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "layout.zones": {
+            "version": "0.0.0.1",
+            "hash": "3356b4967660f02a6afa9da8ac929db16deeff07c3a336c60be6deab92462256",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        }
+    }
+}

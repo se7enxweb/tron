@@ -1,0 +1,83 @@
+{
+    "name": "layout.rules-unconditional",
+    "title": "Rules without conditions",
+    "purpose": "The layout rules that apply to every request of their targets (no siteaccess, class or other condition).",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "layouts",
+        "rules",
+        "quality"
+    ],
+    "use_case": "Finding rules that win too often",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "layout_rule_list"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "layout_rule_list",
+            "args": {
+                "limit": 100
+            }
+        },
+        {
+            "id": "o0",
+            "op": "where",
+            "from": "$steps.l.items",
+            "field": "conditions",
+            "cmp": "empty"
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.o0",
+            "fields": [
+                "id",
+                "priority",
+                "enabled",
+                "layout_id",
+                "targets",
+                "conditions"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "total": "$steps.l.total",
+            "count": "$steps.o0|count",
+            "rules": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "total",
+                "count",
+                "rules"
+            ],
+            "properties": {
+                "total": {
+                    "type": "integer"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "rules": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

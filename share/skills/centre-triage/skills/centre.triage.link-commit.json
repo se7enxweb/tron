@@ -1,0 +1,86 @@
+{
+    "name": "centre.triage.link-commit",
+    "title": "Link a commit",
+    "purpose": "Links a commit (repo@sha) to a ticket.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "triage",
+        "writes"
+    ],
+    "use_case": "Tying a fix to its ticket",
+    "parameters": {
+        "id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 1,
+            "description": "The ticket.",
+            "examples": [
+                1
+            ]
+        },
+        "ref": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._/-]{1,128}@[0-9a-f]{7,40}$",
+            "maxLength": 170,
+            "default": "tron@0123abc",
+            "description": "repo@sha",
+            "examples": [
+                "tron@0123abc"
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "centre_ticket_link"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "B"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_write"
+        }
+    ],
+    "steps": [
+        {
+            "id": "ln",
+            "unit": "centre_ticket_link",
+            "args": {
+                "id": "$param.id",
+                "kind": "commit",
+                "ref": "$param.ref"
+            }
+        }
+    ],
+    "output": {
+        "value": {
+            "link": "$steps.ln"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "link"
+            ],
+            "properties": {
+                "link": {
+                    "type": "object"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With id 1",
+            "params": {
+                "id": 1
+            }
+        }
+    ]
+}

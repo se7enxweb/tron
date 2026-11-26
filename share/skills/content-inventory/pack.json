@@ -1,0 +1,15 @@
+{
+    "id": "content-inventory",
+    "title": "Content inventory",
+    "description": "What the site holds: the latest items of every content type, recently changed and long unchanged content, a subtree map, one node with its fields, empty fields, versions and open drafts, counts per class.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "prefix": "content",
+    "requires": {
+        "tron": "0.0.0.7",
+        "programs": [
+            "node"
+        ]
+    }
+}

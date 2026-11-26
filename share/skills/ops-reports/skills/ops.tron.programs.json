@@ -1,0 +1,82 @@
+{
+    "name": "ops.tron.programs",
+    "title": "tron programs",
+    "purpose": "The programs tron loaded, with their version and state.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "ops",
+        "tron",
+        "programs"
+    ],
+    "use_case": "Is everything loaded?",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "tron_status"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "s",
+            "unit": "tron_status",
+            "args": {}
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.s.programs",
+            "fields": [
+                "name",
+                "version",
+                "state"
+            ]
+        },
+        {
+            "id": "g",
+            "op": "group",
+            "from": "$steps.s.programs",
+            "by": "state"
+        }
+    ],
+    "output": {
+        "value": {
+            "tron": "$steps.s.tron",
+            "tools": "$steps.s.tools",
+            "per_state": "$steps.g",
+            "programs": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "tron",
+                "tools",
+                "per_state",
+                "programs"
+            ],
+            "properties": {
+                "tron": {
+                    "type": "string"
+                },
+                "tools": {
+                    "type": "integer"
+                },
+                "per_state": {
+                    "type": "array"
+                },
+                "programs": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

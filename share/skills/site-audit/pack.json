@@ -1,0 +1,15 @@
+{
+    "id": "site-audit",
+    "title": "Site audit",
+    "description": "Settings checks with a verdict: debug and SQL output off, caches on, development mode off, mail and site basics set, security settings of the admin and public siteaccesses, and a production-readiness check in one call.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "prefix": "audit",
+    "requires": {
+        "tron": "0.0.0.7",
+        "programs": [
+            "ini"
+        ]
+    }
+}

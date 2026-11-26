@@ -1,0 +1,106 @@
+{
+    "name": "ini.file.overrides",
+    "title": "Who sets a whole file",
+    "purpose": "For a whole INI file, how many settings each settings file wins (default, extension, override, siteaccess), so changes go where they count.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "ini",
+        "overrides"
+    ],
+    "use_case": "Which settings file to edit",
+    "parameters": {
+        "file": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.-]{1,80}$",
+            "default": "site.ini",
+            "description": "The INI file, e.g. site.ini or content.ini.",
+            "examples": [
+                "site.ini"
+            ],
+            "short": "-f"
+        },
+        "siteaccess": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "description": "The siteaccess whose settings count (default: the current one).",
+            "examples": [
+                "site",
+                "admin"
+            ],
+            "short": "-s",
+            "default": "site"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "ini_list"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "ini_list",
+            "args": {
+                "file": "$param.file",
+                "siteaccess": "$param.siteaccess"
+            }
+        },
+        {
+            "id": "settings",
+            "op": "flatten",
+            "from": "$steps.l.items",
+            "field": "settings"
+        },
+        {
+            "id": "by_file",
+            "op": "group",
+            "from": "$steps.settings",
+            "by": "winner"
+        }
+    ],
+    "output": {
+        "value": {
+            "file": "$param.file",
+            "settings": "$steps.settings|count",
+            "per_file": "$steps.by_file"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "file",
+                "settings",
+                "per_file"
+            ],
+            "properties": {
+                "file": {
+                    "type": "string"
+                },
+                "settings": {
+                    "type": "integer"
+                },
+                "per_file": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With file site.ini",
+            "params": {
+                "file": "site.ini"
+            }
+        },
+        {
+            "title": "With file design.ini, siteaccess admin",
+            "params": {
+                "file": "design.ini",
+                "siteaccess": "admin"
+            }
+        }
+    ]
+}

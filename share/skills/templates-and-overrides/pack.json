@@ -1,0 +1,16 @@
+{
+    "id": "templates-and-overrides",
+    "title": "Templates and overrides",
+    "description": "Which template renders a node in each view mode and why, which file renders the page layout, edit, login and error pages, template lint and source, override rules.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "prefix": "tpl",
+    "requires": {
+        "tron": "0.0.0.7",
+        "programs": [
+            "tpl",
+            "ini"
+        ]
+    }
+}

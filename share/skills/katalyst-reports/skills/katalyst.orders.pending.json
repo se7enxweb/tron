@@ -1,0 +1,93 @@
+{
+    "name": "katalyst.orders.pending",
+    "title": "Pending orders",
+    "purpose": "The orders waiting for payment, oldest first (number, total, age).",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "katalyst",
+        "hosting",
+        "orders",
+        "shop"
+    ],
+    "use_case": "Payment follow-up",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "katalyst_orders_list"
+        ],
+        "programs": [
+            "katalyst"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/katalyst_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "l",
+            "unit": "katalyst_orders_list",
+            "args": {
+                "state": "pending",
+                "limit": 200
+            }
+        },
+        {
+            "id": "aged",
+            "op": "age",
+            "from": "$steps.l.items",
+            "field": "created",
+            "as": "days_open"
+        },
+        {
+            "id": "sorted",
+            "op": "sort",
+            "from": "$steps.aged",
+            "by": "days_open",
+            "order": "desc"
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.sorted",
+            "fields": [
+                "shop_order_nr",
+                "total_inc_vat",
+                "currency",
+                "days_open"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "pending": "$steps.l.total",
+            "orders": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "pending",
+                "orders"
+            ],
+            "properties": {
+                "pending": {
+                    "type": "integer"
+                },
+                "orders": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

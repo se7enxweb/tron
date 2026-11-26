@@ -1,0 +1,73 @@
+{
+    "name": "layout.block-definitions",
+    "title": "Block definitions",
+    "purpose": "Every block definition editors can place, with its category and view types.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "layouts",
+        "blocks",
+        "inventory"
+    ],
+    "use_case": "What blocks are available",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "layout_block_definitions"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "d",
+            "unit": "layout_block_definitions",
+            "args": {}
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.d.items",
+            "fields": [
+                "identifier",
+                "name",
+                "category",
+                "view_types",
+                "has_collection"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "total": "$steps.d.total",
+            "count": "$steps.d.items|count",
+            "definitions": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "total",
+                "count",
+                "definitions"
+            ],
+            "properties": {
+                "total": {
+                    "type": "integer"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "definitions": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

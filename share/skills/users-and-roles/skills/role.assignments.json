@@ -1,0 +1,84 @@
+{
+    "name": "role.assignments",
+    "title": "Who has a role",
+    "purpose": "The users and groups a role is assigned to, with any subtree or section limitation of the assignment.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "roles",
+        "assignments",
+        "security"
+    ],
+    "use_case": "Access review",
+    "parameters": {
+        "role": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "default": "Anonymous",
+            "description": "The role name or id.",
+            "examples": [
+                "Anonymous",
+                "Administrator"
+            ],
+            "short": "-r"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "role_describe"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "r",
+            "unit": "role_describe",
+            "args": {
+                "role": "$param.role"
+            }
+        }
+    ],
+    "output": {
+        "value": {
+            "role": "$steps.r.name",
+            "count": "$steps.r.assignments|count",
+            "assignments": "$steps.r.assignments"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "role",
+                "count",
+                "assignments"
+            ],
+            "properties": {
+                "role": {
+                    "type": "string"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "assignments": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With role Anonymous",
+            "params": {
+                "role": "Anonymous"
+            }
+        },
+        {
+            "title": "With role Administrator",
+            "params": {
+                "role": "Administrator"
+            }
+        }
+    ]
+}

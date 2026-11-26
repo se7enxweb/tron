@@ -1,0 +1,189 @@
+{
+    "name": "centre.report.weekly",
+    "title": "Weekly board report",
+    "purpose": "A weekly report of a board: open and overdue counts, what is in progress, what waits, the urgent items and a one-line summary.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "report",
+        "weekly"
+    ],
+    "use_case": "Friday report to the team",
+    "parameters": {
+        "board": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
+            "default": "main",
+            "description": "The centre board, e.g. main or ops.",
+            "examples": [
+                "main",
+                "ops"
+            ],
+            "short": "-b"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "centre_ticket_list"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "list",
+            "unit": "centre_ticket_list",
+            "args": {
+                "board": "$param.board",
+                "status": "open",
+                "limit": 200
+            }
+        },
+        {
+            "id": "dated",
+            "op": "where",
+            "from": "$steps.list.items",
+            "field": "due",
+            "cmp": "notempty"
+        },
+        {
+            "id": "late",
+            "op": "where",
+            "from": "$steps.dated",
+            "field": "due",
+            "cmp": "lt",
+            "value": "$today"
+        },
+        {
+            "id": "doing",
+            "op": "where",
+            "from": "$steps.list.items",
+            "field": "lane",
+            "cmp": "eq",
+            "value": "doing"
+        },
+        {
+            "id": "waiting",
+            "op": "where",
+            "from": "$steps.list.items",
+            "field": "lane",
+            "cmp": "eq",
+            "value": "waiting"
+        },
+        {
+            "id": "urgent",
+            "op": "where",
+            "from": "$steps.list.items",
+            "field": "priority",
+            "cmp": "eq",
+            "value": "urgent"
+        },
+        {
+            "id": "doing_rows",
+            "op": "pick",
+            "from": "$steps.doing",
+            "fields": [
+                "id",
+                "title",
+                "assignee"
+            ]
+        },
+        {
+            "id": "waiting_rows",
+            "op": "pick",
+            "from": "$steps.waiting",
+            "fields": [
+                "id",
+                "title",
+                "assignee",
+                "modified"
+            ]
+        },
+        {
+            "id": "urgent_rows",
+            "op": "pick",
+            "from": "$steps.urgent",
+            "fields": [
+                "id",
+                "title",
+                "lane",
+                "assignee"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "board": "$param.board",
+            "week": "$week",
+            "open": "$steps.list.total",
+            "overdue": "$steps.late|count",
+            "doing": "$steps.doing_rows",
+            "waiting": "$steps.waiting_rows",
+            "urgent": "$steps.urgent_rows",
+            "summary": "Week {{$week}} on {{$param.board}}: {{$steps.list.total}} open, {{$steps.late|count}} overdue, {{$steps.doing|count}} in progress, {{$steps.waiting|count}} waiting, {{$steps.urgent|count}} urgent."
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "board",
+                "week",
+                "open",
+                "overdue",
+                "doing",
+                "waiting",
+                "urgent",
+                "summary"
+            ],
+            "properties": {
+                "board": {
+                    "type": "string"
+                },
+                "week": {
+                    "type": "string"
+                },
+                "open": {
+                    "type": "integer"
+                },
+                "overdue": {
+                    "type": "integer"
+                },
+                "doing": {
+                    "type": "array"
+                },
+                "waiting": {
+                    "type": "array"
+                },
+                "urgent": {
+                    "type": "array"
+                },
+                "summary": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With board main",
+            "params": {
+                "board": "main"
+            }
+        },
+        {
+            "title": "With board ops",
+            "params": {
+                "board": "ops"
+            }
+        }
+    ]
+}

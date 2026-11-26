@@ -1,0 +1,60 @@
+# Site audit
+
+Settings checks with a verdict: debug and SQL output off, caches on, development mode off, mail and site basics set, security settings of the admin and public siteaccesses, and a production-readiness check in one call.
+
+Pack `site-audit` 0.0.0.1, GPL-2.0-or-later, by 7x. Skill names start with `audit.`.
+
+## Who it is for
+
+Whoever signs off a launch or a deploy, and periodic audits.
+
+## Skills
+
+| Skill | What it answers | Parameters | Units | Wave |
+|---|---|---|---|---|
+| `audit.ini.debug-output-off` | Checks that debug output is switched off for a public siteaccess. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.debug-redirect-off` | Checks that redirects are not held for debugging on a siteaccess. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.template-cache-on` | Checks that compiled templates are cached on a siteaccess. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.template-compile-on` | Checks that templates are compiled to PHP on a siteaccess. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.development-mode-off` | Checks that the template development mode is off on a siteaccess. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.view-caching-on` | Checks that full views are cached on a public siteaccess. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.template-usage-off` | Checks that the list of used templates is not shown to visitors. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.show-xhtml-off` | Checks that template debug markup is not written into pages. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.sql-debug-off` | Checks that SQL statements are not written to the debug output. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.debug-by-ip-off` | Checks that debug output is not limited to (and opened for) a list of IPs. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.site-name-set` | Checks that a siteaccess has a site name. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.site-url-set` | Checks that a siteaccess has a site URL for links in mails and feeds. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.admin-email-set` | Checks that the installation has an address for its own notices. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.mail-transport-set` | Checks that the installation knows how to send mail. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.text-translation-on` | Checks that interface texts are translated on a siteaccess. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.require-user-login-admin` | Checks that the administration siteaccess asks every visitor to sign in. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.show-hidden-off` | Checks that a public siteaccess does not show hidden nodes. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.static-cache-state` | Says whether static cache is used on a siteaccess (both are valid; it must be one of them). Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.session-timeout-set` | Checks that sessions expire. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.image-magick-state` | Says whether ImageMagick is enabled for image aliases. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.versions-limit-set` | Checks that old versions are cleaned up at a limit. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.search-engine-set` | Checks that a search engine is configured. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.debug-timing-off` | Checks that debug timing is not written inline into pages. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.database-charset-utf8` | Checks that the database connection uses UTF-8 (or the driver default). Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.site.production-ready` | Six settings a public siteaccess must have in production (debug off, template cache on, view caching on, development mode off, no SQL output, no template list), each ok or not, with the number that failed. | `--siteaccess` | ini_resolve | A |
+
+## Units it needs
+
+`ini_resolve`
+
+A skill whose unit is not offered here is listed as parked with the reason; it runs nothing. Every skill runs as the
+calling user, each unit checked against that user's policies and written to the audit log.
+
+## Running one
+
+```
+xsh tron:skill:run audit.ini.debug-output-off --siteaccess site
+```
+
+Over MCP a live skill is the tool `skill_audit_ini_debug_output_off` and a prompt of the same name.
+
+See tron's doc/skills.md and doc/extension-conventions.md.
+
+---
+
+Copyright (C) 1998 - 2026 Exponential Foundation and 7x; All rights reserved. Licensed under the GNU General Public License v2.0 (or any later version).

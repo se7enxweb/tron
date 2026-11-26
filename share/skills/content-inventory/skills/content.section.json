@@ -1,0 +1,118 @@
+{
+    "name": "content.section",
+    "title": "Content of a section",
+    "purpose": "Lists the nodes of a section (by section id) below a node.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "content",
+        "sections"
+    ],
+    "use_case": "Checking what a section holds before changing its access",
+    "parameters": {
+        "node_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 1,
+            "description": "The node to start from.",
+            "examples": [
+                1
+            ]
+        },
+        "section": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10000,
+            "default": 1,
+            "description": "The section id.",
+            "examples": [
+                1,
+                3
+            ]
+        },
+        "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 20,
+            "description": "At most this many rows in the answer.",
+            "examples": [
+                5,
+                20
+            ],
+            "short": "-n"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "node_find"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "find",
+            "unit": "node_find",
+            "args": {
+                "node_id": "$param.node_id",
+                "section": "$param.section",
+                "limit": "$param.limit"
+            }
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.find.items",
+            "fields": [
+                "node_id",
+                "name",
+                "class_identifier",
+                "url_alias"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "total": "$steps.find.total",
+            "shown": "$steps.rows|count",
+            "nodes": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "total",
+                "shown",
+                "nodes"
+            ],
+            "properties": {
+                "total": {
+                    "type": "integer",
+                    "description": "How many match in all"
+                },
+                "shown": {
+                    "type": "integer"
+                },
+                "nodes": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With section 1",
+            "params": {
+                "section": 1
+            }
+        },
+        {
+            "title": "With section 3",
+            "params": {
+                "section": 3
+            }
+        }
+    ]
+}

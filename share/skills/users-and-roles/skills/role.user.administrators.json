@@ -1,0 +1,97 @@
+{
+    "name": "role.user.administrators",
+    "title": "Administrators found",
+    "purpose": "Among the users matching a text, the ones that hold the Administrator role.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "roles",
+        "users",
+        "security"
+    ],
+    "use_case": "Who can do everything?",
+    "parameters": {
+        "text": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100,
+            "default": "admin",
+            "description": "Part of a login or name.",
+            "examples": [
+                "admin",
+                "tronskill"
+            ],
+            "short": "-t"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "role_user_find"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "u",
+            "unit": "role_user_find",
+            "args": {
+                "text": "$param.text",
+                "limit": 50
+            }
+        },
+        {
+            "id": "adm",
+            "op": "where",
+            "from": "$steps.u.items",
+            "field": "roles",
+            "cmp": "contains",
+            "value": "Administrator"
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.adm",
+            "fields": [
+                "user_id",
+                "login",
+                "enabled"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "matched": "$steps.u.total",
+            "administrators": "$steps.adm|count",
+            "users": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "matched",
+                "administrators",
+                "users"
+            ],
+            "properties": {
+                "matched": {
+                    "type": "integer"
+                },
+                "administrators": {
+                    "type": "integer"
+                },
+                "users": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With text admin",
+            "params": {
+                "text": "admin"
+            }
+        }
+    ]
+}

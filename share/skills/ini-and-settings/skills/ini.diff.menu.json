@@ -1,0 +1,129 @@
+{
+    "name": "ini.diff.menu",
+    "title": "Compare menu.ini of two siteaccesses",
+    "purpose": "Compares the resolved menu.ini of two siteaccesses: which settings differ, and which exist in only one of them.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "ini",
+        "diff",
+        "menu"
+    ],
+    "use_case": "Why does this siteaccess behave differently?",
+    "parameters": {
+        "a": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "default": "site",
+            "description": "The first siteaccess.",
+            "examples": [
+                "site"
+            ]
+        },
+        "b": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "default": "admin",
+            "description": "The second siteaccess.",
+            "examples": [
+                "admin"
+            ]
+        },
+        "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 500,
+            "default": 100,
+            "description": "At most this many rows in the answer.",
+            "examples": [
+                5,
+                100
+            ],
+            "short": "-n"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "ini_diff"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "d",
+            "unit": "ini_diff",
+            "args": {
+                "file": "menu.ini",
+                "a": "$param.a",
+                "b": "$param.b",
+                "limit": "$param.limit"
+            }
+        },
+        {
+            "id": "blocks",
+            "op": "group",
+            "from": "$steps.d.items",
+            "by": "block"
+        }
+    ],
+    "output": {
+        "value": {
+            "file": "menu.ini",
+            "a": "$param.a",
+            "b": "$param.b",
+            "counts": "$steps.d.counts",
+            "per_block": "$steps.blocks",
+            "differences": "$steps.d.items"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "file",
+                "a",
+                "b",
+                "counts",
+                "per_block",
+                "differences"
+            ],
+            "properties": {
+                "file": {
+                    "type": "string"
+                },
+                "a": {
+                    "type": "string"
+                },
+                "b": {
+                    "type": "string"
+                },
+                "counts": {
+                    "type": "object"
+                },
+                "per_block": {
+                    "type": "array"
+                },
+                "differences": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With a site, b admin, limit 50",
+            "params": {
+                "a": "site",
+                "b": "admin",
+                "limit": 50
+            }
+        },
+        {
+            "title": "With a site, b bold",
+            "params": {
+                "a": "site",
+                "b": "bold"
+            }
+        }
+    ]
+}

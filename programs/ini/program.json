@@ -1,0 +1,12 @@
+{
+    "name": "ini",
+    "class": "tronUnitsIniProgram",
+    "version": "0.0.0.12",
+    "title": "INI units",
+    "description": "Read units for INI settings: a setting's value and the file that gives it, the difference between two siteaccesses or two files, the blocks and settings of a file.",
+    "units": [
+        { "id": "ini.resolve", "tool": "ini_resolve", "in": [ "none" ], "out": "ini-value", "summary": "A setting's effective value and every file of the load order that sets it" },
+        { "id": "ini.diff", "tool": "ini_diff", "in": [ "none" ], "out": "diff", "summary": "The settings that differ between two siteaccesses, or two INI files in one siteaccess" },
+        { "id": "ini.list", "tool": "ini_list", "in": [ "none" ], "out": "ini-block[]", "summary": "The blocks and settings of an INI file" }
+    ]
+}

@@ -1,0 +1,74 @@
+{
+    "name": "katalyst.services.gone",
+    "title": "Services gone",
+    "purpose": "How many services Katalyst still remembers that no longer exist upstream.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "katalyst",
+        "hosting",
+        "services",
+        "hygiene"
+    ],
+    "use_case": "Data hygiene",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "katalyst_services_list"
+        ],
+        "programs": [
+            "katalyst"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/katalyst_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "l",
+            "unit": "katalyst_services_list",
+            "args": {
+                "gone": true,
+                "limit": 200
+            }
+        },
+        {
+            "id": "g",
+            "op": "group",
+            "from": "$steps.l.items",
+            "by": "status"
+        }
+    ],
+    "output": {
+        "value": {
+            "gone": "$steps.l.total",
+            "per_status": "$steps.g"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "gone",
+                "per_status"
+            ],
+            "properties": {
+                "gone": {
+                    "type": "integer"
+                },
+                "per_status": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

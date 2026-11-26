@@ -1,0 +1,13 @@
+{
+    "name": "node",
+    "class": "tronUnitsNodeProgram",
+    "version": "0.0.0.12",
+    "title": "Node units",
+    "description": "Read units for content nodes, as the calling user may read them: one node with plain attribute values, a subtree, a search, the versions.",
+    "units": [
+        { "id": "node.read", "tool": "node_read", "in": [ "node-ref" ], "out": "node", "summary": "One node with its attributes rendered to plain values" },
+        { "id": "node.tree", "tool": "node_tree", "in": [ "node-ref" ], "out": "node[]", "summary": "The children or subtree of a node, with depth and class filters" },
+        { "id": "node.find", "tool": "node_find", "in": [ "none", "node-ref" ], "out": "node[]", "summary": "Nodes by class, attribute, section, name or path" },
+        { "id": "node.versions", "tool": "node_versions", "in": [ "node-ref" ], "out": "version[]", "summary": "The versions of a node's object" }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "name": "example.centre.labels",
+    "title": "Labels in use",
+    "purpose": "Counts the labels of a board's open tickets, most used first, so a team sees where its work goes.",
+    "version": "1.0.0.3",
+    "author": "Example",
+    "license": "GPL-2.0-or-later",
+    "tags": [ "centre", "labels", "example" ],
+    "use_case": "Planning: which areas take the work",
+    "parameters": {
+        "board": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$", "default": "main", "description": "The board.", "examples": [ "main" ], "short": "-b" }
+    },
+    "requires": { "tron": "0.0.0.2", "units": [ "centre_ticket_list" ], "programs": [ "centre" ], "wave": "A" },
+    "steps": [
+        { "id": "list", "unit": "centre_ticket_list", "args": { "board": "$param.board", "limit": 200 } },
+        { "id": "labels", "op": "group", "from": "$steps.list.items", "by": "labels" }
+    ],
+    "output": {
+        "value": { "board": "$param.board", "tickets": "$steps.list.total", "labels": "$steps.labels" },
+        "schema": { "type": "object", "required": [ "board", "labels" ], "properties": {
+            "board": { "type": "string" }, "tickets": { "type": "integer" },
+            "labels": { "type": "array", "items": { "type": "object", "required": [ "key", "count" ], "properties": { "key": { "type": "string" }, "count": { "type": "integer" } } } } } }
+    },
+    "examples": [ { "title": "The main board", "params": { "board": "main" } } ]
+}

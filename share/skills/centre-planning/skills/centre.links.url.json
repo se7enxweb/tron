@@ -1,0 +1,92 @@
+{
+    "name": "centre.links.url",
+    "title": "Tickets of a page",
+    "purpose": "Finds the tickets linked to a url, with their status and title.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "links",
+        "url"
+    ],
+    "use_case": "From a url back to its tickets",
+    "parameters": {
+        "ref": {
+            "type": "string",
+            "pattern": "^https?://[^\\s]{3,500}$",
+            "maxLength": 500,
+            "default": "https://example.org/perf-report",
+            "description": "A URL.",
+            "examples": [
+                "https://example.org/perf-report"
+            ],
+            "short": "-r"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "centre_links_find"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "find",
+            "unit": "centre_links_find",
+            "args": {
+                "kind": "url",
+                "ref": "$param.ref"
+            }
+        },
+        {
+            "id": "open",
+            "op": "where",
+            "from": "$steps.find.tickets",
+            "field": "status",
+            "cmp": "eq",
+            "value": "open"
+        }
+    ],
+    "output": {
+        "value": {
+            "ref": "$param.ref",
+            "tickets": "$steps.find.tickets",
+            "open": "$steps.open|count"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "ref",
+                "tickets",
+                "open"
+            ],
+            "properties": {
+                "ref": {
+                    "type": "string"
+                },
+                "tickets": {
+                    "type": "array"
+                },
+                "open": {
+                    "type": "integer"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

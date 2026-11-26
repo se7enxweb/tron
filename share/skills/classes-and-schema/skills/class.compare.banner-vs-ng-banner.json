@@ -1,0 +1,81 @@
+{
+    "name": "class.compare.banner-vs-ng-banner",
+    "title": "Compare banner and ng_banner",
+    "purpose": "The differences between the classes banner and ng_banner: attributes only in one of them and attributes that differ.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "classes",
+        "schema",
+        "diff",
+        "migration"
+    ],
+    "use_case": "Moving content from the classic classes to the new ones",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "class_diff"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "d",
+            "unit": "class_diff",
+            "args": {
+                "identifier": "banner",
+                "other": "ng_banner"
+            }
+        },
+        {
+            "id": "kinds",
+            "op": "group",
+            "from": "$steps.d.items",
+            "by": "change"
+        }
+    ],
+    "output": {
+        "value": {
+            "a": "banner",
+            "b": "ng_banner",
+            "counts": "$steps.d.counts",
+            "per_change": "$steps.kinds",
+            "differences": "$steps.d.items"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "a",
+                "b",
+                "counts",
+                "per_change",
+                "differences"
+            ],
+            "properties": {
+                "a": {
+                    "type": "string"
+                },
+                "b": {
+                    "type": "string"
+                },
+                "counts": {
+                    "type": "object"
+                },
+                "per_change": {
+                    "type": "array"
+                },
+                "differences": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

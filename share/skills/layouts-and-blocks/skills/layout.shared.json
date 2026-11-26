@@ -1,0 +1,77 @@
+{
+    "name": "layout.shared",
+    "title": "Shared layouts",
+    "purpose": "The shared layouts (header, footer, prefooter ...) whose zones other layouts link to.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "layouts",
+        "shared"
+    ],
+    "use_case": "Before changing the header or footer",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "layout_list"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "layout_list",
+            "args": {
+                "shared": true,
+                "limit": 100
+            }
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.l.items",
+            "fields": [
+                "id",
+                "name",
+                "layout_type",
+                "shared",
+                "status",
+                "zones",
+                "modified"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "total": "$steps.l.total",
+            "count": "$steps.l.items|count",
+            "layouts": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "total",
+                "count",
+                "layouts"
+            ],
+            "properties": {
+                "total": {
+                    "type": "integer"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "layouts": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

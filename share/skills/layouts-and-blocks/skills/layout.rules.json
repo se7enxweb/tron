@@ -1,0 +1,76 @@
+{
+    "name": "layout.rules",
+    "title": "Layout rules",
+    "purpose": "Every layout rule by priority, with its targets and conditions.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "layouts",
+        "rules",
+        "inventory"
+    ],
+    "use_case": "Understanding which page gets which layout",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "layout_rule_list"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "layout_rule_list",
+            "args": {
+                "limit": 100
+            }
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.l.items",
+            "fields": [
+                "id",
+                "priority",
+                "enabled",
+                "layout_id",
+                "targets",
+                "conditions"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "total": "$steps.l.total",
+            "count": "$steps.l.items|count",
+            "rules": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "total",
+                "count",
+                "rules"
+            ],
+            "properties": {
+                "total": {
+                    "type": "integer"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "rules": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

@@ -1,0 +1,82 @@
+{
+    "name": "class.leaves",
+    "title": "Leaf classes",
+    "purpose": "The content classes that cannot hold children.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "classes",
+        "schema",
+        "structure"
+    ],
+    "use_case": "Planning the site structure",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "class_list"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "class_list",
+            "args": {
+                "limit": 200
+            }
+        },
+        {
+            "id": "o0",
+            "op": "where",
+            "from": "$steps.l.items",
+            "field": "is_container",
+            "cmp": "eq",
+            "value": false
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.o0",
+            "fields": [
+                "identifier",
+                "name",
+                "object_count"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "classes": "$steps.l.total",
+            "count": "$steps.o0|count",
+            "items": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "classes",
+                "count",
+                "items"
+            ],
+            "properties": {
+                "classes": {
+                    "type": "integer",
+                    "description": "Classes in all"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "items": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

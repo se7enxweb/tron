@@ -1,0 +1,96 @@
+{
+    "name": "tpl.lint",
+    "title": "Lint a template",
+    "purpose": "Checks one template file: errors, warnings, the functions and operators it uses and any it uses that are unknown here.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "templates",
+        "lint",
+        "check"
+    ],
+    "use_case": "Before deploying a template change",
+    "parameters": {
+        "path": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_./-]+\\.tpl$",
+            "maxLength": 300,
+            "default": "design/standard/templates/pagelayout.tpl",
+            "description": "The template file from the installation root.",
+            "examples": [
+                "design/standard/templates/pagelayout.tpl"
+            ],
+            "short": "-p"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "tpl_lint"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "tpl_lint",
+            "args": {
+                "path": "$param.path"
+            }
+        }
+    ],
+    "output": {
+        "value": {
+            "path": "$steps.l.path",
+            "ok": "$steps.l.ok",
+            "errors": "$steps.l.errors",
+            "warnings": "$steps.l.warnings",
+            "unknown": "$steps.l.unknown",
+            "operators": "$steps.l.operators|count"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "path",
+                "ok",
+                "errors",
+                "warnings",
+                "unknown",
+                "operators"
+            ],
+            "properties": {
+                "path": {
+                    "type": "string"
+                },
+                "ok": {
+                    "type": "boolean"
+                },
+                "errors": {
+                    "type": "array"
+                },
+                "warnings": {
+                    "type": "array"
+                },
+                "unknown": {
+                    "type": "array"
+                },
+                "operators": {
+                    "type": "integer"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        },
+        {
+            "title": "With path design/standard/templates/node/view/full.tpl",
+            "params": {
+                "path": "design/standard/templates/node/view/full.tpl"
+            }
+        }
+    ]
+}

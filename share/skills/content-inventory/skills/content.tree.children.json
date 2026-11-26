@@ -1,0 +1,115 @@
+{
+    "name": "content.tree.children",
+    "title": "Children of a node",
+    "purpose": "The children of a node with their class, and how many of each class there are.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "content",
+        "tree"
+    ],
+    "use_case": "Seeing what is below a page",
+    "parameters": {
+        "node_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 2,
+            "description": "The node to start from.",
+            "examples": [
+                2
+            ]
+        },
+        "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 25,
+            "description": "At most this many rows in the answer.",
+            "examples": [
+                5,
+                25
+            ],
+            "short": "-n"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "node_tree"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "t",
+            "unit": "node_tree",
+            "args": {
+                "node_id": "$param.node_id",
+                "limit": "$param.limit"
+            }
+        },
+        {
+            "id": "classes",
+            "op": "group",
+            "from": "$steps.t.items",
+            "by": "class_identifier"
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.t.items",
+            "fields": [
+                "node_id",
+                "name",
+                "class_identifier",
+                "url_alias"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "node_id": "$param.node_id",
+            "children": "$steps.t.total",
+            "per_class": "$steps.classes",
+            "nodes": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "node_id",
+                "children",
+                "per_class",
+                "nodes"
+            ],
+            "properties": {
+                "node_id": {
+                    "type": "integer"
+                },
+                "children": {
+                    "type": "integer"
+                },
+                "per_class": {
+                    "type": "array"
+                },
+                "nodes": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        },
+        {
+            "title": "With node_id 73, limit 10",
+            "params": {
+                "node_id": 73,
+                "limit": 10
+            }
+        }
+    ]
+}

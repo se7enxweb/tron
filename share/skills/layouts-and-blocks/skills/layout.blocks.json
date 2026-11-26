@@ -1,0 +1,112 @@
+{
+    "name": "layout.blocks",
+    "title": "Blocks of a layout",
+    "purpose": "Every block of a layout with its definition and view type, and how many of each definition it uses.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "layouts",
+        "blocks"
+    ],
+    "use_case": "Which blocks make up a page",
+    "parameters": {
+        "layout_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 2,
+            "description": "The layout id.",
+            "examples": [
+                2,
+                19
+            ],
+            "short": "-l"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "layout_read"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "r",
+            "unit": "layout_read",
+            "args": {
+                "layout_id": "$param.layout_id"
+            }
+        },
+        {
+            "id": "blocks",
+            "op": "flatten",
+            "from": "$steps.r.zones",
+            "field": "blocks"
+        },
+        {
+            "id": "g",
+            "op": "group",
+            "from": "$steps.blocks",
+            "by": "definition"
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.blocks",
+            "fields": [
+                "id",
+                "definition",
+                "view_type",
+                "name",
+                "position"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "layout": "$steps.r.name",
+            "blocks": "$steps.blocks|count",
+            "per_definition": "$steps.g",
+            "items": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "layout",
+                "blocks",
+                "per_definition",
+                "items"
+            ],
+            "properties": {
+                "layout": {
+                    "type": "string"
+                },
+                "blocks": {
+                    "type": "integer"
+                },
+                "per_definition": {
+                    "type": "array"
+                },
+                "items": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With layout_id 2",
+            "params": {
+                "layout_id": 2
+            }
+        },
+        {
+            "title": "With layout_id 19",
+            "params": {
+                "layout_id": 19
+            }
+        }
+    ]
+}

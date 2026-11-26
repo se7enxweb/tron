@@ -1,0 +1,87 @@
+{
+    "name": "class.group",
+    "title": "Classes of a group",
+    "purpose": "The content classes of one class group, with their object counts.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "classes",
+        "schema",
+        "groups"
+    ],
+    "use_case": "Looking at one part of the model",
+    "parameters": {
+        "group": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "description": "The class group name.",
+            "examples": [
+                "Content",
+                "Netgen"
+            ],
+            "default": "Content"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "class_list"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "class_list",
+            "args": {
+                "group": "$param.group",
+                "limit": 200
+            }
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.l.items",
+            "fields": [
+                "identifier",
+                "name",
+                "object_count"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "classes": "$steps.l.total",
+            "count": "$steps.l.items|count",
+            "items": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "classes",
+                "count",
+                "items"
+            ],
+            "properties": {
+                "classes": {
+                    "type": "integer",
+                    "description": "Classes in all"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "items": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

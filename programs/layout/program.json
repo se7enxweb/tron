@@ -1,0 +1,14 @@
+{
+    "name": "layout",
+    "class": "tronUnitsLayoutProgram",
+    "version": "0.0.0.12",
+    "title": "Exponential Layouts units",
+    "description": "Read units for Exponential Layouts: layouts with zones and blocks (linked zones resolved), rules, which layout a page gets, the block types.",
+    "units": [
+        { "id": "layout.list", "tool": "layout_list", "in": [ "none" ], "out": "layout[]", "summary": "The layouts, shared ones marked" },
+        { "id": "layout.read", "tool": "layout_read", "in": [ "layout-ref" ], "out": "layout", "summary": "One layout: zones, blocks, linked zones and the shared layout they come from" },
+        { "id": "rule.list", "tool": "layout_rule_list", "in": [ "none", "layout-ref" ], "out": "rule[]", "summary": "The layout rules in the order the resolver tries them" },
+        { "id": "rule.resolve", "tool": "layout_rule_resolve", "in": [ "path-ref", "node-ref" ], "out": "rule-trace", "summary": "Which layout a page or node gets, and every rule tried" },
+        { "id": "block.definitions", "tool": "layout_block_definitions", "in": [ "none" ], "out": "block-definition[]", "summary": "The block types of explayouts.ini" }
+    ]
+}

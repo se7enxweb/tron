@@ -1,0 +1,16 @@
+{
+    "id": "centre-decisions",
+    "title": "Centre decisions",
+    "description": "The weekly decision review in parts: overdue, due, undated, later and taken decisions, open and closed decisions, and whether a week's meeting can take its load.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "prefix": "centre",
+    "requires": {
+        "tron": "0.0.0.7",
+        "programs": [
+            "centre"
+        ]
+    },
+    "for_extension": "expcentre"
+}

@@ -1,0 +1,92 @@
+{
+    "name": "centre.links.commit",
+    "title": "Tickets of a commit",
+    "purpose": "Finds the tickets linked to a commit, with their status and title.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "links",
+        "commit"
+    ],
+    "use_case": "From a commit back to its tickets",
+    "parameters": {
+        "ref": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._/-]{1,128}@[0-9a-f]{7,40}$",
+            "maxLength": 500,
+            "default": "tron@0123abc",
+            "description": "A commit ref repo@sha.",
+            "examples": [
+                "tron@0123abc"
+            ],
+            "short": "-r"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "centre_links_find"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "find",
+            "unit": "centre_links_find",
+            "args": {
+                "kind": "commit",
+                "ref": "$param.ref"
+            }
+        },
+        {
+            "id": "open",
+            "op": "where",
+            "from": "$steps.find.tickets",
+            "field": "status",
+            "cmp": "eq",
+            "value": "open"
+        }
+    ],
+    "output": {
+        "value": {
+            "ref": "$param.ref",
+            "tickets": "$steps.find.tickets",
+            "open": "$steps.open|count"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "ref",
+                "tickets",
+                "open"
+            ],
+            "properties": {
+                "ref": {
+                    "type": "string"
+                },
+                "tickets": {
+                    "type": "array"
+                },
+                "open": {
+                    "type": "integer"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

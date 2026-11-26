@@ -1,0 +1,105 @@
+{
+    "name": "class.required",
+    "title": "Required attributes",
+    "purpose": "The attributes an editor must fill in for a content class.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "classes",
+        "schema",
+        "attributes",
+        "editors"
+    ],
+    "use_case": "Writing editor guidelines",
+    "parameters": {
+        "identifier": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_]{1,100}$",
+            "default": "ng_article",
+            "description": "A class identifier.",
+            "examples": [
+                "ng_article"
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "class_describe"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "c",
+            "unit": "class_describe",
+            "args": {
+                "identifier": "$param.identifier"
+            }
+        },
+        {
+            "id": "o0",
+            "op": "where",
+            "from": "$steps.c.attributes",
+            "field": "required",
+            "cmp": "eq",
+            "value": true
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.o0",
+            "fields": [
+                "identifier",
+                "name",
+                "datatype"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "class": "$steps.c.identifier",
+            "name": "$steps.c.name",
+            "count": "$steps.o0|count",
+            "attributes": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "class",
+                "name",
+                "count",
+                "attributes"
+            ],
+            "properties": {
+                "class": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "attributes": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With identifier ng_article",
+            "params": {
+                "identifier": "ng_article"
+            }
+        },
+        {
+            "title": "With identifier folder",
+            "params": {
+                "identifier": "folder"
+            }
+        }
+    ]
+}

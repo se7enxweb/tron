@@ -1,0 +1,107 @@
+{
+    "name": "audit.ini.text-translation-on",
+    "title": "Interface translation is on",
+    "purpose": "Checks that interface texts are translated on a siteaccess. Answers the value, where it is set and ok true or false.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "ini",
+        "check",
+        "i18n"
+    ],
+    "use_case": "Pre-launch and periodic site audit",
+    "parameters": {
+        "siteaccess": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "description": "The siteaccess whose settings count (default: the current one).",
+            "examples": [
+                "site",
+                "admin"
+            ],
+            "short": "-s",
+            "default": "site"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "ini_resolve"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "r",
+            "unit": "ini_resolve",
+            "args": {
+                "file": "site.ini",
+                "block": "RegionalSettings",
+                "setting": "TextTranslation",
+                "siteaccess": "$param.siteaccess"
+            }
+        },
+        {
+            "id": "ok",
+            "op": "test",
+            "value": "$steps.r.value",
+            "cmp": "eq",
+            "compare": "enabled"
+        }
+    ],
+    "output": {
+        "value": {
+            "setting": "site.ini [RegionalSettings] TextTranslation",
+            "siteaccess": "$steps.r.siteaccess",
+            "value": "$steps.r.value",
+            "winner": "$steps.r.winner",
+            "ok": "$steps.ok",
+            "expected": "enabled"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "setting",
+                "siteaccess",
+                "value",
+                "winner",
+                "ok",
+                "expected"
+            ],
+            "properties": {
+                "setting": {
+                    "type": "string"
+                },
+                "siteaccess": {
+                    "type": "string"
+                },
+                "value": [],
+                "winner": {
+                    "description": "The file whose value counts"
+                },
+                "ok": {
+                    "type": "boolean",
+                    "description": "Whether the value is what it should be"
+                },
+                "expected": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With siteaccess site",
+            "params": {
+                "siteaccess": "site"
+            }
+        },
+        {
+            "title": "With siteaccess admin",
+            "params": {
+                "siteaccess": "admin"
+            }
+        }
+    ]
+}

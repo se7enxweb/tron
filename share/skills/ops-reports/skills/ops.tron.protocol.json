@@ -1,0 +1,56 @@
+{
+    "name": "ops.tron.protocol",
+    "title": "Protocol versions",
+    "purpose": "The tron version and the MCP protocol versions it speaks.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "ops",
+        "tron",
+        "clients"
+    ],
+    "use_case": "Connecting a new client",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "tron_status"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "s",
+            "unit": "tron_status",
+            "args": {}
+        }
+    ],
+    "output": {
+        "value": {
+            "tron": "$steps.s.tron",
+            "protocol_versions": "$steps.s.protocol_versions"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "tron",
+                "protocol_versions"
+            ],
+            "properties": {
+                "tron": {
+                    "type": "string"
+                },
+                "protocol_versions": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

@@ -1,0 +1,6 @@
+token for admin, scopes centre, expires 2026-12-24
+HTTP 200: 18 tools; katalyst tools listed: no (out of the token's scope)
+no token:      HTTP 401
+other origin:  HTTP 403
+notification:  HTTP 202
+after revoke:  HTTP 401

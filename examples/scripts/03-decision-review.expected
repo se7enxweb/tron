@@ -1,0 +1,4 @@
+week 2026-W48: 1 due, 1 overdue, 0 decided
+#1 closed (decided): PostgreSQL 19; upgrade after the holidays.
+week 2026-W48: 0 due, 1 overdue, 1 decided
+editor: ERROR: Permission denied: this tool needs the policy tron/centre_decide and the user 'editor' does not hold it.

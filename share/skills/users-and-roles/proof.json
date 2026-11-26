@@ -1,0 +1,278 @@
+{
+    "pack": "users-and-roles",
+    "pack_version": "0.0.0.1",
+    "tron": "0.0.0.7",
+    "at": "2026-11-25T06:56:03Z",
+    "skills": {
+        "role.assignments": {
+            "version": "0.0.0.1",
+            "hash": "9b36f1cdb5950635693e6dafc1ef51e269eb2ca6b8197939970e3448e6571e81",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "role.module.class": {
+            "version": "0.0.0.1",
+            "hash": "e2edf1a07cc1f5361f492233da90519b2d603613993d27feda5be7df918bb25e",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "role.module.content": {
+            "version": "0.0.0.1",
+            "hash": "ebce5cc26be779b12977c22765acc4f598718d3b816c5599d0d2498c73f688c7",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "role.module.explayouts": {
+            "version": "0.0.0.1",
+            "hash": "beabf211aac4d53bc2fc5e2615bba003d6041c3207731cc8321e5821397a0e77",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "role.module.role": {
+            "version": "0.0.0.1",
+            "hash": "ab435eb28563c9f2543bac60c23b46a175c7952eaad1dea3a26053c31d1058c5",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "role.module.section": {
+            "version": "0.0.0.1",
+            "hash": "8254eda44e859fd5560061633ac77884bbdd4d7111905c237195b511cb8556b9",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "role.module.setup": {
+            "version": "0.0.0.1",
+            "hash": "5b106accc0b93ddca7d1b0c69401c47a0a62ed634a280ddd50d9ff4a3088e1c8",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "role.module.state": {
+            "version": "0.0.0.1",
+            "hash": "968f78ef5bd78862268633c979ec4a9f79c35c46ff9f3aab57d56e93f60092c4",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "role.module.tron": {
+            "version": "0.0.0.1",
+            "hash": "0979daad6662d944e92412268a2f8c2abc62917420542aee093eb8b25a328c34",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "role.module.user": {
+            "version": "0.0.0.1",
+            "hash": "ea1d0f4c58ec213b6a30951f042ed6c04a6a6765b84b286a5acf17274e659eb1",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "role.policies": {
+            "version": "0.0.0.1",
+            "hash": "7d33b367061b1b95744ad674e658e860807db702fbc872d1b5356dc143abdbcc",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "role.unlimited": {
+            "version": "0.0.0.1",
+            "hash": "ffdd94a03dd064d2f8b754668a2259962f3da712d0e141f8527d93658001c0c1",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "role.user.administrators": {
+            "version": "0.0.0.1",
+            "hash": "1f3b598fcb205363179c5cab05db4aed093dbe079ac3af38d203aa83f46cf808",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "role.user.disabled": {
+            "version": "0.0.0.1",
+            "hash": "ed443f0e823450d636539290d88360cdb077a450013136392a7de5572c7699f8",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "role.user.find": {
+            "version": "0.0.0.1",
+            "hash": "8356557f42fc3d19189c380d213d0f8688f61240d1c55dc0120a8291183ab01e",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        }
+    }
+}

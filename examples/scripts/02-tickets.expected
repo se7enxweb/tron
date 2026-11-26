@@ -1,0 +1,6 @@
+created #1 in main/inbox, priority high, labels certs,ops
+moved to doing at position 0
+closed #1: closed (done) at 2026-11-24T12:00:00Z
+open now: 1 (#2)
+history: created=ticket on main/inbox, lane=doing, status=closed, closed_reason=done
+comments: 1

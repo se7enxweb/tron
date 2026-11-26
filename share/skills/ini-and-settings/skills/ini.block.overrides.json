@@ -1,0 +1,116 @@
+{
+    "name": "ini.block.overrides",
+    "title": "Who overrides a block",
+    "purpose": "For one block of an INI file, how many of its settings each file wins, so you see which file really decides the block.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "ini",
+        "overrides"
+    ],
+    "use_case": "Untangling settings set in many places",
+    "parameters": {
+        "file": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.-]{1,80}$",
+            "default": "site.ini",
+            "description": "The INI file, e.g. site.ini or content.ini.",
+            "examples": [
+                "site.ini"
+            ],
+            "short": "-f"
+        },
+        "siteaccess": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "description": "The siteaccess whose settings count (default: the current one).",
+            "examples": [
+                "site",
+                "admin"
+            ],
+            "short": "-s",
+            "default": "site"
+        },
+        "block": {
+            "type": "string",
+            "pattern": "^[^\\[\\]\\r\\n]{1,150}$",
+            "default": "SiteSettings",
+            "description": "The block.",
+            "examples": [
+                "SiteSettings"
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "ini_list"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "ini_list",
+            "args": {
+                "file": "$param.file",
+                "siteaccess": "$param.siteaccess",
+                "block": "$param.block"
+            }
+        },
+        {
+            "id": "settings",
+            "op": "flatten",
+            "from": "$steps.l.items",
+            "field": "settings"
+        },
+        {
+            "id": "by_file",
+            "op": "group",
+            "from": "$steps.settings",
+            "by": "winner"
+        }
+    ],
+    "output": {
+        "value": {
+            "block": "$param.block",
+            "settings": "$steps.settings|count",
+            "per_file": "$steps.by_file"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "block",
+                "settings",
+                "per_file"
+            ],
+            "properties": {
+                "block": {
+                    "type": "string"
+                },
+                "settings": {
+                    "type": "integer"
+                },
+                "per_file": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With block SiteSettings",
+            "params": {
+                "block": "SiteSettings"
+            }
+        },
+        {
+            "title": "With file design.ini, block StylesheetSettings",
+            "params": {
+                "file": "design.ini",
+                "block": "StylesheetSettings"
+            }
+        }
+    ]
+}

@@ -1,0 +1,350 @@
+{
+    "pack": "katalyst-reports",
+    "pack_version": "0.0.0.1",
+    "tron": "0.0.0.7",
+    "at": "2026-11-25T06:53:27Z",
+    "skills": {
+        "katalyst.orders.by-state": {
+            "version": "0.0.0.1",
+            "hash": "dd51179f7b310d2954c67738f9a6517c4e22a87c2e09dede4590c90ba5eac377",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "katalyst.orders.fraud": {
+            "version": "0.0.0.1",
+            "hash": "a505651760b4736b748aa8f13514992871969104d571f4d73e633ef817070b65",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "katalyst.orders.pending": {
+            "version": "0.0.0.1",
+            "hash": "e54bcdea0c52e9c95cdeab4160f8a8f7d404f34a7c3a5ce3e4a25e241760cd66",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "katalyst.orders.recent": {
+            "version": "0.0.0.1",
+            "hash": "205794534175f973493f3db9b1ea399f72d2fab201ef77ee3d9b106ed48eaa6e",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "katalyst.orders.revenue": {
+            "version": "0.0.0.1",
+            "hash": "dff06fa82497b7bf81ded90d7f1d1395f87653513316f17b4d957e1c906ece12",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "katalyst.plans.archived": {
+            "version": "0.0.0.1",
+            "hash": "14255011cab1a82588b7a6d328bfd530dd65b6519e1cfc8ec7ff2bfdf25c5fd9",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "katalyst.plans.by-source": {
+            "version": "0.0.0.1",
+            "hash": "fe327a1119651004af3a35a7915de6963ac86539ad90321c793fdc23a6814b1d",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "katalyst.plans.hidden": {
+            "version": "0.0.0.1",
+            "hash": "076288770f5c4f7a73d817fe27077876dd52be60335aea4ab08c50ca1767491f",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "katalyst.plans.list": {
+            "version": "0.0.0.1",
+            "hash": "fd5337f2269a6616b15af87e178e19e92c8c8de99f6a46e56d93634105f771e9",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "katalyst.services.by-cycle": {
+            "version": "0.0.0.1",
+            "hash": "a99b6a82dc72698799363f99c737a508a2f5723007ef84a17fc98562d8858bfc",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "katalyst.services.by-kind": {
+            "version": "0.0.0.1",
+            "hash": "f89b994bbceef6eb5947250fe1c80f8960e375230df2bb5f6a9a023036598d41",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "katalyst.services.by-plan": {
+            "version": "0.0.0.1",
+            "hash": "5bb40a400c32f7ae60efe3303af04218ab512f2f2e373ae59b920727ed2a0fbf",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "katalyst.services.by-server": {
+            "version": "0.0.0.1",
+            "hash": "1a49c505fe910a0d8082e8d5d08495724770a06c1fe0f3e62cfa42acbd281b52",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "katalyst.services.by-status": {
+            "version": "0.0.0.1",
+            "hash": "a7a1e68b5bc12c78d645e78765748543dd33c8ef5075c691bde7bd737ee6f697",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "katalyst.services.disk-top": {
+            "version": "0.0.0.1",
+            "hash": "440d9ede123a3690c4ee8eb900a02ad3a6c0a5bb9f2339d43386a46019aa1d1f",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "katalyst.services.due-soon": {
+            "version": "0.0.0.1",
+            "hash": "25a6cc02fbb540f6e82a369533e8028b9c1cd4a970fd41c45c1cd492c4987c16",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "katalyst.services.gone": {
+            "version": "0.0.0.1",
+            "hash": "0a26c749539dfe50b43858b71c42eee3a649c29b9902fb163396d6a1bf7b72b1",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "katalyst.services.overdue": {
+            "version": "0.0.0.1",
+            "hash": "9c8b6cd0ec3842d10b7c34e507fac5fad3f13975074095e1513f4ad73fbcea4e",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "katalyst.services.suspended": {
+            "version": "0.0.0.1",
+            "hash": "f280e97bc861285b21f064f9b1bb5fcfe55261f4b36f078d179a515715b1d980",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        }
+    }
+}

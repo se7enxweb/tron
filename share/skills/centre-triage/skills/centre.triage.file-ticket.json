@@ -1,0 +1,103 @@
+{
+    "name": "centre.triage.file-ticket",
+    "title": "File a ticket",
+    "purpose": "Creates a ticket on a board with a title, priority and labels, in the inbox.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "triage",
+        "writes"
+    ],
+    "use_case": "Reporting a problem in one step",
+    "parameters": {
+        "board": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
+            "default": "main",
+            "description": "The centre board, e.g. main or ops.",
+            "examples": [
+                "main",
+                "ops"
+            ],
+            "short": "-b"
+        },
+        "title": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 255,
+            "default": "New ticket",
+            "description": "The title.",
+            "examples": [
+                "Broken link on the front page"
+            ],
+            "required": false
+        },
+        "priority": {
+            "type": "string",
+            "enum": [
+                "low",
+                "normal",
+                "high",
+                "urgent"
+            ],
+            "default": "normal",
+            "description": "The priority.",
+            "examples": [
+                "high"
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "centre_ticket_create"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "B"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_write"
+        }
+    ],
+    "steps": [
+        {
+            "id": "made",
+            "unit": "centre_ticket_create",
+            "args": {
+                "title": "$param.title",
+                "board": "$param.board",
+                "priority": "$param.priority"
+            }
+        }
+    ],
+    "output": {
+        "value": {
+            "ticket": "$steps.made"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "ticket"
+            ],
+            "properties": {
+                "ticket": {
+                    "type": "object"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With board main, title Broken link on the front page",
+            "params": {
+                "board": "main",
+                "title": "Broken link on the front page"
+            }
+        }
+    ]
+}

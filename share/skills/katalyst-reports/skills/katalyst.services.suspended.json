@@ -1,0 +1,79 @@
+{
+    "name": "katalyst.services.suspended",
+    "title": "Suspended services",
+    "purpose": "The suspended hosting services by id, plan and server (no domains, no customer data).",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "katalyst",
+        "hosting",
+        "services",
+        "billing"
+    ],
+    "use_case": "Dunning follow-up",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "katalyst_services_list"
+        ],
+        "programs": [
+            "katalyst"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/katalyst_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "l",
+            "unit": "katalyst_services_list",
+            "args": {
+                "status": "suspended",
+                "limit": 200
+            }
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.l.items",
+            "fields": [
+                "id",
+                "plan_id",
+                "server_id",
+                "next_due_date"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "suspended": "$steps.l.total",
+            "services": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "suspended",
+                "services"
+            ],
+            "properties": {
+                "suspended": {
+                    "type": "integer"
+                },
+                "services": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

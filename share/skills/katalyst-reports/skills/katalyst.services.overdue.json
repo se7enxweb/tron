@@ -1,0 +1,86 @@
+{
+    "name": "katalyst.services.overdue",
+    "title": "Services past due",
+    "purpose": "The services whose next due date has passed (ids only).",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "katalyst",
+        "hosting",
+        "services",
+        "billing"
+    ],
+    "use_case": "Dunning",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "katalyst_services_list"
+        ],
+        "programs": [
+            "katalyst"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/katalyst_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "l",
+            "unit": "katalyst_services_list",
+            "args": {
+                "limit": 200
+            }
+        },
+        {
+            "id": "late",
+            "op": "where",
+            "from": "$steps.l.items",
+            "field": "next_due_date",
+            "cmp": "lt",
+            "value": "$today"
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.late",
+            "fields": [
+                "id",
+                "status",
+                "plan_id",
+                "next_due_date"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "overdue": "$steps.late|count",
+            "services": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "overdue",
+                "services"
+            ],
+            "properties": {
+                "overdue": {
+                    "type": "integer"
+                },
+                "services": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

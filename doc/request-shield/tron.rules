@@ -1,0 +1,28 @@
+# tron's MCP endpoint behind exp_request_shield (the request filter in front of Exponential).
+#
+# MCP clients are programs: they POST JSON to one address, send no Origin or Referer and cannot solve the
+# browser check. Without these lines the shield answers a POST to /tron/mcp with 405 (EXP-POST allows POST only
+# where a form lives). tron checks its own callers (bearer token, Origin list, Host list, body size, policies).
+#
+# Use: copy this file next to the site's main rule file (settings/request-shield/) and add to that file
+#     include     tron.rules
+# then check and test it as the site user:
+#     php extension/exp_request_shield/bin/request-shield check settings/request-shield/request-shield.rules
+#     php extension/exp_request_shield/bin/request-shield test  settings/request-shield/request-shield.rules
+#
+# /mcp is the short address (a global URL alias mcp -> tron/mcp); "**/tron/mcp" also covers URI siteaccesses.
+#
+# Copyright (C) 1998 - 2026 Exponential Foundation and 7x; All rights reserved. Licensed under the GNU General Public License v2.0 (or any later version).
+
+ids TRON
+
+[TRON-POST]      allow POST /mcp **/tron/mcp                        # the MCP endpoint takes JSON-RPC by POST
+expect POST /mcp                                            answered
+expect POST /site/tron/mcp                                  answered
+expect POST /news/2026/fit-and-healthy                      405 by EXP-POST   # no other POST opened
+
+[TRON-ORIGIN]    post-origin except /mcp **/tron/mcp                # programs send no Origin; tron checks Origin itself
+expect POST /tron/mcp header Origin:https://evil.example    answered   # tron itself answers 403 for a foreign Origin
+
+[TRON-NOCHECK]   challenge-exempt /mcp **/tron/mcp                  # a program solves no browser check; tron needs a token
+expect POST /tron/mcp                                       answered

@@ -1,0 +1,73 @@
+{
+    "name": "katalyst.services.by-server",
+    "title": "Services per server",
+    "purpose": "How many hosting services each server carries.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "katalyst",
+        "hosting",
+        "services",
+        "servers"
+    ],
+    "use_case": "Capacity planning",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "katalyst_services_list"
+        ],
+        "programs": [
+            "katalyst"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/katalyst_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "l",
+            "unit": "katalyst_services_list",
+            "args": {
+                "limit": 200
+            }
+        },
+        {
+            "id": "g",
+            "op": "group",
+            "from": "$steps.l.items",
+            "by": "server_id"
+        }
+    ],
+    "output": {
+        "value": {
+            "services": "$steps.l.total",
+            "per_server": "$steps.g"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "services",
+                "per_server"
+            ],
+            "properties": {
+                "services": {
+                    "type": "integer"
+                },
+                "per_server": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

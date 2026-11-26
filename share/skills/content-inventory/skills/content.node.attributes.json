@@ -1,0 +1,115 @@
+{
+    "name": "content.node.attributes",
+    "title": "Node attributes",
+    "purpose": "The attributes of one node with their datatype and plain value (long text cut), and which ones are empty.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "content",
+        "node",
+        "attributes"
+    ],
+    "use_case": "Reading a page's fields",
+    "parameters": {
+        "node_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 2,
+            "description": "The node.",
+            "examples": [
+                2
+            ]
+        },
+        "max_text": {
+            "type": "integer",
+            "minimum": 50,
+            "maximum": 5000,
+            "default": 300,
+            "description": "Longer text is cut.",
+            "examples": [
+                300
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "node_read"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "n",
+            "unit": "node_read",
+            "args": {
+                "node_id": "$param.node_id",
+                "max_text": "$param.max_text"
+            }
+        },
+        {
+            "id": "empty",
+            "op": "where",
+            "from": "$steps.n.attributes",
+            "field": "value",
+            "cmp": "empty"
+        },
+        {
+            "id": "empty_ids",
+            "op": "pluck",
+            "from": "$steps.empty",
+            "field": "identifier"
+        }
+    ],
+    "output": {
+        "value": {
+            "node_id": "$param.node_id",
+            "name": "$steps.n.name",
+            "class": "$steps.n.class_identifier",
+            "attributes": "$steps.n.attributes",
+            "empty": "$steps.empty_ids"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "node_id",
+                "name",
+                "class",
+                "attributes",
+                "empty"
+            ],
+            "properties": {
+                "node_id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "class": {
+                    "type": "string"
+                },
+                "attributes": {
+                    "type": "array"
+                },
+                "empty": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        },
+        {
+            "title": "With node_id 75, max_text 100",
+            "params": {
+                "node_id": 75,
+                "max_text": 100
+            }
+        }
+    ]
+}

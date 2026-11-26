@@ -1,0 +1,107 @@
+{
+    "name": "content.node.open-drafts",
+    "title": "Open drafts of a node",
+    "purpose": "The drafts of a node that were never published, newest first, with their language and age in days.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "content",
+        "versions",
+        "drafts"
+    ],
+    "use_case": "Is someone editing this page?",
+    "parameters": {
+        "node_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 2,
+            "description": "The node.",
+            "examples": [
+                2
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "node_versions"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "v",
+            "unit": "node_versions",
+            "args": {
+                "node_id": "$param.node_id",
+                "limit": 200
+            }
+        },
+        {
+            "id": "drafts",
+            "op": "where",
+            "from": "$steps.v.items",
+            "field": "status",
+            "cmp": "eq",
+            "value": "draft"
+        },
+        {
+            "id": "aged",
+            "op": "age",
+            "from": "$steps.drafts",
+            "field": "modified",
+            "as": "days_old"
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.aged",
+            "fields": [
+                "version",
+                "language",
+                "modified",
+                "days_old"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "node_id": "$param.node_id",
+            "drafts": "$steps.drafts|count",
+            "items": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "node_id",
+                "drafts",
+                "items"
+            ],
+            "properties": {
+                "node_id": {
+                    "type": "integer"
+                },
+                "drafts": {
+                    "type": "integer"
+                },
+                "items": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        },
+        {
+            "title": "With node_id 75",
+            "params": {
+                "node_id": 75
+            }
+        }
+    ]
+}

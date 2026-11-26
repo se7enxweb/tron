@@ -1,0 +1,80 @@
+{
+    "name": "katalyst.orders.recent",
+    "title": "Recent orders",
+    "purpose": "The newest orders with number, state, total and item count (no customer data).",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "katalyst",
+        "hosting",
+        "orders",
+        "shop"
+    ],
+    "use_case": "What sold today",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "katalyst_orders_list"
+        ],
+        "programs": [
+            "katalyst"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/katalyst_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "l",
+            "unit": "katalyst_orders_list",
+            "args": {
+                "limit": 20
+            }
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.l.items",
+            "fields": [
+                "shop_order_nr",
+                "state",
+                "total_inc_vat",
+                "currency",
+                "item_count",
+                "created"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "orders": "$steps.l.total",
+            "items": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "orders",
+                "items"
+            ],
+            "properties": {
+                "orders": {
+                    "type": "integer"
+                },
+                "items": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

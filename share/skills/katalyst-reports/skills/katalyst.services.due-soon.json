@@ -1,0 +1,124 @@
+{
+    "name": "katalyst.services.due-soon",
+    "title": "Services due soon",
+    "purpose": "The services whose next due date falls within a number of days, soonest first (ids only).",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "katalyst",
+        "hosting",
+        "services",
+        "billing"
+    ],
+    "use_case": "Billing run preparation",
+    "parameters": {
+        "days": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 365,
+            "default": 30,
+            "description": "Due within this many days.",
+            "examples": [
+                30
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "katalyst_services_list"
+        ],
+        "programs": [
+            "katalyst"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/katalyst_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "l",
+            "unit": "katalyst_services_list",
+            "args": {
+                "limit": 200
+            }
+        },
+        {
+            "id": "soon",
+            "op": "where",
+            "from": "$steps.l.items",
+            "field": "next_due_date",
+            "cmp": "le",
+            "value": "$ahead.days"
+        },
+        {
+            "id": "future",
+            "op": "where",
+            "from": "$steps.soon",
+            "field": "next_due_date",
+            "cmp": "ge",
+            "value": "$today"
+        },
+        {
+            "id": "sorted",
+            "op": "sort",
+            "from": "$steps.future",
+            "by": "next_due_date"
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.sorted",
+            "fields": [
+                "id",
+                "plan_id",
+                "billing_cycle",
+                "next_due_date"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "days": "$param.days",
+            "due": "$steps.future|count",
+            "services": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "days",
+                "due",
+                "services"
+            ],
+            "properties": {
+                "days": {
+                    "type": "integer"
+                },
+                "due": {
+                    "type": "integer"
+                },
+                "services": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With days 30",
+            "params": {
+                "days": 30
+            }
+        },
+        {
+            "title": "With days 90",
+            "params": {
+                "days": 90
+            }
+        }
+    ]
+}

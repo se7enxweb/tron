@@ -1,0 +1,16 @@
+Available commands:
+───────────────────
+  list [namespace]              List all commands, or filter to a namespace
+
+exp        — bin/php/*.php  (Exponential PHP scripts)
+──────────────────────────────────────────────────────────────
+  exp:expmigrationstatus              Migration status: every migration with its state (done, pending)
+  exp:contentcheck                    Content checks: list the unused assets (report only; --fix is a dry run unless --apply)
+  exp:ezfixdata                       Fix and update the data of all objects
+  exp:dfscleanup                      Check database and DFS files against each other and delete nonexistent ones (-D)
+
+ext:privsrv  — extension/privsrv/bin
+──────────────────────────────────────────────────────────────
+  ext:privsrv:serve                     Serve the private server
+
+  2 commands available.

@@ -1,0 +1,77 @@
+{
+    "name": "media.image-ini-blocks",
+    "title": "Image settings blocks",
+    "purpose": "The blocks of image.ini (one per alias, plus the converters), as a siteaccess resolves them.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "media",
+        "images",
+        "ini"
+    ],
+    "use_case": "Finding an alias definition",
+    "parameters": {
+        "siteaccess": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "description": "The siteaccess whose settings count (default: the current one).",
+            "examples": [
+                "site",
+                "admin"
+            ],
+            "short": "-s",
+            "default": "site"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "ini_list"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "ini_list",
+            "args": {
+                "file": "image.ini",
+                "siteaccess": "$param.siteaccess"
+            }
+        },
+        {
+            "id": "names",
+            "op": "pluck",
+            "from": "$steps.l.items",
+            "field": "block"
+        }
+    ],
+    "output": {
+        "value": {
+            "blocks": "$steps.l.total",
+            "names": "$steps.names"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "blocks",
+                "names"
+            ],
+            "properties": {
+                "blocks": {
+                    "type": "integer"
+                },
+                "names": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

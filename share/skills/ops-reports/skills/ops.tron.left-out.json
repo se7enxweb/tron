@@ -1,0 +1,54 @@
+{
+    "name": "ops.tron.left-out",
+    "title": "Tools left out",
+    "purpose": "The tools a program left out on purpose here, with the reason (a missing extension or source).",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "ops",
+        "tron",
+        "tools"
+    ],
+    "use_case": "Why is a tool missing?",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "tron_status"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "s",
+            "unit": "tron_status",
+            "args": {}
+        }
+    ],
+    "output": {
+        "value": {
+            "tools": "$steps.s.tools",
+            "left_out": "$steps.s.not_registered"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "tools",
+                "left_out"
+            ],
+            "properties": {
+                "tools": {
+                    "type": "integer"
+                },
+                "left_out": []
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

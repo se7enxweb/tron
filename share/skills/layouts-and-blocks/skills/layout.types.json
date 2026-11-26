@@ -1,0 +1,63 @@
+{
+    "name": "layout.types",
+    "title": "Layout types in use",
+    "purpose": "How many layouts use each layout type.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "layouts",
+        "counts"
+    ],
+    "use_case": "Which layout types matter",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "layout_list"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "layout_list",
+            "args": {
+                "limit": 100
+            }
+        },
+        {
+            "id": "g",
+            "op": "group",
+            "from": "$steps.l.items",
+            "by": "layout_type"
+        }
+    ],
+    "output": {
+        "value": {
+            "layouts": "$steps.l.total",
+            "per_type": "$steps.g"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "layouts",
+                "per_type"
+            ],
+            "properties": {
+                "layouts": {
+                    "type": "integer"
+                },
+                "per_type": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

@@ -1,0 +1,98 @@
+{
+    "name": "layout.rules-of-layout",
+    "title": "Rules of a layout",
+    "purpose": "The rules that send pages to one layout.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "layouts",
+        "rules",
+        "usage"
+    ],
+    "use_case": "Before removing a layout",
+    "parameters": {
+        "layout_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 2,
+            "description": "The layout id.",
+            "examples": [
+                2,
+                19
+            ],
+            "short": "-l"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "layout_rule_list"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "layout_rule_list",
+            "args": {
+                "layout_id": "$param.layout_id",
+                "limit": 100
+            }
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.l.items",
+            "fields": [
+                "id",
+                "priority",
+                "enabled",
+                "layout_id",
+                "targets",
+                "conditions"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "total": "$steps.l.total",
+            "count": "$steps.l.items|count",
+            "rules": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "total",
+                "count",
+                "rules"
+            ],
+            "properties": {
+                "total": {
+                    "type": "integer"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "rules": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With layout_id 19",
+            "params": {
+                "layout_id": 19
+            }
+        },
+        {
+            "title": "With layout_id 2",
+            "params": {
+                "layout_id": 2
+            }
+        }
+    ]
+}

@@ -1,0 +1,90 @@
+{
+    "name": "role.user.find",
+    "title": "Find a user and their roles",
+    "purpose": "Finds users by login or name, with whether they are enabled and their roles.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "roles",
+        "users"
+    ],
+    "use_case": "Support: what may this person do?",
+    "parameters": {
+        "text": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100,
+            "default": "admin",
+            "description": "Part of a login or name.",
+            "examples": [
+                "admin",
+                "tronskill"
+            ],
+            "short": "-t"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "role_user_find"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "u",
+            "unit": "role_user_find",
+            "args": {
+                "text": "$param.text",
+                "limit": 20
+            }
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.u.items",
+            "fields": [
+                "user_id",
+                "login",
+                "enabled",
+                "roles"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "total": "$steps.u.total",
+            "users": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "total",
+                "users"
+            ],
+            "properties": {
+                "total": {
+                    "type": "integer"
+                },
+                "users": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With text admin",
+            "params": {
+                "text": "admin"
+            }
+        },
+        {
+            "title": "With text tronskill",
+            "params": {
+                "text": "tronskill"
+            }
+        }
+    ]
+}

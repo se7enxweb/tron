@@ -1,0 +1,4 @@
+initialize -> tron, protocol 2025-06-18
+tools/call -> ticket #1 "Made over stdio"
+unknown method -> -32601 Method not found: nope/nothing
+server exit code: 0

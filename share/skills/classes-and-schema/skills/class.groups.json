@@ -1,0 +1,64 @@
+{
+    "name": "class.groups",
+    "title": "Classes per group",
+    "purpose": "How many content classes each class group holds.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "classes",
+        "schema",
+        "groups"
+    ],
+    "use_case": "Overview of the content model",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "class_list"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "class_list",
+            "args": {
+                "limit": 200
+            }
+        },
+        {
+            "id": "g",
+            "op": "group",
+            "from": "$steps.l.items",
+            "by": "groups"
+        }
+    ],
+    "output": {
+        "value": {
+            "classes": "$steps.l.total",
+            "groups": "$steps.g"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "classes",
+                "groups"
+            ],
+            "properties": {
+                "classes": {
+                    "type": "integer"
+                },
+                "groups": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

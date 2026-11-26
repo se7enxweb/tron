@@ -1,0 +1,16 @@
+{
+    "id": "layouts-and-blocks",
+    "title": "Layouts and blocks",
+    "description": "Exponential Layouts: layout inventory, shared layouts, drafts, zones and their links, blocks and broken blocks, which layout a node or URL gets and why, rules, block definitions by category.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "prefix": "layout",
+    "requires": {
+        "tron": "0.0.0.7",
+        "programs": [
+            "layout"
+        ]
+    },
+    "for_extension": "explayouts"
+}

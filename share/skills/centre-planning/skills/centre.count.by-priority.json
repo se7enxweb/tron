@@ -1,0 +1,101 @@
+{
+    "name": "centre.count.by-priority",
+    "title": "Tickets per priority",
+    "purpose": "Counts the open tickets of a board per priority.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "report",
+        "counts",
+        "priority"
+    ],
+    "use_case": "Is everything urgent?",
+    "parameters": {
+        "board": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
+            "default": "main",
+            "description": "The centre board, e.g. main or ops.",
+            "examples": [
+                "main",
+                "ops"
+            ],
+            "short": "-b"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "centre_ticket_list"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "list",
+            "unit": "centre_ticket_list",
+            "args": {
+                "board": "$param.board",
+                "status": "open",
+                "limit": 200
+            }
+        },
+        {
+            "id": "groups",
+            "op": "group",
+            "from": "$steps.list.items",
+            "by": "priority"
+        }
+    ],
+    "output": {
+        "value": {
+            "board": "$param.board",
+            "total": "$steps.list.items|count",
+            "groups": "$steps.groups"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "board",
+                "total",
+                "groups"
+            ],
+            "properties": {
+                "board": {
+                    "type": "string"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "groups": {
+                    "type": "array",
+                    "description": "key and count, largest first"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With board main",
+            "params": {
+                "board": "main"
+            }
+        },
+        {
+            "title": "With board ops",
+            "params": {
+                "board": "ops"
+            }
+        }
+    ]
+}

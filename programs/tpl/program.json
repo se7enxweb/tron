@@ -1,0 +1,12 @@
+{
+    "name": "tpl",
+    "class": "tronUnitsTplProgram",
+    "version": "0.0.0.12",
+    "title": "Template units",
+    "description": "Read units for designs and templates: the override chain of a node view or template, the template syntax check, the text of a template file.",
+    "units": [
+        { "id": "tpl.resolve", "tool": "tpl_resolve", "in": [ "node-ref", "template-ref" ], "out": "template-chain", "summary": "The override chain of a node view or a template: which file wins and why" },
+        { "id": "tpl.lint", "tool": "tpl_lint", "in": [ "template-file" ], "out": "lint-report", "summary": "Syntax, functions and operators of a template file or text" },
+        { "id": "tpl.source", "tool": "tpl_source", "in": [ "template-file" ], "out": "template-source", "summary": "The text of a template file inside a design directory" }
+    ]
+}

@@ -1,0 +1,293 @@
+{
+    "pack": "centre-triage",
+    "pack_version": "0.0.0.1",
+    "tron": "0.0.0.7",
+    "at": "2026-11-25T06:51:21Z",
+    "skills": {
+        "centre.triage.assign-unassigned": {
+            "version": "0.0.0.1",
+            "hash": "bcd5ae24210dfe79327c4d4f38e46d40a899e1fb29fc05d6ad76bac98973f3d1",
+            "result": "parked",
+            "runs": {
+                "fixtures": "parked",
+                "live": "parked"
+            },
+            "reason": "writes (centre_ticket_update): skills that write wait for wave B (dry run of the whole chain, approval of the plan)",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "missing"
+            }
+        },
+        "centre.triage.close-done": {
+            "version": "0.0.0.1",
+            "hash": "321afaa7928743b00e850a347e5f5901a5dfa2a33e0ec270295d9af66f1ae095",
+            "result": "parked",
+            "runs": {
+                "fixtures": "parked",
+                "live": "parked"
+            },
+            "reason": "writes (centre_ticket_close): skills that write wait for wave B (dry run of the whole chain, approval of the plan)",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "missing"
+            }
+        },
+        "centre.triage.date-undated": {
+            "version": "0.0.0.1",
+            "hash": "aae51420ab62e052af48b36ca30dc5e0156422775f96e6b5596248f1ad6bcc95",
+            "result": "parked",
+            "runs": {
+                "fixtures": "parked",
+                "live": "parked"
+            },
+            "reason": "writes (centre_ticket_update): skills that write wait for wave B (dry run of the whole chain, approval of the plan)",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "missing"
+            }
+        },
+        "centre.triage.decide": {
+            "version": "0.0.0.1",
+            "hash": "9b38780ee90df13b1fd5b7400248595ed89aba9a101d612700bdc1ac289eef88",
+            "result": "parked",
+            "runs": {
+                "fixtures": "parked",
+                "live": "parked"
+            },
+            "reason": "writes (centre_decision_record): skills that write wait for wave B (dry run of the whole chain, approval of the plan)",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "missing"
+            }
+        },
+        "centre.triage.file-ticket": {
+            "version": "0.0.0.1",
+            "hash": "c7612b6f55c6415777933798e04b7c83f4858349c2bb663891ce1143fa2bfe54",
+            "result": "parked",
+            "runs": {
+                "fixtures": "parked",
+                "live": "parked"
+            },
+            "reason": "writes (centre_ticket_create): skills that write wait for wave B (dry run of the whole chain, approval of the plan)",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "missing"
+            }
+        },
+        "centre.triage.link-commit": {
+            "version": "0.0.0.1",
+            "hash": "c7815fef50d59fe87fb68e152984930fb558ea5c3dd0d410d1cbd907022f08c4",
+            "result": "parked",
+            "runs": {
+                "fixtures": "parked",
+                "live": "parked"
+            },
+            "reason": "writes (centre_ticket_link): skills that write wait for wave B (dry run of the whole chain, approval of the plan)",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "missing"
+            }
+        },
+        "centre.triage.move-doing-to-done": {
+            "version": "0.0.0.1",
+            "hash": "e7141dbe6054012449e037c095e3453b53c4fb9346fc6bb1abf23326f45a36a1",
+            "result": "parked",
+            "runs": {
+                "fixtures": "parked",
+                "live": "parked"
+            },
+            "reason": "writes (centre_ticket_move): skills that write wait for wave B (dry run of the whole chain, approval of the plan)",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "missing"
+            }
+        },
+        "centre.triage.move-doing-to-waiting": {
+            "version": "0.0.0.1",
+            "hash": "9842130f9a65280a61cd167c09304f6be264027157228c334052940d43dd0837",
+            "result": "parked",
+            "runs": {
+                "fixtures": "parked",
+                "live": "parked"
+            },
+            "reason": "writes (centre_ticket_move): skills that write wait for wave B (dry run of the whole chain, approval of the plan)",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "missing"
+            }
+        },
+        "centre.triage.move-inbox-to-next": {
+            "version": "0.0.0.1",
+            "hash": "528a2065dcaaced5608215a502b9f76aefb326616b054bc8a05bc6fb6715581b",
+            "result": "parked",
+            "runs": {
+                "fixtures": "parked",
+                "live": "parked"
+            },
+            "reason": "writes (centre_ticket_move): skills that write wait for wave B (dry run of the whole chain, approval of the plan)",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "missing"
+            }
+        },
+        "centre.triage.move-next-to-doing": {
+            "version": "0.0.0.1",
+            "hash": "81cffdab8901ec090f0372f07c9fcd3c72a449fe02cb1eb995f9a06b88d9267c",
+            "result": "parked",
+            "runs": {
+                "fixtures": "parked",
+                "live": "parked"
+            },
+            "reason": "writes (centre_ticket_move): skills that write wait for wave B (dry run of the whole chain, approval of the plan)",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "missing"
+            }
+        },
+        "centre.triage.move-waiting-to-doing": {
+            "version": "0.0.0.1",
+            "hash": "aa0a0e5c267474a4aead9c8628b138b5c6a8fcbf1e28c7ecc28fe5f085bd4c36",
+            "result": "parked",
+            "runs": {
+                "fixtures": "parked",
+                "live": "parked"
+            },
+            "reason": "writes (centre_ticket_move): skills that write wait for wave B (dry run of the whole chain, approval of the plan)",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "missing"
+            }
+        },
+        "centre.triage.move-waiting-to-next": {
+            "version": "0.0.0.1",
+            "hash": "d6203158b761d8301e0d264c01c40025adb87ec3bfcaa04ed223b5793c882d9d",
+            "result": "parked",
+            "runs": {
+                "fixtures": "parked",
+                "live": "parked"
+            },
+            "reason": "writes (centre_ticket_move): skills that write wait for wave B (dry run of the whole chain, approval of the plan)",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "missing"
+            }
+        },
+        "centre.triage.nudge-overdue": {
+            "version": "0.0.0.1",
+            "hash": "5af62f1c3708c247dbe09590eb189521842acc5a4891e97c35e9c430f2629b43",
+            "result": "parked",
+            "runs": {
+                "fixtures": "parked",
+                "live": "parked"
+            },
+            "reason": "writes (centre_ticket_comment): skills that write wait for wave B (dry run of the whole chain, approval of the plan)",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "missing"
+            }
+        },
+        "centre.triage.nudge-waiting": {
+            "version": "0.0.0.1",
+            "hash": "7846f5e2e627bd5aa614f4d5afb4e8eb776fee99199d0109588f068cbb5708ba",
+            "result": "parked",
+            "runs": {
+                "fixtures": "parked",
+                "live": "parked"
+            },
+            "reason": "writes (centre_ticket_comment): skills that write wait for wave B (dry run of the whole chain, approval of the plan)",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "missing"
+            }
+        },
+        "centre.triage.raise-overdue-high": {
+            "version": "0.0.0.1",
+            "hash": "4811971197c01d19ccc51ee1dfd9bedf7c8ce18df05c72617fe05b4bda25ee53",
+            "result": "parked",
+            "runs": {
+                "fixtures": "parked",
+                "live": "parked"
+            },
+            "reason": "writes (centre_ticket_update): skills that write wait for wave B (dry run of the whole chain, approval of the plan)",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "missing"
+            }
+        },
+        "centre.triage.raise-overdue-low": {
+            "version": "0.0.0.1",
+            "hash": "f00e7035177bce4eb6e29f63037905fd95a939ed37942ca3f2cae56e412cb972",
+            "result": "parked",
+            "runs": {
+                "fixtures": "parked",
+                "live": "parked"
+            },
+            "reason": "writes (centre_ticket_update): skills that write wait for wave B (dry run of the whole chain, approval of the plan)",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "missing"
+            }
+        },
+        "centre.triage.raise-overdue-normal": {
+            "version": "0.0.0.1",
+            "hash": "f6583690ac9ffa7f9192437d3622d36bada182726fe0f7099721f1f18df68a2b",
+            "result": "parked",
+            "runs": {
+                "fixtures": "parked",
+                "live": "parked"
+            },
+            "reason": "writes (centre_ticket_update): skills that write wait for wave B (dry run of the whole chain, approval of the plan)",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "missing"
+            }
+        },
+        "centre.triage.raise-overdue-urgent": {
+            "version": "0.0.0.1",
+            "hash": "bfa11abbd73eefa82bd1cae66e43cbc8bbf4337e645d74b04fd93a8c7b8270d4",
+            "result": "parked",
+            "runs": {
+                "fixtures": "parked",
+                "live": "parked"
+            },
+            "reason": "writes (centre_ticket_update): skills that write wait for wave B (dry run of the whole chain, approval of the plan)",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "missing"
+            }
+        },
+        "centre.triage.urgent-to-next": {
+            "version": "0.0.0.1",
+            "hash": "33c1dbae137309d2616ff158a08f289ac547b6773e686b4ccb7cd3c6a9059475",
+            "result": "parked",
+            "runs": {
+                "fixtures": "parked",
+                "live": "parked"
+            },
+            "reason": "writes (centre_ticket_move): skills that write wait for wave B (dry run of the whole chain, approval of the plan)",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "missing"
+            }
+        }
+    }
+}

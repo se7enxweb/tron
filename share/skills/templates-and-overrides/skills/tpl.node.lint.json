@@ -1,0 +1,108 @@
+{
+    "name": "tpl.node.lint",
+    "title": "Lint the template of a node",
+    "purpose": "Finds the template that renders a node in its full view and lints it in one go.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "templates",
+        "lint",
+        "overrides"
+    ],
+    "use_case": "A page renders wrong: is its template broken?",
+    "parameters": {
+        "node_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 2,
+            "description": "The node.",
+            "examples": [
+                2
+            ]
+        },
+        "siteaccess": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "description": "The siteaccess whose settings count (default: the current one).",
+            "examples": [
+                "site",
+                "admin"
+            ],
+            "short": "-s",
+            "default": "site"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "tpl_resolve",
+            "tpl_lint"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "r",
+            "unit": "tpl_resolve",
+            "args": {
+                "node_id": "$param.node_id",
+                "siteaccess": "$param.siteaccess"
+            }
+        },
+        {
+            "id": "l",
+            "unit": "tpl_lint",
+            "args": {
+                "path": "$steps.r.winner.path"
+            }
+        }
+    ],
+    "output": {
+        "value": {
+            "template": "$steps.r.winner.path",
+            "ok": "$steps.l.ok",
+            "errors": "$steps.l.errors",
+            "warnings": "$steps.l.warnings"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "template",
+                "ok",
+                "errors",
+                "warnings"
+            ],
+            "properties": {
+                "template": {
+                    "type": "string"
+                },
+                "ok": {
+                    "type": "boolean"
+                },
+                "errors": {
+                    "type": "array"
+                },
+                "warnings": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With node_id 2",
+            "params": {
+                "node_id": 2
+            }
+        },
+        {
+            "title": "With node_id 75, siteaccess bold",
+            "params": {
+                "node_id": 75,
+                "siteaccess": "bold"
+            }
+        }
+    ]
+}

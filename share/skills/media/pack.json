@@ -1,0 +1,16 @@
+{
+    "id": "media",
+    "title": "Media library",
+    "description": "Images, files, videos, galleries, audio, logos and banners: the oldest items, where they live, and the image aliases and their settings.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "prefix": "media",
+    "requires": {
+        "tron": "0.0.0.7",
+        "programs": [
+            "node",
+            "ini"
+        ]
+    }
+}

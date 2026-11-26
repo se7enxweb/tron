@@ -1,0 +1,87 @@
+{
+    "name": "katalyst.plans.list",
+    "title": "Plans and prices",
+    "purpose": "The plans and products on offer with their monthly price, cheapest first.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "katalyst",
+        "hosting",
+        "plans",
+        "prices"
+    ],
+    "use_case": "Price list review",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "katalyst_plans_list"
+        ],
+        "programs": [
+            "katalyst"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/katalyst_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "l",
+            "unit": "katalyst_plans_list",
+            "args": {
+                "limit": 200
+            }
+        },
+        {
+            "id": "sorted",
+            "op": "sort",
+            "from": "$steps.l.items",
+            "by": "price_monthly"
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.sorted",
+            "fields": [
+                "id",
+                "name",
+                "source",
+                "type",
+                "price_monthly",
+                "currency",
+                "hidden"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "plans": "$steps.l.total",
+            "items": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "plans",
+                "items"
+            ],
+            "properties": {
+                "plans": {
+                    "type": "integer"
+                },
+                "items": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

@@ -1,0 +1,97 @@
+{
+    "name": "role.user.disabled",
+    "title": "Disabled users found",
+    "purpose": "Among the users matching a text, the ones that are disabled.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "roles",
+        "users",
+        "cleanup"
+    ],
+    "use_case": "Account clean-up",
+    "parameters": {
+        "text": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100,
+            "default": "admin",
+            "description": "Part of a login or name.",
+            "examples": [
+                "admin",
+                "tronskill"
+            ],
+            "short": "-t"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "role_user_find"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "u",
+            "unit": "role_user_find",
+            "args": {
+                "text": "$param.text",
+                "limit": 50
+            }
+        },
+        {
+            "id": "off",
+            "op": "where",
+            "from": "$steps.u.items",
+            "field": "enabled",
+            "cmp": "eq",
+            "value": false
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.off",
+            "fields": [
+                "user_id",
+                "login",
+                "roles"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "matched": "$steps.u.total",
+            "disabled": "$steps.off|count",
+            "users": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "matched",
+                "disabled",
+                "users"
+            ],
+            "properties": {
+                "matched": {
+                    "type": "integer"
+                },
+                "disabled": {
+                    "type": "integer"
+                },
+                "users": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With text admin",
+            "params": {
+                "text": "admin"
+            }
+        }
+    ]
+}

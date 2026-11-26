@@ -1,0 +1,86 @@
+{
+    "name": "i18n.compare-siteaccesses",
+    "title": "Regional settings of two siteaccesses",
+    "purpose": "Compares the regional settings (locale, languages, translation) of two siteaccesses.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "i18n",
+        "diff"
+    ],
+    "use_case": "Why does the German site show English?",
+    "parameters": {
+        "a": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "default": "bold",
+            "description": "The first siteaccess.",
+            "examples": [
+                "bold"
+            ]
+        },
+        "b": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "default": "bold_ger",
+            "description": "The second siteaccess.",
+            "examples": [
+                "bold_ger"
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "ini_diff"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "d",
+            "unit": "ini_diff",
+            "args": {
+                "file": "site.ini",
+                "a": "$param.a",
+                "b": "$param.b",
+                "block": "RegionalSettings"
+            }
+        }
+    ],
+    "output": {
+        "value": {
+            "counts": "$steps.d.counts",
+            "differences": "$steps.d.items"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "counts",
+                "differences"
+            ],
+            "properties": {
+                "counts": {
+                    "type": "object"
+                },
+                "differences": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        },
+        {
+            "title": "With a starter, b starter_ger",
+            "params": {
+                "a": "starter",
+                "b": "starter_ger"
+            }
+        }
+    ]
+}

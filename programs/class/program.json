@@ -1,0 +1,12 @@
+{
+    "name": "class",
+    "class": "tronUnitsClassProgram",
+    "version": "0.0.0.12",
+    "title": "Class units",
+    "description": "Read units for content classes: the list, one class with its attributes, the difference between two classes or two installations' copies of one.",
+    "units": [
+        { "id": "class.describe", "tool": "class_describe", "in": [ "class-ref" ], "out": "class", "summary": "One class with its attributes and settings" },
+        { "id": "class.list", "tool": "class_list", "in": [ "none" ], "out": "class[]", "summary": "The content classes, by group" },
+        { "id": "class.diff", "tool": "class_diff", "in": [ "class-ref" ], "out": "diff", "summary": "What differs between two classes, or between a class and a copy from another installation" }
+    ]
+}

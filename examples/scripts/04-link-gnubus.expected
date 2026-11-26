@@ -1,0 +1,5 @@
+linked gnubus gb-20261124T101500Z-cloud-1a2b
+linked todo claude@cluster#301
+linked commit se7enxweb/tron@f99e348
+the message belongs to #1 "Valkey failover on web" (open)
+refused: ERROR: The gnubus reference 'not-a-bus-id' is not valid: expected a gnubus message id like gb-20261124T101500Z-cloud-1a2b

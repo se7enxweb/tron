@@ -1,0 +1,125 @@
+{
+    "name": "ini.block.values",
+    "title": "One block with its values",
+    "purpose": "One block of an INI file as a siteaccess resolves it: every setting with its value and the file that sets it.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "ini",
+        "settings"
+    ],
+    "use_case": "Reading a whole block before changing it",
+    "parameters": {
+        "file": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.-]{1,80}$",
+            "default": "site.ini",
+            "description": "The INI file, e.g. site.ini or content.ini.",
+            "examples": [
+                "site.ini"
+            ],
+            "short": "-f"
+        },
+        "siteaccess": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "description": "The siteaccess whose settings count (default: the current one).",
+            "examples": [
+                "site",
+                "admin"
+            ],
+            "short": "-s",
+            "default": "site"
+        },
+        "block": {
+            "type": "string",
+            "pattern": "^[^\\[\\]\\r\\n]{1,150}$",
+            "default": "SiteSettings",
+            "description": "The block.",
+            "examples": [
+                "SiteSettings",
+                "DesignSettings"
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "ini_list"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "ini_list",
+            "args": {
+                "file": "$param.file",
+                "siteaccess": "$param.siteaccess",
+                "block": "$param.block",
+                "values": true
+            }
+        },
+        {
+            "id": "settings",
+            "op": "flatten",
+            "from": "$steps.l.items",
+            "field": "settings"
+        },
+        {
+            "id": "by_file",
+            "op": "group",
+            "from": "$steps.settings",
+            "by": "winner"
+        }
+    ],
+    "output": {
+        "value": {
+            "file": "$param.file",
+            "block": "$param.block",
+            "settings": "$steps.settings",
+            "per_file": "$steps.by_file"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "file",
+                "block",
+                "settings",
+                "per_file"
+            ],
+            "properties": {
+                "file": {
+                    "type": "string"
+                },
+                "block": {
+                    "type": "string"
+                },
+                "settings": {
+                    "type": "array"
+                },
+                "per_file": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With file site.ini, block SiteSettings",
+            "params": {
+                "file": "site.ini",
+                "block": "SiteSettings"
+            }
+        },
+        {
+            "title": "With file site.ini, block DesignSettings, siteaccess admin",
+            "params": {
+                "file": "site.ini",
+                "block": "DesignSettings",
+                "siteaccess": "admin"
+            }
+        }
+    ]
+}

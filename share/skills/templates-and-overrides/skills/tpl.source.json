@@ -1,0 +1,113 @@
+{
+    "name": "tpl.source",
+    "title": "Template source",
+    "purpose": "Lines of a template file (the first 60 by default), with the total number of lines.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "templates",
+        "source"
+    ],
+    "use_case": "Reading a template without a shell",
+    "parameters": {
+        "path": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_./-]+\\.tpl$",
+            "maxLength": 300,
+            "default": "design/standard/templates/pagelayout.tpl",
+            "description": "The template file from the installation root.",
+            "examples": [
+                "design/standard/templates/pagelayout.tpl"
+            ],
+            "short": "-p"
+        },
+        "from_line": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000,
+            "default": 1,
+            "description": "The first line.",
+            "examples": [
+                1
+            ]
+        },
+        "to_line": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000,
+            "default": 60,
+            "description": "The last line.",
+            "examples": [
+                60
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "tpl_source"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "s",
+            "unit": "tpl_source",
+            "args": {
+                "path": "$param.path",
+                "from_line": "$param.from_line",
+                "to_line": "$param.to_line"
+            }
+        }
+    ],
+    "output": {
+        "value": {
+            "path": "$steps.s.path",
+            "lines": "$steps.s.lines",
+            "from": "$steps.s.from",
+            "to": "$steps.s.to",
+            "text": "$steps.s.text"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "path",
+                "lines",
+                "from",
+                "to",
+                "text"
+            ],
+            "properties": {
+                "path": {
+                    "type": "string"
+                },
+                "lines": {
+                    "type": "integer"
+                },
+                "from": {
+                    "type": "integer"
+                },
+                "to": {
+                    "type": "integer"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        },
+        {
+            "title": "With from_line 1, to_line 10",
+            "params": {
+                "from_line": 1,
+                "to_line": 10
+            }
+        }
+    ]
+}

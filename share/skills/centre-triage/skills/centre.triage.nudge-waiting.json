@@ -1,0 +1,90 @@
+{
+    "name": "centre.triage.nudge-waiting",
+    "title": "Nudge waiting tickets",
+    "purpose": "Adds a comment to every ticket in the waiting lane of a board asking what it still waits for.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "triage",
+        "writes"
+    ],
+    "use_case": "Weekly chase of blockers",
+    "parameters": {
+        "board": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
+            "default": "main",
+            "description": "The centre board, e.g. main or ops.",
+            "examples": [
+                "main",
+                "ops"
+            ],
+            "short": "-b"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "centre_ticket_list",
+            "centre_ticket_comment"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "B"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_write"
+        }
+    ],
+    "steps": [
+        {
+            "id": "list",
+            "unit": "centre_ticket_list",
+            "args": {
+                "lane": "waiting",
+                "board": "$param.board",
+                "status": "open",
+                "limit": 200
+            }
+        },
+        {
+            "id": "noted",
+            "op": "each",
+            "from": "$steps.list.items",
+            "unit": "centre_ticket_comment",
+            "args": {
+                "id": "$item.id",
+                "body": "Still waiting? Please say on whom, or move it."
+            },
+            "max": 25
+        }
+    ],
+    "output": {
+        "value": {
+            "commented": "$steps.noted|count"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "commented"
+            ],
+            "properties": {
+                "commented": {
+                    "type": "integer"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With board main",
+            "params": {
+                "board": "main"
+            }
+        }
+    ]
+}

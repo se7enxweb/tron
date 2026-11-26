@@ -1,0 +1,84 @@
+{
+    "name": "layout.for-path",
+    "title": "Which layout a URL gets",
+    "purpose": "Which layout a URL path resolves to and through which rule.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "layouts",
+        "rules",
+        "resolve"
+    ],
+    "use_case": "Why does this URL look like that?",
+    "parameters": {
+        "path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500,
+            "description": "The URL path, e.g. bold-agency/cookie-policy.",
+            "examples": [
+                "bold-agency",
+                "starter"
+            ],
+            "default": "bold-agency"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "layout_rule_resolve"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "r",
+            "unit": "layout_rule_resolve",
+            "args": {
+                "path": "$param.path"
+            }
+        }
+    ],
+    "output": {
+        "value": {
+            "path": "$param.path",
+            "layout_id": "$steps.r.layout_id",
+            "source": "$steps.r.source",
+            "rule_id": "$steps.r.rule_id"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "path",
+                "layout_id",
+                "source",
+                "rule_id"
+            ],
+            "properties": {
+                "path": {
+                    "type": "string"
+                },
+                "layout_id": [],
+                "source": {
+                    "type": "string"
+                },
+                "rule_id": []
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With path bold-agency",
+            "params": {
+                "path": "bold-agency"
+            }
+        },
+        {
+            "title": "With path starter",
+            "params": {
+                "path": "starter"
+            }
+        }
+    ]
+}

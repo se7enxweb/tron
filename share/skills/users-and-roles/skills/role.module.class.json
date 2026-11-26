@@ -1,0 +1,100 @@
+{
+    "name": "role.module.class",
+    "title": "Class policies of a role",
+    "purpose": "The policies of a role for the module class, with their limitations.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "roles",
+        "policies",
+        "class"
+    ],
+    "use_case": "What may this role do with class",
+    "parameters": {
+        "role": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "default": "Anonymous",
+            "description": "The role name or id.",
+            "examples": [
+                "Anonymous",
+                "Administrator"
+            ],
+            "short": "-r"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "role_describe"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "r",
+            "unit": "role_describe",
+            "args": {
+                "role": "$param.role"
+            }
+        },
+        {
+            "id": "m",
+            "op": "where",
+            "from": "$steps.r.policies",
+            "field": "module",
+            "cmp": "in",
+            "value": [
+                "class",
+                "*"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "role": "$steps.r.name",
+            "module": "class",
+            "count": "$steps.m|count",
+            "policies": "$steps.m"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "role",
+                "module",
+                "count",
+                "policies"
+            ],
+            "properties": {
+                "role": {
+                    "type": "string"
+                },
+                "module": {
+                    "type": "string"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "policies": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With role Anonymous",
+            "params": {
+                "role": "Anonymous"
+            }
+        },
+        {
+            "title": "With role Administrator",
+            "params": {
+                "role": "Administrator"
+            }
+        }
+    ]
+}

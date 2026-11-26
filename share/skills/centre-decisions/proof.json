@@ -1,0 +1,170 @@
+{
+    "pack": "centre-decisions",
+    "pack_version": "0.0.0.1",
+    "tron": "0.0.0.7",
+    "at": "2026-11-25T06:51:02Z",
+    "skills": {
+        "centre.decisions.closed": {
+            "version": "0.0.0.1",
+            "hash": "70e86d6a45edff41f45b8b54bbe247525ca3e7987a86640f6e3ab2afa14a44ae",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.decisions.due": {
+            "version": "0.0.0.1",
+            "hash": "abef9b16c4c8c0ac915aa29edaab4fd4b60baa7f8083e383a67d030c0e50bda0",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.decisions.later": {
+            "version": "0.0.0.1",
+            "hash": "f040c84b7d15d39fc6e24e33550d70e5ff4c4852156fcba0a629a4634abb7fa9",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.decisions.open": {
+            "version": "0.0.0.1",
+            "hash": "fd23d18a0c6a4d8a06688fe672dcdbbf74736dbe43ceab2eb824e1f7d0030904",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.decisions.overdue": {
+            "version": "0.0.0.1",
+            "hash": "5592ca4ae2d75cef673f853855060bc0c0683dde675e86440a5ea0cf3ebcc879",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.decisions.review": {
+            "version": "0.0.0.1",
+            "hash": "bf0d9c7e323b84386178b47f6e61fe453d4a6a5f01208f40e82c17daaaad3f3c",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.decisions.taken": {
+            "version": "0.0.0.1",
+            "hash": "756e9bf5668ac134279ef53e703122230c93531051afe86f3c30e05d990b94f7",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.decisions.undated": {
+            "version": "0.0.0.1",
+            "hash": "2a444ea9e23873112ca972c97c15e9fbc3bf1b480aeea1125cc3c6a654486907",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.decisions.week-load": {
+            "version": "0.0.0.1",
+            "hash": "80d73965490676bcde3e7b700ac22a634009621cffe8cf4790471200b94e2b9d",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        }
+    }
+}

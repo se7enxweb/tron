@@ -1,0 +1,107 @@
+{
+    "name": "content.recently-modified",
+    "title": "Recently modified content",
+    "purpose": "The nodes changed most recently below a node, of any class, newest first.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "content",
+        "activity"
+    ],
+    "use_case": "What changed on the site this week",
+    "parameters": {
+        "node_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 2,
+            "description": "The node to start from.",
+            "examples": [
+                2
+            ]
+        },
+        "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 20,
+            "description": "At most this many rows in the answer.",
+            "examples": [
+                5,
+                20
+            ],
+            "short": "-n"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "node_find"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "find",
+            "unit": "node_find",
+            "args": {
+                "node_id": "$param.node_id",
+                "limit": "$param.limit",
+                "sort": "modified",
+                "order": "desc"
+            }
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.find.items",
+            "fields": [
+                "node_id",
+                "name",
+                "class_identifier",
+                "url_alias",
+                "modified"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "total": "$steps.find.total",
+            "shown": "$steps.rows|count",
+            "nodes": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "total",
+                "shown",
+                "nodes"
+            ],
+            "properties": {
+                "total": {
+                    "type": "integer",
+                    "description": "How many match in all"
+                },
+                "shown": {
+                    "type": "integer"
+                },
+                "nodes": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        },
+        {
+            "title": "With limit 5",
+            "params": {
+                "limit": 5
+            }
+        }
+    ]
+}

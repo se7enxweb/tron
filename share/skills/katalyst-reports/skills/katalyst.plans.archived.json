@@ -1,0 +1,78 @@
+{
+    "name": "katalyst.plans.archived",
+    "title": "Archived plans",
+    "purpose": "The plans of the old billing system that are gone.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "katalyst",
+        "hosting",
+        "plans",
+        "history"
+    ],
+    "use_case": "History",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "katalyst_plans_list"
+        ],
+        "programs": [
+            "katalyst"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/katalyst_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "l",
+            "unit": "katalyst_plans_list",
+            "args": {
+                "gone": true,
+                "limit": 200
+            }
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.l.items",
+            "fields": [
+                "id",
+                "name",
+                "source"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "archived": "$steps.l.total",
+            "plans": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "archived",
+                "plans"
+            ],
+            "properties": {
+                "archived": {
+                    "type": "integer"
+                },
+                "plans": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

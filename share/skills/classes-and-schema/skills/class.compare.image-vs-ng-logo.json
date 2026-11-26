@@ -1,0 +1,81 @@
+{
+    "name": "class.compare.image-vs-ng-logo",
+    "title": "Compare image and ng_logo",
+    "purpose": "The differences between the classes image and ng_logo: attributes only in one of them and attributes that differ.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "classes",
+        "schema",
+        "diff",
+        "migration"
+    ],
+    "use_case": "Moving content from the classic classes to the new ones",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "class_diff"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "d",
+            "unit": "class_diff",
+            "args": {
+                "identifier": "image",
+                "other": "ng_logo"
+            }
+        },
+        {
+            "id": "kinds",
+            "op": "group",
+            "from": "$steps.d.items",
+            "by": "change"
+        }
+    ],
+    "output": {
+        "value": {
+            "a": "image",
+            "b": "ng_logo",
+            "counts": "$steps.d.counts",
+            "per_change": "$steps.kinds",
+            "differences": "$steps.d.items"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "a",
+                "b",
+                "counts",
+                "per_change",
+                "differences"
+            ],
+            "properties": {
+                "a": {
+                    "type": "string"
+                },
+                "b": {
+                    "type": "string"
+                },
+                "counts": {
+                    "type": "object"
+                },
+                "per_change": {
+                    "type": "array"
+                },
+                "differences": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

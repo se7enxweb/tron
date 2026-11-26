@@ -1,0 +1,130 @@
+{
+    "name": "centre.board.health-main",
+    "title": "Board health of main",
+    "purpose": "Five numbers about the main board: open tickets, overdue, unassigned, urgent, and waiting.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "board",
+        "health",
+        "report"
+    ],
+    "use_case": "Weekly health check of the main board",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "centre_ticket_list"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "list",
+            "unit": "centre_ticket_list",
+            "args": {
+                "board": "main",
+                "status": "open",
+                "limit": 200
+            }
+        },
+        {
+            "id": "dated",
+            "op": "where",
+            "from": "$steps.list.items",
+            "field": "due",
+            "cmp": "notempty"
+        },
+        {
+            "id": "late",
+            "op": "where",
+            "from": "$steps.dated",
+            "field": "due",
+            "cmp": "lt",
+            "value": "$today"
+        },
+        {
+            "id": "nobody",
+            "op": "where",
+            "from": "$steps.list.items",
+            "field": "assignee",
+            "cmp": "empty"
+        },
+        {
+            "id": "urgent",
+            "op": "where",
+            "from": "$steps.list.items",
+            "field": "priority",
+            "cmp": "in",
+            "value": [
+                "urgent",
+                "high"
+            ]
+        },
+        {
+            "id": "waiting",
+            "op": "where",
+            "from": "$steps.list.items",
+            "field": "lane",
+            "cmp": "eq",
+            "value": "waiting"
+        }
+    ],
+    "output": {
+        "value": {
+            "board": "main",
+            "open": "$steps.list.total",
+            "overdue": "$steps.late|count",
+            "unassigned": "$steps.nobody|count",
+            "urgent": "$steps.urgent|count",
+            "waiting": "$steps.waiting|count"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "board",
+                "open",
+                "overdue",
+                "unassigned",
+                "urgent",
+                "waiting"
+            ],
+            "properties": {
+                "board": {
+                    "type": "string"
+                },
+                "open": {
+                    "type": "integer"
+                },
+                "overdue": {
+                    "type": "integer"
+                },
+                "unassigned": {
+                    "type": "integer"
+                },
+                "urgent": {
+                    "type": "integer"
+                },
+                "waiting": {
+                    "type": "integer"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

@@ -1,0 +1,94 @@
+{
+    "name": "content.node.summary",
+    "title": "Node summary",
+    "purpose": "One node in short: name, class, section, language, URL, dates, version, children and whether it is hidden, without its attribute values.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "content",
+        "node"
+    ],
+    "use_case": "What is this node?",
+    "parameters": {
+        "node_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 2,
+            "description": "The node.",
+            "examples": [
+                2
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "node_read"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "n",
+            "unit": "node_read",
+            "args": {
+                "node_id": "$param.node_id",
+                "max_text": 50
+            }
+        },
+        {
+            "id": "facts",
+            "op": "pick",
+            "from": "$steps.n",
+            "fields": [
+                "node_id",
+                "object_id",
+                "name",
+                "class_identifier",
+                "section",
+                "language",
+                "url_alias",
+                "published",
+                "modified",
+                "current_version",
+                "children_count",
+                "hidden"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "node": "$steps.facts",
+            "attributes": "$steps.n.attributes|count"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "node",
+                "attributes"
+            ],
+            "properties": {
+                "node": {
+                    "type": "object"
+                },
+                "attributes": {
+                    "type": "integer"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        },
+        {
+            "title": "With node_id 75",
+            "params": {
+                "node_id": 75
+            }
+        }
+    ]
+}

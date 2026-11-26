@@ -1,0 +1,73 @@
+{
+    "name": "katalyst.orders.fraud",
+    "title": "Orders by fraud check",
+    "purpose": "How many orders passed, failed or skipped the fraud check.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "katalyst",
+        "hosting",
+        "orders",
+        "risk"
+    ],
+    "use_case": "Risk review",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "katalyst_orders_list"
+        ],
+        "programs": [
+            "katalyst"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/katalyst_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "l",
+            "unit": "katalyst_orders_list",
+            "args": {
+                "limit": 200
+            }
+        },
+        {
+            "id": "g",
+            "op": "group",
+            "from": "$steps.l.items",
+            "by": "fraud_state"
+        }
+    ],
+    "output": {
+        "value": {
+            "orders": "$steps.l.total",
+            "per_fraud_state": "$steps.g"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "orders",
+                "per_fraud_state"
+            ],
+            "properties": {
+                "orders": {
+                    "type": "integer"
+                },
+                "per_fraud_state": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

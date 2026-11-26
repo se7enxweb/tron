@@ -1,0 +1,130 @@
+{
+    "name": "centre.triage.assign-unassigned",
+    "title": "Assign the unassigned",
+    "purpose": "Assigns the unassigned open tickets of a board to a given login, highest priority first, at most a given number.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "triage",
+        "writes"
+    ],
+    "use_case": "Handing out the backlog",
+    "parameters": {
+        "board": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
+            "default": "main",
+            "description": "The centre board, e.g. main or ops.",
+            "examples": [
+                "main",
+                "ops"
+            ],
+            "short": "-b"
+        },
+        "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 25,
+            "default": 5,
+            "description": "At most this many rows in the answer.",
+            "examples": [
+                5,
+                5
+            ],
+            "short": "-n"
+        },
+        "to": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9@._-]{1,150}$",
+            "default": "editor",
+            "description": "The login to assign to.",
+            "examples": [
+                "editor"
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "centre_ticket_list",
+            "centre_ticket_update"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "B"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_write"
+        }
+    ],
+    "steps": [
+        {
+            "id": "list",
+            "unit": "centre_ticket_list",
+            "args": {
+                "board": "$param.board",
+                "status": "open",
+                "limit": 200
+            }
+        },
+        {
+            "id": "nobody",
+            "op": "where",
+            "from": "$steps.list.items",
+            "field": "assignee",
+            "cmp": "empty"
+        },
+        {
+            "id": "sorted",
+            "op": "sort",
+            "from": "$steps.nobody",
+            "by": "priority",
+            "order": "desc"
+        },
+        {
+            "id": "top",
+            "op": "limit",
+            "from": "$steps.sorted",
+            "count": "$param.limit"
+        },
+        {
+            "id": "done",
+            "op": "each",
+            "from": "$steps.top",
+            "unit": "centre_ticket_update",
+            "args": {
+                "id": "$item.id",
+                "assignee": "$param.to"
+            },
+            "max": 25
+        }
+    ],
+    "output": {
+        "value": {
+            "assigned": "$steps.done|count"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "assigned"
+            ],
+            "properties": {
+                "assigned": {
+                    "type": "integer"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With board main",
+            "params": {
+                "board": "main"
+            }
+        }
+    ]
+}

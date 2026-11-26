@@ -1,0 +1,98 @@
+{
+    "name": "tpl.node.source",
+    "title": "Source of the template of a node",
+    "purpose": "Finds the template that renders a node in its full view and shows its first lines.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "templates",
+        "source",
+        "overrides"
+    ],
+    "use_case": "Seeing the markup of a page",
+    "parameters": {
+        "node_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 2,
+            "description": "The node.",
+            "examples": [
+                2
+            ]
+        },
+        "siteaccess": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "description": "The siteaccess whose settings count (default: the current one).",
+            "examples": [
+                "site",
+                "admin"
+            ],
+            "short": "-s",
+            "default": "site"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "tpl_resolve",
+            "tpl_source"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "r",
+            "unit": "tpl_resolve",
+            "args": {
+                "node_id": "$param.node_id",
+                "siteaccess": "$param.siteaccess"
+            }
+        },
+        {
+            "id": "s",
+            "unit": "tpl_source",
+            "args": {
+                "path": "$steps.r.winner.path",
+                "from_line": 1,
+                "to_line": 80
+            }
+        }
+    ],
+    "output": {
+        "value": {
+            "template": "$steps.r.winner.path",
+            "lines": "$steps.s.lines",
+            "text": "$steps.s.text"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "template",
+                "lines",
+                "text"
+            ],
+            "properties": {
+                "template": {
+                    "type": "string"
+                },
+                "lines": {
+                    "type": "integer"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With node_id 2",
+            "params": {
+                "node_id": 2
+            }
+        }
+    ]
+}

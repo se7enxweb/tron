@@ -1,0 +1,138 @@
+{
+    "name": "centre.decisions.week-load",
+    "title": "Decision load of a week",
+    "purpose": "Says whether the decisions due in a week (with the overdue ones) stay within a number the meeting can take.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "decisions",
+        "check"
+    ],
+    "use_case": "Is the decision meeting overloaded",
+    "parameters": {
+        "week": {
+            "type": "string",
+            "pattern": "^\\d{4}-W\\d{2}$",
+            "description": "An ISO week like 2026-W48 (default: this week).",
+            "examples": [
+                "2026-W48"
+            ],
+            "short": "-w"
+        },
+        "capacity": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 5,
+            "description": "Decisions one meeting can take.",
+            "examples": [
+                5
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "centre_decision_review"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "review",
+            "unit": "centre_decision_review",
+            "args": {
+                "week": "$param.week"
+            }
+        },
+        {
+            "id": "load",
+            "op": "merge",
+            "values": {
+                "due": "$steps.review.due|count",
+                "overdue": "$steps.review.overdue|count"
+            }
+        },
+        {
+            "id": "all",
+            "op": "merge",
+            "values": {
+                "list": [
+                    "$steps.review.due",
+                    "$steps.review.overdue"
+                ]
+            }
+        },
+        {
+            "id": "together",
+            "op": "flatten",
+            "from": "$steps.all.list"
+        },
+        {
+            "id": "ok",
+            "op": "test",
+            "value": "$steps.together|count",
+            "cmp": "le",
+            "compare": "$param.capacity"
+        }
+    ],
+    "output": {
+        "value": {
+            "week": "$steps.review.week",
+            "due": "$steps.load.due",
+            "overdue": "$steps.load.overdue",
+            "total": "$steps.together|count",
+            "within_capacity": "$steps.ok"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "week",
+                "due",
+                "overdue",
+                "total",
+                "within_capacity"
+            ],
+            "properties": {
+                "week": {
+                    "type": "string"
+                },
+                "due": {
+                    "type": "integer"
+                },
+                "overdue": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "within_capacity": {
+                    "type": "boolean"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        },
+        {
+            "title": "With week 2026-W48, capacity 1",
+            "params": {
+                "week": "2026-W48",
+                "capacity": 1
+            }
+        }
+    ]
+}

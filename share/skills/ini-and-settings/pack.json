@@ -1,0 +1,15 @@
+{
+    "id": "ini-and-settings",
+    "title": "INI and settings",
+    "description": "Where a setting is set and what wins: key settings of site.ini, image.ini, content.ini and more with every file that sets them, siteaccess comparisons per INI file, block inventories and who overrides what.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "prefix": "ini",
+    "requires": {
+        "tron": "0.0.0.7",
+        "programs": [
+            "ini"
+        ]
+    }
+}

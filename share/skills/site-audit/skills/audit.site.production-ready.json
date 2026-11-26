@@ -1,0 +1,219 @@
+{
+    "name": "audit.site.production-ready",
+    "title": "Production readiness",
+    "purpose": "Six settings a public siteaccess must have in production (debug off, template cache on, view caching on, development mode off, no SQL output, no template list), each ok or not, with the number that failed.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "audit",
+        "production",
+        "check"
+    ],
+    "use_case": "Before a launch, after a deploy",
+    "parameters": {
+        "siteaccess": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "description": "The siteaccess whose settings count (default: the current one).",
+            "examples": [
+                "site",
+                "admin"
+            ],
+            "short": "-s",
+            "default": "site"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "ini_resolve"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "r_debug",
+            "unit": "ini_resolve",
+            "args": {
+                "file": "site.ini",
+                "block": "DebugSettings",
+                "setting": "DebugOutput",
+                "siteaccess": "$param.siteaccess"
+            }
+        },
+        {
+            "id": "ok_debug",
+            "op": "test",
+            "value": "$steps.r_debug.value",
+            "cmp": "eq",
+            "compare": "disabled"
+        },
+        {
+            "id": "r_template_cache",
+            "unit": "ini_resolve",
+            "args": {
+                "file": "site.ini",
+                "block": "TemplateSettings",
+                "setting": "TemplateCache",
+                "siteaccess": "$param.siteaccess"
+            }
+        },
+        {
+            "id": "ok_template_cache",
+            "op": "test",
+            "value": "$steps.r_template_cache.value",
+            "cmp": "eq",
+            "compare": "enabled"
+        },
+        {
+            "id": "r_view_caching",
+            "unit": "ini_resolve",
+            "args": {
+                "file": "site.ini",
+                "block": "ContentSettings",
+                "setting": "ViewCaching",
+                "siteaccess": "$param.siteaccess"
+            }
+        },
+        {
+            "id": "ok_view_caching",
+            "op": "test",
+            "value": "$steps.r_view_caching.value",
+            "cmp": "eq",
+            "compare": "enabled"
+        },
+        {
+            "id": "r_development_mode",
+            "unit": "ini_resolve",
+            "args": {
+                "file": "site.ini",
+                "block": "TemplateSettings",
+                "setting": "DevelopmentMode",
+                "siteaccess": "$param.siteaccess"
+            }
+        },
+        {
+            "id": "ok_development_mode",
+            "op": "test",
+            "value": "$steps.r_development_mode.value",
+            "cmp": "eq",
+            "compare": "disabled"
+        },
+        {
+            "id": "r_sql_output",
+            "unit": "ini_resolve",
+            "args": {
+                "file": "site.ini",
+                "block": "DatabaseSettings",
+                "setting": "SQLOutput",
+                "siteaccess": "$param.siteaccess"
+            }
+        },
+        {
+            "id": "ok_sql_output",
+            "op": "test",
+            "value": "$steps.r_sql_output.value",
+            "cmp": "eq",
+            "compare": "disabled"
+        },
+        {
+            "id": "r_used_templates",
+            "unit": "ini_resolve",
+            "args": {
+                "file": "site.ini",
+                "block": "TemplateSettings",
+                "setting": "ShowUsedTemplates",
+                "siteaccess": "$param.siteaccess"
+            }
+        },
+        {
+            "id": "ok_used_templates",
+            "op": "test",
+            "value": "$steps.r_used_templates.value",
+            "cmp": "eq",
+            "compare": "disabled"
+        },
+        {
+            "id": "verdicts",
+            "op": "merge",
+            "values": {
+                "debug": "$steps.ok_debug",
+                "template_cache": "$steps.ok_template_cache",
+                "view_caching": "$steps.ok_view_caching",
+                "development_mode": "$steps.ok_development_mode",
+                "sql_output": "$steps.ok_sql_output",
+                "used_templates": "$steps.ok_used_templates"
+            }
+        },
+        {
+            "id": "list",
+            "op": "merge",
+            "values": {
+                "all": [
+                    "$steps.ok_debug",
+                    "$steps.ok_template_cache",
+                    "$steps.ok_view_caching",
+                    "$steps.ok_development_mode",
+                    "$steps.ok_sql_output",
+                    "$steps.ok_used_templates"
+                ]
+            }
+        },
+        {
+            "id": "failed",
+            "op": "where",
+            "from": "$steps.list.all",
+            "field": "",
+            "cmp": "eq",
+            "value": false
+        }
+    ],
+    "output": {
+        "value": {
+            "siteaccess": "$param.siteaccess",
+            "checks": "$steps.verdicts",
+            "failed": "$steps.failed|count",
+            "all_ok": "$steps.failed|empty"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "siteaccess",
+                "checks",
+                "failed",
+                "all_ok"
+            ],
+            "properties": {
+                "siteaccess": {
+                    "type": "string"
+                },
+                "checks": {
+                    "type": "object",
+                    "description": "Check name => ok"
+                },
+                "failed": {
+                    "type": "integer"
+                },
+                "all_ok": {
+                    "type": "boolean",
+                    "description": "true when every check is ok"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With siteaccess site",
+            "params": {
+                "siteaccess": "site"
+            }
+        },
+        {
+            "title": "With siteaccess bold",
+            "params": {
+                "siteaccess": "bold"
+            }
+        }
+    ]
+}

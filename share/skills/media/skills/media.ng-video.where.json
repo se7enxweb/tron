@@ -1,0 +1,78 @@
+{
+    "name": "media.ng-video.where",
+    "title": "Videos per folder",
+    "purpose": "In which parent nodes the videos sit, with how many in each (from the first 50).",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "content",
+        "media",
+        "structure"
+    ],
+    "use_case": "Where the media library lives",
+    "parameters": {
+        "node_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 1,
+            "description": "The node to start from.",
+            "examples": [
+                1
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "node_find"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "f",
+            "unit": "node_find",
+            "args": {
+                "node_id": "$param.node_id",
+                "class": "ng_video",
+                "limit": 50
+            }
+        },
+        {
+            "id": "g",
+            "op": "group",
+            "from": "$steps.f.items",
+            "by": "parent_node_id"
+        }
+    ],
+    "output": {
+        "value": {
+            "total": "$steps.f.total",
+            "per_parent": "$steps.g"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "total",
+                "per_parent"
+            ],
+            "properties": {
+                "total": {
+                    "type": "integer"
+                },
+                "per_parent": {
+                    "type": "array",
+                    "description": "parent node id and count"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

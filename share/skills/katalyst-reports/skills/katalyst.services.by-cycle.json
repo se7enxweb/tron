@@ -1,0 +1,73 @@
+{
+    "name": "katalyst.services.by-cycle",
+    "title": "Services per billing cycle",
+    "purpose": "How many hosting services bill monthly, yearly and so on.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "katalyst",
+        "hosting",
+        "services",
+        "billing"
+    ],
+    "use_case": "Revenue planning",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "katalyst_services_list"
+        ],
+        "programs": [
+            "katalyst"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/katalyst_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "l",
+            "unit": "katalyst_services_list",
+            "args": {
+                "limit": 200
+            }
+        },
+        {
+            "id": "g",
+            "op": "group",
+            "from": "$steps.l.items",
+            "by": "billing_cycle"
+        }
+    ],
+    "output": {
+        "value": {
+            "services": "$steps.l.total",
+            "per_cycle": "$steps.g"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "services",
+                "per_cycle"
+            ],
+            "properties": {
+                "services": {
+                    "type": "integer"
+                },
+                "per_cycle": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

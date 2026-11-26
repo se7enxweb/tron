@@ -1,0 +1,123 @@
+{
+    "name": "centre.board.snapshot",
+    "title": "Board snapshot",
+    "purpose": "The open tickets of a board lane by lane with the count per lane and the first items of each, in board order.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "board",
+        "lanes"
+    ],
+    "use_case": "Stand-up: the board in one answer",
+    "parameters": {
+        "board": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
+            "default": "main",
+            "description": "The centre board, e.g. main or ops.",
+            "examples": [
+                "main",
+                "ops"
+            ],
+            "short": "-b"
+        },
+        "per_lane": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 5,
+            "description": "Items per lane.",
+            "examples": [
+                5
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "centre_board_view"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "view",
+            "unit": "centre_board_view",
+            "args": {
+                "board": "$param.board",
+                "per_lane": "$param.per_lane"
+            }
+        },
+        {
+            "id": "totals",
+            "op": "map",
+            "from": "$steps.view.lanes",
+            "fields": {
+                "lane": "lane",
+                "total": "total"
+            }
+        },
+        {
+            "id": "open",
+            "op": "sum",
+            "from": "$steps.view.lanes",
+            "field": "total"
+        }
+    ],
+    "output": {
+        "value": {
+            "board": "$param.board",
+            "open": "$steps.open",
+            "lanes": "$steps.totals",
+            "detail": "$steps.view.lanes"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "board",
+                "open",
+                "lanes",
+                "detail"
+            ],
+            "properties": {
+                "board": {
+                    "type": "string"
+                },
+                "open": {
+                    "type": "number"
+                },
+                "lanes": {
+                    "type": "array"
+                },
+                "detail": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With board main",
+            "params": {
+                "board": "main"
+            }
+        },
+        {
+            "title": "With board ops, per_lane 3",
+            "params": {
+                "board": "ops",
+                "per_lane": 3
+            }
+        }
+    ]
+}

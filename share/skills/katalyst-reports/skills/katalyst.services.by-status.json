@@ -1,0 +1,73 @@
+{
+    "name": "katalyst.services.by-status",
+    "title": "Services per status",
+    "purpose": "How many hosting services are active, suspended, pending or cancelled.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "katalyst",
+        "hosting",
+        "services",
+        "counts"
+    ],
+    "use_case": "Monthly hosting review",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "katalyst_services_list"
+        ],
+        "programs": [
+            "katalyst"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/katalyst_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "l",
+            "unit": "katalyst_services_list",
+            "args": {
+                "limit": 200
+            }
+        },
+        {
+            "id": "g",
+            "op": "group",
+            "from": "$steps.l.items",
+            "by": "status"
+        }
+    ],
+    "output": {
+        "value": {
+            "services": "$steps.l.total",
+            "per_status": "$steps.g"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "services",
+                "per_status"
+            ],
+            "properties": {
+                "services": {
+                    "type": "integer"
+                },
+                "per_status": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

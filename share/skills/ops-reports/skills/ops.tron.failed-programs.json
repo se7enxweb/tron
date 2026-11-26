@@ -1,0 +1,86 @@
+{
+    "name": "ops.tron.failed-programs",
+    "title": "Failed programs",
+    "purpose": "The programs that failed, conflict or need a newer tron, with the reason.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "ops",
+        "tron",
+        "health",
+        "check"
+    ],
+    "use_case": "After a deploy: did tron lose a program?",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "tron_status"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "s",
+            "unit": "tron_status",
+            "args": {}
+        },
+        {
+            "id": "bad",
+            "op": "where",
+            "from": "$steps.s.programs",
+            "field": "state",
+            "cmp": "in",
+            "value": [
+                "failed",
+                "conflict",
+                "incompatible"
+            ]
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.bad",
+            "fields": [
+                "name",
+                "state",
+                "reason"
+            ]
+        },
+        {
+            "id": "ok",
+            "op": "test",
+            "value": "$steps.bad|count",
+            "cmp": "eq",
+            "compare": 0
+        }
+    ],
+    "output": {
+        "value": {
+            "healthy": "$steps.ok",
+            "failed": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "healthy",
+                "failed"
+            ],
+            "properties": {
+                "healthy": {
+                    "type": "boolean"
+                },
+                "failed": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

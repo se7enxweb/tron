@@ -1,0 +1,92 @@
+{
+    "name": "layout.drafts",
+    "title": "Layouts with drafts",
+    "purpose": "The layouts that have an unpublished draft, oldest change first.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "layouts",
+        "drafts"
+    ],
+    "use_case": "Finding forgotten layout edits",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "layout_list"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "layout_list",
+            "args": {
+                "drafts": true,
+                "limit": 100
+            }
+        },
+        {
+            "id": "o0",
+            "op": "where",
+            "from": "$steps.l.items",
+            "field": "status",
+            "cmp": "eq",
+            "value": "draft"
+        },
+        {
+            "id": "o1",
+            "op": "sort",
+            "from": "$steps.o0",
+            "by": "modified",
+            "order": "asc"
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.o1",
+            "fields": [
+                "id",
+                "name",
+                "layout_type",
+                "shared",
+                "status",
+                "zones",
+                "modified"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "total": "$steps.l.total",
+            "count": "$steps.o1|count",
+            "layouts": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "total",
+                "count",
+                "layouts"
+            ],
+            "properties": {
+                "total": {
+                    "type": "integer"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "layouts": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

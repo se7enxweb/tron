@@ -1,0 +1,104 @@
+{
+    "name": "layout.for-node",
+    "title": "Which layout a node gets",
+    "purpose": "Which layout a node resolves to, through which rule (or the default), and which rules were tried on the way.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "layouts",
+        "rules",
+        "resolve"
+    ],
+    "use_case": "Why does this page look like that?",
+    "parameters": {
+        "node_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 2,
+            "description": "The node.",
+            "examples": [
+                2
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "layout_rule_resolve"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "r",
+            "unit": "layout_rule_resolve",
+            "args": {
+                "node_id": "$param.node_id"
+            }
+        },
+        {
+            "id": "tried",
+            "op": "pick",
+            "from": "$steps.r.tried",
+            "fields": [
+                "rule_id",
+                "priority",
+                "layout_id",
+                "targets_match"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "node_id": "$param.node_id",
+            "layout_id": "$steps.r.layout_id",
+            "source": "$steps.r.source",
+            "rule_id": "$steps.r.rule_id",
+            "rules_tried": "$steps.tried|count",
+            "tried": "$steps.tried"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "node_id",
+                "layout_id",
+                "source",
+                "rule_id",
+                "rules_tried",
+                "tried"
+            ],
+            "properties": {
+                "node_id": {
+                    "type": "integer"
+                },
+                "layout_id": [],
+                "source": {
+                    "type": "string"
+                },
+                "rule_id": [],
+                "rules_tried": {
+                    "type": "integer"
+                },
+                "tried": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With node_id 2",
+            "params": {
+                "node_id": 2
+            }
+        },
+        {
+            "title": "With node_id 75",
+            "params": {
+                "node_id": 75
+            }
+        }
+    ]
+}

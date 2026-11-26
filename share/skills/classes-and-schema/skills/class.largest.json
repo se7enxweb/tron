@@ -1,0 +1,87 @@
+{
+    "name": "class.largest",
+    "title": "Largest classes",
+    "purpose": "The content classes with the most objects, largest first.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "classes",
+        "schema",
+        "counts"
+    ],
+    "use_case": "Where the content is",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "class_list"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "class_list",
+            "args": {
+                "limit": 200
+            }
+        },
+        {
+            "id": "o0",
+            "op": "sort",
+            "from": "$steps.l.items",
+            "by": "object_count",
+            "order": "desc"
+        },
+        {
+            "id": "o1",
+            "op": "limit",
+            "from": "$steps.o0",
+            "count": 15
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.o1",
+            "fields": [
+                "identifier",
+                "name",
+                "object_count"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "classes": "$steps.l.total",
+            "count": "$steps.o1|count",
+            "items": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "classes",
+                "count",
+                "items"
+            ],
+            "properties": {
+                "classes": {
+                    "type": "integer",
+                    "description": "Classes in all"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "items": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

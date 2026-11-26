@@ -1,0 +1,107 @@
+{
+    "name": "seo.site-url-https",
+    "title": "Site URL",
+    "purpose": "Checks that a siteaccess has a canonical site URL for links in feeds, sitemaps and mails.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "ini",
+        "check",
+        "seo",
+        "urls"
+    ],
+    "use_case": "SEO basics",
+    "parameters": {
+        "siteaccess": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "description": "The siteaccess whose settings count (default: the current one).",
+            "examples": [
+                "site",
+                "admin"
+            ],
+            "short": "-s",
+            "default": "site"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "ini_resolve"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "r",
+            "unit": "ini_resolve",
+            "args": {
+                "file": "site.ini",
+                "block": "SiteSettings",
+                "setting": "SiteURL",
+                "siteaccess": "$param.siteaccess"
+            }
+        },
+        {
+            "id": "ok",
+            "op": "test",
+            "value": "$steps.r.value",
+            "cmp": "notempty"
+        }
+    ],
+    "output": {
+        "value": {
+            "setting": "site.ini [SiteSettings] SiteURL",
+            "siteaccess": "$steps.r.siteaccess",
+            "value": "$steps.r.value",
+            "winner": "$steps.r.winner",
+            "ok": "$steps.ok",
+            "expected": "set"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "setting",
+                "siteaccess",
+                "value",
+                "winner",
+                "ok",
+                "expected"
+            ],
+            "properties": {
+                "setting": {
+                    "type": "string"
+                },
+                "siteaccess": {
+                    "type": "string"
+                },
+                "value": [],
+                "winner": {
+                    "description": "The file whose value counts"
+                },
+                "ok": {
+                    "type": "boolean",
+                    "description": "Whether the value is what it should be"
+                },
+                "expected": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With siteaccess site",
+            "params": {
+                "siteaccess": "site"
+            }
+        },
+        {
+            "title": "With siteaccess admin",
+            "params": {
+                "siteaccess": "admin"
+            }
+        }
+    ]
+}

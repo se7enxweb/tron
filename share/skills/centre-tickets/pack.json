@@ -1,0 +1,16 @@
+{
+    "id": "centre-tickets",
+    "title": "Centre tickets",
+    "description": "Lists over the centre's tickets: overdue, due soon, by priority, lane, kind, label and person, stale and waiting work, search.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "prefix": "centre",
+    "requires": {
+        "tron": "0.0.0.7",
+        "programs": [
+            "centre"
+        ]
+    },
+    "for_extension": "expcentre"
+}

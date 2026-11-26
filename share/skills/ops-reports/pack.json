@@ -1,0 +1,15 @@
+{
+    "id": "ops-reports",
+    "title": "tron operations",
+    "description": "The state of tron itself: who a session acts as, the programs and their state, failed programs, tools left out and the protocol versions.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "prefix": "ops",
+    "requires": {
+        "tron": "0.0.0.7",
+        "programs": [
+            "tron"
+        ]
+    }
+}

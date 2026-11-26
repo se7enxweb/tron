@@ -1,0 +1,15 @@
+{
+    "id": "users-and-roles",
+    "title": "Users and roles",
+    "description": "Access reviews: policies of a role per module, unlimited policies, who has a role, finding users with their roles, disabled users and administrators.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "prefix": "role",
+    "requires": {
+        "tron": "0.0.0.7",
+        "programs": [
+            "role"
+        ]
+    }
+}

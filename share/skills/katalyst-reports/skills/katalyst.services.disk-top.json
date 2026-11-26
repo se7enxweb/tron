@@ -1,0 +1,97 @@
+{
+    "name": "katalyst.services.disk-top",
+    "title": "Largest disk users",
+    "purpose": "The services using the most disk, largest first (ids, plan and server only).",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "katalyst",
+        "hosting",
+        "services",
+        "storage"
+    ],
+    "use_case": "Storage planning",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "katalyst_services_list"
+        ],
+        "programs": [
+            "katalyst"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/katalyst_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "l",
+            "unit": "katalyst_services_list",
+            "args": {
+                "limit": 200
+            }
+        },
+        {
+            "id": "sorted",
+            "op": "sort",
+            "from": "$steps.l.items",
+            "by": "disk_total_bytes",
+            "order": "desc"
+        },
+        {
+            "id": "top",
+            "op": "limit",
+            "from": "$steps.sorted",
+            "count": 10
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.top",
+            "fields": [
+                "id",
+                "plan_id",
+                "server_id",
+                "disk_total_bytes"
+            ]
+        },
+        {
+            "id": "sum",
+            "op": "sum",
+            "from": "$steps.l.items",
+            "field": "disk_total_bytes"
+        }
+    ],
+    "output": {
+        "value": {
+            "total_bytes": "$steps.sum",
+            "top": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "total_bytes",
+                "top"
+            ],
+            "properties": {
+                "total_bytes": {
+                    "type": "number"
+                },
+                "top": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

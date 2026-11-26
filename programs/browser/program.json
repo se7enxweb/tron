@@ -1,0 +1,8 @@
+{
+    "name": "browser",
+    "class": "tronBrowserProgram",
+    "version": "0.0.0.12",
+    "requires": "0.0.0.5",
+    "title": "Browser",
+    "description": "Headless browsers (Chromium, Chrome, Firefox, WebKit) as queued jobs on the runner node: install an engine first, then open, screenshot (light and dark, several widths), read the DOM, console errors, accessibility checks and scripted flows."
+}

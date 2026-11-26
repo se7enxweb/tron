@@ -1,0 +1,120 @@
+{
+    "name": "content.node.versions",
+    "title": "Versions of a node",
+    "purpose": "The versions of a node newest first, with their status, and how many are drafts, published and archived.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "content",
+        "versions"
+    ],
+    "use_case": "Who changed this page and when",
+    "parameters": {
+        "node_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 2,
+            "description": "The node.",
+            "examples": [
+                2
+            ]
+        },
+        "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "default": 20,
+            "description": "At most this many rows in the answer.",
+            "examples": [
+                5,
+                20
+            ],
+            "short": "-n"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "node_versions"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "v",
+            "unit": "node_versions",
+            "args": {
+                "node_id": "$param.node_id",
+                "limit": "$param.limit"
+            }
+        },
+        {
+            "id": "states",
+            "op": "group",
+            "from": "$steps.v.items",
+            "by": "status"
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.v.items",
+            "fields": [
+                "version",
+                "status",
+                "language",
+                "modified"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "node_id": "$param.node_id",
+            "current": "$steps.v.current_version",
+            "versions": "$steps.v.total",
+            "per_status": "$steps.states",
+            "items": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "node_id",
+                "current",
+                "versions",
+                "per_status",
+                "items"
+            ],
+            "properties": {
+                "node_id": {
+                    "type": "integer"
+                },
+                "current": {
+                    "type": "integer"
+                },
+                "versions": {
+                    "type": "integer"
+                },
+                "per_status": {
+                    "type": "array"
+                },
+                "items": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        },
+        {
+            "title": "With node_id 75, limit 5",
+            "params": {
+                "node_id": 75,
+                "limit": 5
+            }
+        }
+    ]
+}

@@ -1,0 +1,95 @@
+{
+    "name": "ini.blocks.site",
+    "title": "Blocks of site.ini",
+    "purpose": "Lists the blocks of site.ini as a siteaccess resolves it, with the number of settings in each.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "ini",
+        "inventory",
+        "site"
+    ],
+    "use_case": "Finding the right block to change",
+    "parameters": {
+        "siteaccess": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "description": "The siteaccess whose settings count (default: the current one).",
+            "examples": [
+                "site",
+                "admin"
+            ],
+            "short": "-s",
+            "default": "site"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "ini_list"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "ini_list",
+            "args": {
+                "file": "site.ini",
+                "siteaccess": "$param.siteaccess"
+            }
+        },
+        {
+            "id": "names",
+            "op": "pluck",
+            "from": "$steps.l.items",
+            "field": "block"
+        }
+    ],
+    "output": {
+        "value": {
+            "file": "site.ini",
+            "siteaccess": "$steps.l.siteaccess",
+            "blocks": "$steps.l.total",
+            "names": "$steps.names"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "file",
+                "siteaccess",
+                "blocks",
+                "names"
+            ],
+            "properties": {
+                "file": {
+                    "type": "string"
+                },
+                "siteaccess": {
+                    "type": "string"
+                },
+                "blocks": {
+                    "type": "integer"
+                },
+                "names": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With siteaccess site",
+            "params": {
+                "siteaccess": "site"
+            }
+        },
+        {
+            "title": "With siteaccess admin",
+            "params": {
+                "siteaccess": "admin"
+            }
+        }
+    ]
+}

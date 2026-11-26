@@ -1,0 +1,11 @@
+viewer  list: ok | create: denied | katalyst: denied
+editor  list: ok | create: ok #1 | katalyst: denied
+audit:
+  viewer  centre_ticket_list     ok
+  viewer  centre_ticket_create   denied
+  viewer  katalyst_plans_list    denied
+  editor  centre_ticket_list     ok
+  editor  centre_ticket_create   started
+  editor  centre_ticket_create   ok
+  editor  katalyst_plans_list    denied
+the editor's create was logged before it ran, with body: "password=[redacted]"

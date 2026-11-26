@@ -1,0 +1,99 @@
+{
+    "name": "centre.decisions.undated",
+    "title": "Undated decisions",
+    "purpose": "The open decisions that have no decision week yet.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "decisions",
+        "review"
+    ],
+    "use_case": "Planning decisions",
+    "parameters": {
+        "week": {
+            "type": "string",
+            "pattern": "^\\d{4}-W\\d{2}$",
+            "description": "An ISO week like 2026-W48 (default: this week).",
+            "examples": [
+                "2026-W48"
+            ],
+            "short": "-w"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "centre_decision_review"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "review",
+            "unit": "centre_decision_review",
+            "args": {
+                "week": "$param.week"
+            }
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.review.undated",
+            "fields": [
+                "id",
+                "title",
+                "decision_week",
+                "priority",
+                "assignee"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "week": "$steps.review.week",
+            "count": "$steps.rows|count",
+            "decisions": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "week",
+                "count",
+                "decisions"
+            ],
+            "properties": {
+                "week": {
+                    "type": "string"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "decisions": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        },
+        {
+            "title": "With week 2026-W48",
+            "params": {
+                "week": "2026-W48"
+            }
+        }
+    ]
+}

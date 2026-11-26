@@ -1,0 +1,102 @@
+{
+    "name": "centre.ticket.history",
+    "title": "Ticket history",
+    "purpose": "The change history of one ticket, newest first, with who changed which field from what to what.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "ticket",
+        "history"
+    ],
+    "use_case": "Who changed what on a ticket",
+    "parameters": {
+        "id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 1,
+            "description": "The ticket id.",
+            "examples": [
+                1
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "centre_ticket_get"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "get",
+            "unit": "centre_ticket_get",
+            "args": {
+                "id": "$param.id"
+            }
+        },
+        {
+            "id": "sorted",
+            "op": "sort",
+            "from": "$steps.get.history",
+            "by": "at",
+            "order": "desc"
+        },
+        {
+            "id": "fields",
+            "op": "group",
+            "from": "$steps.get.history",
+            "by": "field"
+        }
+    ],
+    "output": {
+        "value": {
+            "id": "$param.id",
+            "title": "$steps.get.title",
+            "changes": "$steps.sorted",
+            "per_field": "$steps.fields"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "id",
+                "title",
+                "changes",
+                "per_field"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "changes": {
+                    "type": "array"
+                },
+                "per_field": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With id 1",
+            "params": {
+                "id": 1
+            }
+        }
+    ]
+}

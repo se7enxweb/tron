@@ -1,0 +1,85 @@
+{
+    "name": "class.compare",
+    "title": "Compare two classes",
+    "purpose": "The differences between any two content classes of this installation.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "classes",
+        "schema",
+        "diff"
+    ],
+    "use_case": "Before merging or migrating classes",
+    "parameters": {
+        "identifier": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_]{1,100}$",
+            "default": "article",
+            "description": "The first class.",
+            "examples": [
+                "article"
+            ]
+        },
+        "other": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_]{1,100}$",
+            "default": "ng_article",
+            "description": "The second class.",
+            "examples": [
+                "ng_article"
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "class_diff"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "d",
+            "unit": "class_diff",
+            "args": {
+                "identifier": "$param.identifier",
+                "other": "$param.other"
+            }
+        }
+    ],
+    "output": {
+        "value": {
+            "counts": "$steps.d.counts",
+            "differences": "$steps.d.items"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "counts",
+                "differences"
+            ],
+            "properties": {
+                "counts": {
+                    "type": "object"
+                },
+                "differences": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        },
+        {
+            "title": "With identifier folder, other ng_container",
+            "params": {
+                "identifier": "folder",
+                "other": "ng_container"
+            }
+        }
+    ]
+}

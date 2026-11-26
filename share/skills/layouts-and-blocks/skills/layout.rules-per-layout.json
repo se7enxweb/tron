@@ -1,0 +1,64 @@
+{
+    "name": "layout.rules-per-layout",
+    "title": "Rules per layout",
+    "purpose": "How many layout rules point to each layout.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "layouts",
+        "rules",
+        "counts"
+    ],
+    "use_case": "Which layouts are used, and how much",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "layout_rule_list"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "layout_rule_list",
+            "args": {
+                "limit": 100
+            }
+        },
+        {
+            "id": "g",
+            "op": "group",
+            "from": "$steps.l.items",
+            "by": "layout_identifier"
+        }
+    ],
+    "output": {
+        "value": {
+            "rules": "$steps.l.total",
+            "per_layout": "$steps.g"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "rules",
+                "per_layout"
+            ],
+            "properties": {
+                "rules": {
+                    "type": "integer"
+                },
+                "per_layout": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

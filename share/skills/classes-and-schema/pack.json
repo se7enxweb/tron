@@ -1,0 +1,15 @@
+{
+    "id": "classes-and-schema",
+    "title": "Classes and schema",
+    "description": "The content model: class inventory, unused and largest classes, groups, attributes with required, search, translation and form flags, datatypes, name and URL patterns, and class comparisons for migrations.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "prefix": "class",
+    "requires": {
+        "tron": "0.0.0.7",
+        "programs": [
+            "class"
+        ]
+    }
+}

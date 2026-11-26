@@ -1,0 +1,106 @@
+{
+    "name": "layout.zones",
+    "title": "Zones of a layout",
+    "purpose": "The zones of a layout: which are linked to a shared layout, where their blocks come from, and how many blocks each has.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "layouts",
+        "zones"
+    ],
+    "use_case": "Understanding a layout before editing it",
+    "parameters": {
+        "layout_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 2,
+            "description": "The layout id.",
+            "examples": [
+                2,
+                19
+            ],
+            "short": "-l"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "layout_read"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "r",
+            "unit": "layout_read",
+            "args": {
+                "layout_id": "$param.layout_id"
+            }
+        },
+        {
+            "id": "zones",
+            "op": "map",
+            "from": "$steps.r.zones",
+            "fields": {
+                "zone": "identifier",
+                "linked": "linked",
+                "source_layout": "source.layout_id",
+                "source_zone": "source.zone"
+            }
+        },
+        {
+            "id": "linked",
+            "op": "where",
+            "from": "$steps.r.zones",
+            "field": "linked",
+            "cmp": "notempty"
+        }
+    ],
+    "output": {
+        "value": {
+            "layout": "$steps.r.name",
+            "shared": "$steps.r.shared",
+            "zones": "$steps.zones",
+            "linked": "$steps.linked|count"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "layout",
+                "shared",
+                "zones",
+                "linked"
+            ],
+            "properties": {
+                "layout": {
+                    "type": "string"
+                },
+                "shared": {
+                    "type": "boolean"
+                },
+                "zones": {
+                    "type": "array"
+                },
+                "linked": {
+                    "type": "integer"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With layout_id 2",
+            "params": {
+                "layout_id": 2
+            }
+        },
+        {
+            "title": "With layout_id 19",
+            "params": {
+                "layout_id": 19
+            }
+        }
+    ]
+}

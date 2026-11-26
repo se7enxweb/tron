@@ -1,0 +1,9 @@
+{
+    "name": "hello",
+    "class": "exampleHelloTronProgram",
+    "file": "classes/examplehellotronprogram.php",
+    "version": "1.0.0.0",
+    "requires": "0.0.0.1",
+    "title": "Hello",
+    "description": "The cookbook's example program: one read tool, one write tool, a resource template and a prompt."
+}

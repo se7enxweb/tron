@@ -1,0 +1,64 @@
+{
+    "name": "ops.tron.whoami",
+    "title": "Who tron acts as",
+    "purpose": "The user, token and transport this tron session acts as.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "ops",
+        "tron",
+        "identity"
+    ],
+    "use_case": "Checking a token before work",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "tron_whoami"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "w",
+            "unit": "tron_whoami",
+            "args": {}
+        }
+    ],
+    "output": {
+        "value": {
+            "login": "$steps.w.login",
+            "user_id": "$steps.w.user_id",
+            "transport": "$steps.w.transport",
+            "scopes": "$steps.w.scopes"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "login",
+                "user_id",
+                "transport",
+                "scopes"
+            ],
+            "properties": {
+                "login": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "transport": {
+                    "type": "string"
+                },
+                "scopes": []
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

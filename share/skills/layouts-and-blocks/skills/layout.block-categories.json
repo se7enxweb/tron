@@ -1,0 +1,62 @@
+{
+    "name": "layout.block-categories",
+    "title": "Block categories",
+    "purpose": "How many block definitions each category has.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "layouts",
+        "blocks",
+        "counts"
+    ],
+    "use_case": "Overview of the block library",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "layout_block_definitions"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "d",
+            "unit": "layout_block_definitions",
+            "args": {}
+        },
+        {
+            "id": "g",
+            "op": "group",
+            "from": "$steps.d.items",
+            "by": "category"
+        }
+    ],
+    "output": {
+        "value": {
+            "definitions": "$steps.d.total",
+            "per_category": "$steps.g"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "definitions",
+                "per_category"
+            ],
+            "properties": {
+                "definitions": {
+                    "type": "integer"
+                },
+                "per_category": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

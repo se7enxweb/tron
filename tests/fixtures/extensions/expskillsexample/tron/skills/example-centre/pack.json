@@ -1,0 +1,11 @@
+{
+    "id": "example-centre",
+    "title": "Example centre skills",
+    "description": "The worked example of doc/extension-conventions.md: one skill over the centre's tickets, shipped by an extension.",
+    "version": "1.0.0.3",
+    "author": "Example",
+    "license": "GPL-2.0-or-later",
+    "prefix": "example",
+    "requires": { "tron": "0.0.0.2", "programs": [ "centre" ] },
+    "for_extension": "expskillsexample"
+}

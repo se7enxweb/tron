@@ -1,0 +1,88 @@
+{
+    "name": "tpl.override-rules",
+    "title": "Override rules of a siteaccess",
+    "purpose": "The override blocks of override.ini as a siteaccess resolves them.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "templates",
+        "overrides",
+        "ini"
+    ],
+    "use_case": "Auditing template overrides",
+    "parameters": {
+        "siteaccess": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "description": "The siteaccess whose settings count (default: the current one).",
+            "examples": [
+                "site",
+                "admin"
+            ],
+            "short": "-s",
+            "default": "site"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "ini_list"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "ini_list",
+            "args": {
+                "file": "override.ini",
+                "siteaccess": "$param.siteaccess"
+            }
+        },
+        {
+            "id": "names",
+            "op": "pluck",
+            "from": "$steps.l.items",
+            "field": "block"
+        }
+    ],
+    "output": {
+        "value": {
+            "siteaccess": "$steps.l.siteaccess",
+            "overrides": "$steps.l.total",
+            "names": "$steps.names"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "siteaccess",
+                "overrides",
+                "names"
+            ],
+            "properties": {
+                "siteaccess": {
+                    "type": "string"
+                },
+                "overrides": {
+                    "type": "integer"
+                },
+                "names": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        },
+        {
+            "title": "With siteaccess bold",
+            "params": {
+                "siteaccess": "bold"
+            }
+        }
+    ]
+}

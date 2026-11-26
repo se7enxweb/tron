@@ -1,0 +1,130 @@
+{
+    "name": "centre.board.wip-check",
+    "title": "Work in progress check",
+    "purpose": "Counts the tickets in the doing lane of a board and says whether that is within a work-in-progress limit.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "board",
+        "wip",
+        "check"
+    ],
+    "use_case": "Kanban: keep work in progress under the limit",
+    "parameters": {
+        "board": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
+            "default": "main",
+            "description": "The centre board, e.g. main or ops.",
+            "examples": [
+                "main",
+                "ops"
+            ],
+            "short": "-b"
+        },
+        "wip_limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 5,
+            "description": "The most tickets allowed in doing.",
+            "examples": [
+                5,
+                3
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "centre_ticket_list"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "list",
+            "unit": "centre_ticket_list",
+            "args": {
+                "lane": "doing",
+                "board": "$param.board",
+                "status": "open",
+                "limit": 200
+            }
+        },
+        {
+            "id": "ok",
+            "op": "test",
+            "value": "$steps.list.total",
+            "cmp": "le",
+            "compare": "$param.wip_limit"
+        },
+        {
+            "id": "who",
+            "op": "group",
+            "from": "$steps.list.items",
+            "by": "assignee"
+        }
+    ],
+    "output": {
+        "value": {
+            "board": "$param.board",
+            "doing": "$steps.list.total",
+            "limit": "$param.wip_limit",
+            "within_limit": "$steps.ok",
+            "per_person": "$steps.who"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "board",
+                "doing",
+                "limit",
+                "within_limit",
+                "per_person"
+            ],
+            "properties": {
+                "board": {
+                    "type": "string"
+                },
+                "doing": {
+                    "type": "integer"
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "within_limit": {
+                    "type": "boolean"
+                },
+                "per_person": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With board main",
+            "params": {
+                "board": "main"
+            }
+        },
+        {
+            "title": "With board ops, wip_limit 1",
+            "params": {
+                "board": "ops",
+                "wip_limit": 1
+            }
+        }
+    ]
+}

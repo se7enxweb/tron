@@ -1,0 +1,121 @@
+{
+    "name": "katalyst.orders.revenue",
+    "title": "Revenue since a date",
+    "purpose": "The number of paid orders and their total without VAT since a date.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "katalyst",
+        "hosting",
+        "orders",
+        "revenue"
+    ],
+    "use_case": "Monthly revenue",
+    "parameters": {
+        "days": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3650,
+            "default": 30,
+            "description": "Look back this many days.",
+            "examples": [
+                30
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "katalyst_orders_list"
+        ],
+        "programs": [
+            "katalyst"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/katalyst_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "l",
+            "unit": "katalyst_orders_list",
+            "args": {
+                "state": "paid",
+                "since": "$ago.days",
+                "limit": 200
+            }
+        },
+        {
+            "id": "net",
+            "op": "sum",
+            "from": "$steps.l.items",
+            "field": "total_ex_vat"
+        },
+        {
+            "id": "gross",
+            "op": "sum",
+            "from": "$steps.l.items",
+            "field": "total_inc_vat"
+        },
+        {
+            "id": "cur",
+            "op": "distinct",
+            "from": "$steps.l.items",
+            "field": "currency"
+        }
+    ],
+    "output": {
+        "value": {
+            "days": "$param.days",
+            "orders": "$steps.l.total",
+            "net": "$steps.net",
+            "gross": "$steps.gross",
+            "currencies": "$steps.cur"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "days",
+                "orders",
+                "net",
+                "gross",
+                "currencies"
+            ],
+            "properties": {
+                "days": {
+                    "type": "integer"
+                },
+                "orders": {
+                    "type": "integer"
+                },
+                "net": {
+                    "type": "number"
+                },
+                "gross": {
+                    "type": "number"
+                },
+                "currencies": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With days 30",
+            "params": {
+                "days": 30
+            }
+        },
+        {
+            "title": "With days 365",
+            "params": {
+                "days": 365
+            }
+        }
+    ]
+}

@@ -1,0 +1,90 @@
+{
+    "name": "class.patterns",
+    "title": "Name and URL patterns",
+    "purpose": "How a content class names its objects and builds their URL aliases, and its default sort.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "classes",
+        "schema",
+        "urls"
+    ],
+    "use_case": "Why is this object named like that?",
+    "parameters": {
+        "identifier": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_]{1,100}$",
+            "default": "ng_article",
+            "description": "A class identifier.",
+            "examples": [
+                "ng_article"
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "class_describe"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "c",
+            "unit": "class_describe",
+            "args": {
+                "identifier": "$param.identifier"
+            }
+        }
+    ],
+    "output": {
+        "value": {
+            "class": "$steps.c.identifier",
+            "object_name_pattern": "$steps.c.object_name_pattern",
+            "url_alias_pattern": "$steps.c.url_alias_pattern",
+            "sort_field": "$steps.c.sort_field",
+            "sort_order": "$steps.c.sort_order",
+            "always_available": "$steps.c.always_available"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "class",
+                "object_name_pattern",
+                "url_alias_pattern",
+                "sort_field",
+                "sort_order",
+                "always_available"
+            ],
+            "properties": {
+                "class": {
+                    "type": "string"
+                },
+                "object_name_pattern": {
+                    "type": "string"
+                },
+                "url_alias_pattern": [],
+                "sort_field": [],
+                "sort_order": [],
+                "always_available": {
+                    "type": "boolean"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With identifier ng_article",
+            "params": {
+                "identifier": "ng_article"
+            }
+        },
+        {
+            "title": "With identifier folder",
+            "params": {
+                "identifier": "folder"
+            }
+        }
+    ]
+}

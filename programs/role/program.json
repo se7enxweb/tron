@@ -1,0 +1,11 @@
+{
+    "name": "role",
+    "class": "tronUnitsRoleProgram",
+    "version": "0.0.0.12",
+    "title": "Role units",
+    "description": "Read units for roles and accounts: a role's policies and assignments, users by login or name (login and name only).",
+    "units": [
+        { "id": "role.describe", "tool": "role_describe", "in": [ "role-ref" ], "out": "role", "summary": "One role: policies with limitations, and who has it" },
+        { "id": "user.find", "tool": "role_user_find", "in": [ "none" ], "out": "user[]", "summary": "User accounts by login or name: id, login, name, enabled, roles" }
+    ]
+}

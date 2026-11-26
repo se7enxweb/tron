@@ -1,0 +1,107 @@
+{
+    "name": "centre.decisions.review",
+    "title": "Decision review",
+    "purpose": "The decision review of an ISO week: how many decisions are overdue, due, undated and planned later, and which were taken during the week.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "decisions",
+        "review"
+    ],
+    "use_case": "The weekly decision meeting",
+    "parameters": {
+        "week": {
+            "type": "string",
+            "pattern": "^\\d{4}-W\\d{2}$",
+            "description": "An ISO week like 2026-W48 (default: this week).",
+            "examples": [
+                "2026-W48"
+            ],
+            "short": "-w"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "centre_decision_review"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "review",
+            "unit": "centre_decision_review",
+            "args": {
+                "week": "$param.week"
+            }
+        }
+    ],
+    "output": {
+        "value": {
+            "week": "$steps.review.week",
+            "overdue": "$steps.review.overdue|count",
+            "due": "$steps.review.due|count",
+            "undated": "$steps.review.undated|count",
+            "later": "$steps.review.later|count",
+            "decided": "$steps.review.decided|count",
+            "review": "$steps.review"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "week",
+                "overdue",
+                "due",
+                "undated",
+                "later",
+                "decided",
+                "review"
+            ],
+            "properties": {
+                "week": {
+                    "type": "string"
+                },
+                "overdue": {
+                    "type": "integer"
+                },
+                "due": {
+                    "type": "integer"
+                },
+                "undated": {
+                    "type": "integer"
+                },
+                "later": {
+                    "type": "integer"
+                },
+                "decided": {
+                    "type": "integer"
+                },
+                "review": {
+                    "type": "object"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        },
+        {
+            "title": "With week 2026-W48",
+            "params": {
+                "week": "2026-W48"
+            }
+        }
+    ]
+}

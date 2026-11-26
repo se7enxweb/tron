@@ -1,0 +1,87 @@
+{
+    "name": "class.datatypes",
+    "title": "Datatypes of a class",
+    "purpose": "How many attributes of each datatype a content class has.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "classes",
+        "schema",
+        "datatypes"
+    ],
+    "use_case": "Estimating template and migration work",
+    "parameters": {
+        "identifier": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_]{1,100}$",
+            "default": "ng_article",
+            "description": "A class identifier.",
+            "examples": [
+                "ng_article"
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "class_describe"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "c",
+            "unit": "class_describe",
+            "args": {
+                "identifier": "$param.identifier"
+            }
+        },
+        {
+            "id": "g",
+            "op": "group",
+            "from": "$steps.c.attributes",
+            "by": "datatype"
+        }
+    ],
+    "output": {
+        "value": {
+            "class": "$steps.c.identifier",
+            "attributes": "$steps.c.attributes|count",
+            "per_datatype": "$steps.g"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "class",
+                "attributes",
+                "per_datatype"
+            ],
+            "properties": {
+                "class": {
+                    "type": "string"
+                },
+                "attributes": {
+                    "type": "integer"
+                },
+                "per_datatype": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With identifier ng_article",
+            "params": {
+                "identifier": "ng_article"
+            }
+        },
+        {
+            "title": "With identifier ng_landing_page",
+            "params": {
+                "identifier": "ng_landing_page"
+            }
+        }
+    ]
+}

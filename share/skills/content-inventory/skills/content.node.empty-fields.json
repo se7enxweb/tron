@@ -1,0 +1,110 @@
+{
+    "name": "content.node.empty-fields",
+    "title": "Empty fields of a node",
+    "purpose": "Which attributes of a node are empty, with their datatype, so an editor can complete the page.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "content",
+        "node",
+        "quality"
+    ],
+    "use_case": "Editorial completeness check",
+    "parameters": {
+        "node_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 2,
+            "description": "The node.",
+            "examples": [
+                2
+            ]
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "node_read"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "n",
+            "unit": "node_read",
+            "args": {
+                "node_id": "$param.node_id",
+                "max_text": 50
+            }
+        },
+        {
+            "id": "empty",
+            "op": "where",
+            "from": "$steps.n.attributes",
+            "field": "value",
+            "cmp": "empty"
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.empty",
+            "fields": [
+                "identifier",
+                "name",
+                "datatype"
+            ]
+        },
+        {
+            "id": "complete",
+            "op": "test",
+            "value": "$steps.empty|count",
+            "cmp": "eq",
+            "compare": 0
+        }
+    ],
+    "output": {
+        "value": {
+            "node_id": "$param.node_id",
+            "name": "$steps.n.name",
+            "empty": "$steps.rows",
+            "complete": "$steps.complete"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "node_id",
+                "name",
+                "empty",
+                "complete"
+            ],
+            "properties": {
+                "node_id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "empty": {
+                    "type": "array"
+                },
+                "complete": {
+                    "type": "boolean"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        },
+        {
+            "title": "With node_id 75",
+            "params": {
+                "node_id": 75
+            }
+        }
+    ]
+}

@@ -1,0 +1,137 @@
+/*
+ * tron: what the administration's shared components (components.css: .a4-card, .a4-figures, .a4-table, .a4-tabs,
+ * .a4-chips, .a4-notice, .a4-facts, .a4-form ...) cannot do for Setup > tron: the colours of outcomes and states,
+ * forms inside table cells, the token field, long arguments in the audit. Loaded on admin pages through design.ini
+ * [StylesheetSettings] BackendCSSFileList, so the ezjscore packer bundles it.
+ *
+ * Rules (doc/bc/6.0/admin4-styling.md): only .a4-tron-* classes; colours, radius, spacing and fonts only from the
+ * --a4-* tokens, which carry their dark values in components.css. This file adds no token of its own.
+ *
+ * Copyright (C) 1998 - 2026 Exponential Foundation and 7x; All rights reserved. Licensed under the GNU General Public License v2.0 (or any later version).
+ */
+
+/* ---- Frame ----------------------------------------------------------------------------------------------------- */
+
+.a4-tron-nav { margin-bottom: var(--a4-space-4); }
+.a4-tron-cards { margin-bottom: var(--a4-space-4); }
+.a4-tron-program { margin-bottom: var(--a4-space-4); }
+.a4-tron-program-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--a4-space-2); }
+.a4-tron-inline { display: inline; margin: 0; }
+.a4-tron-num { text-align: right; font-variant-numeric: tabular-nums; }
+.a4-tron-roles { margin: 0; padding: 0; list-style: none; }
+.a4-tron-edit { margin-left: var(--a4-space-2); font-size: var(--a4-text-s); }
+.a4-tron-actions { white-space: nowrap; }
+.a4-tron-actions .a4-btn + .a4-btn { margin-left: var(--a4-space-1); }
+.a4-tron-userfilter-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--a4-space-2); }
+.a4-tron-userfilter-row .a4-input { flex: 1 1 12rem; min-width: 0; }
+.a4-tron-livebar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--a4-space-3); margin: var(--a4-space-3) 0; }
+
+/* ---- The token, shown once ------------------------------------------------------------------------------------- */
+
+.a4-tron-secret { margin-bottom: var(--a4-space-4); border-color: var(--a4-warn-line); }
+.a4-tron-secret-value { width: 100%; font-family: var(--a4-mono); }
+
+/* ---- Audit: long arguments wrap, new rows of the live tail stand out ------------------------------------------- */
+
+.a4-tron-detail { max-width: 40rem; overflow-wrap: anywhere; font-size: var(--a4-text-s); }
+.a4-tron-audit tr.is-new td { background-color: var(--a4-info-bg); }
+
+/* ---- Outcomes, states, token states ---------------------------------------------------------------------------- */
+
+.a4-tron-outcome.is-ok,
+.a4-tron-state.is-loaded,
+.a4-tron-token.is-active { border-color: var(--a4-ok-line); background-color: var(--a4-ok-bg); color: var(--a4-ok); }
+
+.a4-tron-outcome.is-error,
+.a4-tron-outcome.is-unauthenticated,
+.a4-tron-state.is-failed,
+.a4-tron-state.is-conflict { border-color: var(--a4-bad-line); background-color: var(--a4-bad-bg); color: var(--a4-bad); }
+
+.a4-tron-outcome.is-denied,
+.a4-tron-outcome.is-invalid,
+.a4-tron-state.is-incompatible,
+.a4-tron-token.is-expired { border-color: var(--a4-warn-line); background-color: var(--a4-warn-bg); color: var(--a4-warn); }
+
+.a4-tron-outcome.is-started,
+.a4-tron-kind.is-write { border-color: var(--a4-info-line); background-color: var(--a4-info-bg); color: var(--a4-info); }
+
+.a4-tron-state.is-disabled,
+.a4-tron-token.is-revoked { color: var(--a4-muted); }
+
+/* ---- Activity: the journal's story, timeline, objects and filters ---------------------------------------------- */
+
+.a4-tron-narrative { max-width: 78ch; }
+.a4-tron-narrative p + p { margin-top: var(--a4-space-2); }
+.a4-tron-hash { overflow-wrap: anywhere; font-size: var(--a4-text-xs); }
+.a4-tron-step { font-weight: var(--a4-weight-heading); overflow-wrap: anywhere; }
+.a4-tron-timeline .a4-tron-fold { margin-top: var(--a4-space-2); }
+.a4-tron-timeline .a4-pre { max-height: 320px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.a4-tron-object { margin-right: var(--a4-space-1); }
+.a4-tron-object.is-write { border-color: var(--a4-info-line); background-color: var(--a4-info-bg); color: var(--a4-info); }
+.a4-tron-jobs { margin: 0; padding-inline-start: var(--a4-space-4); }
+.a4-tron-formcell { display: flex; flex: 1 1 10rem; flex-direction: column; gap: var(--a4-space-1); min-width: 0; }
+.a4-tron-activityform .a4-tron-userfilter-row { align-items: flex-end; }
+
+.a4-tron-outcome.is-refused { border-color: var(--a4-warn-line); background-color: var(--a4-warn-bg); color: var(--a4-warn); }
+.a4-tron-outcome.is-dry-run,
+.a4-tron-outcome.is-open { border-color: var(--a4-info-line); background-color: var(--a4-info-bg); color: var(--a4-info); }
+.a4-tron-outcome.is-ended { color: var(--a4-muted); }
+
+/* ---- Agent rules: the editors, the read-only texts, the switch forms ------------------------------------------- */
+
+.a4-tron-editor { width: 100%; min-height: 18rem; font-family: var(--a4-mono); font-size: var(--a4-text-s); }
+.a4-tron-rules-pre { max-height: 480px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+.a4-tron-rules-switchforms { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--a4-space-4); }
+.a4-tron-rules-switchforms .a4-field { flex: 1 1 14rem; }
+.a4-tron-rules-upload { margin-top: var(--a4-space-4); }
+.a4-tron-rules-questions .a4-help { margin: 0; }
+
+/* ---- Diff (Setup > tron > Diff, and every page that includes tron/parts/diff.tpl or tronDiffRender::html()) ------ */
+
+.a4-tron-diff-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: var(--a4-space-3); }
+.a4-tron-diff-form textarea { width: 100%; min-height: 12rem; font-family: var(--a4-mono); font-size: var(--a4-text-s); }
+.a4-tron-diff-options { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--a4-space-3); margin: var(--a4-space-3) 0; }
+.a4-tron-diff-wrap { overflow-x: auto; }
+.a4-tron-diff { table-layout: fixed; width: 100%; font-family: var(--a4-mono); font-size: var(--a4-text-s); }
+.a4-tron-diff td,
+.a4-tron-diff th { vertical-align: top; padding: 0 var(--a4-space-2); border-color: var(--a4-line); }
+.a4-tron-diff code { font-family: inherit; white-space: pre-wrap; overflow-wrap: anywhere; color: inherit; background: none; padding: 0; }
+.a4-tron-diff .a4-tron-diff-num { width: 3.5rem; text-align: right; color: var(--a4-muted); font-variant-numeric: tabular-nums; user-select: none; }
+.a4-tron-diff tr.is-del .a4-tron-diff-left,
+.a4-tron-diff tr.is-change .a4-tron-diff-left { background-color: var(--a4-bad-bg); color: var(--a4-ink); }
+.a4-tron-diff tr.is-add .a4-tron-diff-right,
+.a4-tron-diff tr.is-change .a4-tron-diff-right { background-color: var(--a4-ok-bg); color: var(--a4-ink); }
+.a4-tron-diff-changes tr.is-del th,
+.a4-tron-diff-changes tr.is-del td { background-color: var(--a4-bad-bg); }
+.a4-tron-diff-changes tr.is-add th,
+.a4-tron-diff-changes tr.is-add td { background-color: var(--a4-ok-bg); }
+.a4-tron-diff del,
+.a4-tron-diff-inline del { text-decoration: line-through; color: var(--a4-bad); background-color: var(--a4-bad-bg); border-radius: var(--a4-radius-s); }
+.a4-tron-diff ins,
+.a4-tron-diff-inline ins { text-decoration: underline; color: var(--a4-ok); background-color: var(--a4-ok-bg); border-radius: var(--a4-radius-s); }
+.a4-tron-diff .a4-tron-diff-gap { text-align: center; color: var(--a4-muted); background-color: var(--a4-soft); }
+.a4-tron-diff-inline pre { margin: 0; padding: var(--a4-space-3); white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--a4-mono);
+                           font-size: var(--a4-text-s); border: 1px solid var(--a4-line); border-radius: var(--a4-radius-s); background-color: var(--a4-card); color: var(--a4-ink); }
+
+/* ---- Skills: the state of a skill and a pack, the search field ----------------------------------------------------- */
+
+.a4-tron-skill.is-live,
+.a4-tron-skill.is-approved,
+.a4-tron-pack.is-loaded { border-color: var(--a4-ok-line); background-color: var(--a4-ok-bg); color: var(--a4-ok); }
+.a4-tron-skill.is-ready,
+.a4-tron-skill.is-validated,
+.a4-tron-skill.is-draft { border-color: var(--a4-info-line); background-color: var(--a4-info-bg); color: var(--a4-info); }
+.a4-tron-skill.is-unproven,
+.a4-tron-skill.is-parked,
+.a4-tron-pack.is-unregistered,
+.a4-tron-pack.is-incompatible { border-color: var(--a4-warn-line); background-color: var(--a4-warn-bg); color: var(--a4-warn); }
+.a4-tron-skill.is-failed,
+.a4-tron-pack.is-refused,
+.a4-tron-pack.is-conflict { border-color: var(--a4-bad-line); background-color: var(--a4-bad-bg); color: var(--a4-bad); }
+.a4-tron-skill.is-disabled,
+.a4-tron-skill.is-revoked,
+.a4-tron-pack.is-disabled,
+.a4-tron-pack.is-switched-off { color: var(--a4-muted); }
+.a4-tron-search { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--a4-space-2); }
+.a4-tron-search .a4-input { flex: 1 1 16rem; min-width: 0; }
+

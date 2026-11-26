@@ -1,0 +1,404 @@
+{
+    "pack": "centre-planning",
+    "pack_version": "0.0.0.1",
+    "tron": "0.0.0.7",
+    "at": "2026-11-25T06:51:09Z",
+    "skills": {
+        "centre.board.health-main": {
+            "version": "0.0.0.1",
+            "hash": "8fe5317d79960edcdc66875a26f89459fb9a82eb2223686a248a382518838b4a",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.board.health-ops": {
+            "version": "0.0.0.1",
+            "hash": "24cde218fcad07a59c7d8cd2bff8957f266b0b1e06a2d6918b44c3e740e9c147",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.board.snapshot": {
+            "version": "0.0.0.1",
+            "hash": "0f28a7cc101d220fa8497e15254e7ed9e6e5f775ec26a8fd7b932a1adf337367",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.board.wip-check": {
+            "version": "0.0.0.1",
+            "hash": "deaa3bc20f17eef1f02b3324bc81b9a2626dbab6767185f60f6d347e309c5181",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.count.by-assignee": {
+            "version": "0.0.0.1",
+            "hash": "897150489d4845f32e792d44c48acef128be0f4e6ad99fb763c4924fac489fb9",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.count.by-kind": {
+            "version": "0.0.0.1",
+            "hash": "df88b9ebbca601f3edae55bd82c29c0b9fc0db71983e9d196c1c005a914cb9fe",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.count.by-label": {
+            "version": "0.0.0.1",
+            "hash": "d9025bc5a9368464bd8fd5c93ff66b65451cd4657849bbaa614d176ff97a7064",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.count.by-lane": {
+            "version": "0.0.0.1",
+            "hash": "b707d56cc40087b4dedcd2244a501665745823f114dd2d7725e896ca8c58243d",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.count.by-priority": {
+            "version": "0.0.0.1",
+            "hash": "c81bb89d7005decf42ebaf042b57088f4c195c5ec7dc13e1dc7dce770fda81d8",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.count.closed-by-person": {
+            "version": "0.0.0.1",
+            "hash": "57d50dcf6083e3d5c6f4d836ca8aa5c0c17349f3aa39a6600e87f41a7ba074d3",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.count.closed-by-reason": {
+            "version": "0.0.0.1",
+            "hash": "2453cfc9a0cb76360a26acafd35f4183d7c76b951a21918682971d5d2f12fbc4",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.count.decisions-by-week": {
+            "version": "0.0.0.1",
+            "hash": "41b0847bc76a07604dd23e378ea6468a2d09148498cd5e3455bdae82970c6171",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.count.labels-unassigned": {
+            "version": "0.0.0.1",
+            "hash": "5f52e8908f17fb57b9a82655a35e430f50b99fb385692d0e4102ab623a7d8689",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.count.overdue-by-assignee": {
+            "version": "0.0.0.1",
+            "hash": "a6c8309a16d9cd98da493a177fabed33a4e72a08d4b48f83ffbac0d486841712",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.count.overdue-by-lane": {
+            "version": "0.0.0.1",
+            "hash": "1def89cda8baccd7239fa2c6a68ccadba8324c973e6189f1e6f8fc484c5164b5",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.count.urgent-by-lane": {
+            "version": "0.0.0.1",
+            "hash": "1be1f73e857cdeaacede31e4fab880c637ff56b837545aed9d7f600de16bcedb",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.links.commit": {
+            "version": "0.0.0.1",
+            "hash": "07b171b19cd8f029fa35d858fc593c76612a1d570904571b6bb77ff4f7bd4db4",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.links.url": {
+            "version": "0.0.0.1",
+            "hash": "150c012cb7ed17367142c7e9a85b69413f4cce5ccd4a47e43c672071667913aa",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.report.weekly": {
+            "version": "0.0.0.1",
+            "hash": "fdb742690b1d2a91ae32fbfe13f4968c1ea9e952c3c13a06da307c78d6ff1390",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.ticket.digest": {
+            "version": "0.0.0.1",
+            "hash": "d11876efde9cdd249ac92cf92ff9b42a62f6df5976e9fb678e95afe1bd0c13a2",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.ticket.history": {
+            "version": "0.0.0.1",
+            "hash": "c844007b2b51cebadaea93dc7d8d7e3b18fb7ca241989ab01a3b4d9b98fb6a9f",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "centre.ticket.links": {
+            "version": "0.0.0.1",
+            "hash": "12f015709e584a615eda65a28b34deae50994ee228b0abc8a814e74239bb89bb",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        }
+    }
+}

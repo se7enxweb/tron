@@ -1,0 +1,72 @@
+{
+    "name": "katalyst.services.by-kind",
+    "title": "Services per kind",
+    "purpose": "How many services of each kind (hosting, domain ...) there are.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "katalyst",
+        "hosting",
+        "services"
+    ],
+    "use_case": "Portfolio overview",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "katalyst_services_list"
+        ],
+        "programs": [
+            "katalyst"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/katalyst_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "l",
+            "unit": "katalyst_services_list",
+            "args": {
+                "limit": 200
+            }
+        },
+        {
+            "id": "g",
+            "op": "group",
+            "from": "$steps.l.items",
+            "by": "service_kind"
+        }
+    ],
+    "output": {
+        "value": {
+            "services": "$steps.l.total",
+            "per_kind": "$steps.g"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "services",
+                "per_kind"
+            ],
+            "properties": {
+                "services": {
+                    "type": "integer"
+                },
+                "per_kind": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

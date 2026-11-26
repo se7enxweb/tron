@@ -1,0 +1,98 @@
+{
+    "pack": "ops-reports",
+    "pack_version": "0.0.0.1",
+    "tron": "0.0.0.7",
+    "at": "2026-11-25T06:54:10Z",
+    "skills": {
+        "ops.tron.failed-programs": {
+            "version": "0.0.0.1",
+            "hash": "0268838e4508fc424b9e4409714a0295ae64b29fb83abba4caec00e3b14a5e8c",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "ops.tron.left-out": {
+            "version": "0.0.0.1",
+            "hash": "708b6078882edfeb7776360e733f7d17393d2fd4cbcafe68c6cc0b8584a7abdd",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "ops.tron.programs": {
+            "version": "0.0.0.1",
+            "hash": "dd10f2f9f988098fa56bd1c60c88e86a08f5b7a981be201ef7afaa4fe40d17ed",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "ops.tron.protocol": {
+            "version": "0.0.0.1",
+            "hash": "14dc37941d1569cc5d70e72d238953f184b16d74f87de45064f584c08f16be17",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "ops.tron.whoami": {
+            "version": "0.0.0.1",
+            "hash": "e95a22c53b00ffcc9654fb127686f4af541e12ee530f3f3205499279d2a14082",
+            "result": "pass",
+            "runs": {
+                "fixtures": "pass",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        }
+    }
+}

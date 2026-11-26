@@ -1,0 +1,103 @@
+{
+    "name": "layout.empty-blocks",
+    "title": "Blocks without a definition",
+    "purpose": "The blocks of a layout that have no block definition (left over or broken), which render nothing.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "layouts",
+        "blocks",
+        "quality"
+    ],
+    "use_case": "Repairing broken layouts",
+    "parameters": {
+        "layout_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 2,
+            "description": "The layout id.",
+            "examples": [
+                2,
+                19
+            ],
+            "short": "-l"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "layout_read"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "r",
+            "unit": "layout_read",
+            "args": {
+                "layout_id": "$param.layout_id"
+            }
+        },
+        {
+            "id": "blocks",
+            "op": "flatten",
+            "from": "$steps.r.zones",
+            "field": "blocks"
+        },
+        {
+            "id": "bad",
+            "op": "where",
+            "from": "$steps.blocks",
+            "field": "definition",
+            "cmp": "empty"
+        },
+        {
+            "id": "ids",
+            "op": "pluck",
+            "from": "$steps.bad",
+            "field": "id"
+        }
+    ],
+    "output": {
+        "value": {
+            "layout": "$steps.r.name",
+            "broken": "$steps.bad|count",
+            "block_ids": "$steps.ids"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "layout",
+                "broken",
+                "block_ids"
+            ],
+            "properties": {
+                "layout": {
+                    "type": "string"
+                },
+                "broken": {
+                    "type": "integer"
+                },
+                "block_ids": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With layout_id 2",
+            "params": {
+                "layout_id": 2
+            }
+        },
+        {
+            "title": "With layout_id 19",
+            "params": {
+                "layout_id": 19
+            }
+        }
+    ]
+}

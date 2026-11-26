@@ -1,0 +1,80 @@
+{
+    "name": "media.image-aliases",
+    "title": "Image aliases",
+    "purpose": "The image aliases this installation renders, from image.ini, with the file that sets the list.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "media",
+        "images",
+        "ini"
+    ],
+    "use_case": "Which image sizes exist",
+    "parameters": {
+        "siteaccess": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "description": "The siteaccess whose settings count (default: the current one).",
+            "examples": [
+                "site",
+                "admin"
+            ],
+            "short": "-s",
+            "default": "site"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "ini_resolve"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "r",
+            "unit": "ini_resolve",
+            "args": {
+                "file": "image.ini",
+                "block": "AliasSettings",
+                "setting": "AliasList",
+                "siteaccess": "$param.siteaccess"
+            }
+        }
+    ],
+    "output": {
+        "value": {
+            "aliases": "$steps.r.value",
+            "count": "$steps.r.value|count",
+            "winner": "$steps.r.winner"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "aliases",
+                "count",
+                "winner"
+            ],
+            "properties": {
+                "aliases": [],
+                "count": {
+                    "type": "integer"
+                },
+                "winner": []
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        },
+        {
+            "title": "With siteaccess admin",
+            "params": {
+                "siteaccess": "admin"
+            }
+        }
+    ]
+}

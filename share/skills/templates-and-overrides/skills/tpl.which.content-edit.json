@@ -1,0 +1,84 @@
+{
+    "name": "tpl.which.content-edit",
+    "title": "Which edit form",
+    "purpose": "Which file renders the edit form (content/edit.tpl) on a siteaccess, by design order.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "templates",
+        "designs"
+    ],
+    "use_case": "Finding the file to edit",
+    "parameters": {
+        "siteaccess": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "description": "The siteaccess whose settings count (default: the current one).",
+            "examples": [
+                "site",
+                "admin"
+            ],
+            "short": "-s",
+            "default": "site"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "tpl_resolve"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "r",
+            "unit": "tpl_resolve",
+            "args": {
+                "template": "content/edit.tpl",
+                "siteaccess": "$param.siteaccess"
+            }
+        }
+    ],
+    "output": {
+        "value": {
+            "template": "content/edit.tpl",
+            "siteaccess": "$steps.r.siteaccess",
+            "winner": "$steps.r.winner",
+            "designs": "$steps.r.designs"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "template",
+                "siteaccess",
+                "winner",
+                "designs"
+            ],
+            "properties": {
+                "template": {
+                    "type": "string"
+                },
+                "siteaccess": {
+                    "type": "string"
+                },
+                "winner": [],
+                "designs": []
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With siteaccess site",
+            "params": {
+                "siteaccess": "site"
+            }
+        },
+        {
+            "title": "With siteaccess admin",
+            "params": {
+                "siteaccess": "admin"
+            }
+        }
+    ]
+}

@@ -1,0 +1,90 @@
+{
+    "name": "role.policies",
+    "title": "Policies of a role",
+    "purpose": "The policies of a role (module, function, limitations), and how many per module.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "roles",
+        "policies",
+        "security"
+    ],
+    "use_case": "What may this role do?",
+    "parameters": {
+        "role": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "default": "Anonymous",
+            "description": "The role name or id.",
+            "examples": [
+                "Anonymous",
+                "Administrator"
+            ],
+            "short": "-r"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "role_describe"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "r",
+            "unit": "role_describe",
+            "args": {
+                "role": "$param.role"
+            }
+        },
+        {
+            "id": "g",
+            "op": "group",
+            "from": "$steps.r.policies",
+            "by": "module"
+        }
+    ],
+    "output": {
+        "value": {
+            "role": "$steps.r.name",
+            "policies": "$steps.r.policies",
+            "per_module": "$steps.g"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "role",
+                "policies",
+                "per_module"
+            ],
+            "properties": {
+                "role": {
+                    "type": "string"
+                },
+                "policies": {
+                    "type": "array"
+                },
+                "per_module": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With role Anonymous",
+            "params": {
+                "role": "Anonymous"
+            }
+        },
+        {
+            "title": "With role Administrator",
+            "params": {
+                "role": "Administrator"
+            }
+        }
+    ]
+}

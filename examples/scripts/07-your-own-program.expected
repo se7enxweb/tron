@@ -1,0 +1,27 @@
+program api from builtin: loaded
+program browser from builtin: loaded
+program centre from builtin: loaded
+program class from builtin: loaded
+program content from builtin: loaded
+program diff from builtin: loaded
+program ini from builtin: loaded
+program katalyst from builtin: loaded
+program layout from builtin: loaded
+program node from builtin: loaded
+program role from builtin: loaded
+program skill from builtin: loaded
+program system from builtin: loaded
+program tpl from builtin: loaded
+program tron from builtin: loaded
+program validate from builtin: loaded
+program web from builtin: loaded
+program hello from hello: loaded
+{"greeting":"Hello, editor!"}
+{"greeting":"Hello, Ada! Hello, Ada!"}
+"ERROR: Invalid arguments: times: must be at most 3"
+{"remembered":"plan","notes":1}
+"ERROR: The name \"secret\" is reserved; pick another one."
+"ERROR: Permission denied: this tool needs the policy tron\/centre_write and the user 'viewer' does not hold it."
+resource: Ship the preview.
+missing resource: -32002 Resource not found
+prompt: Introduce yourself to the ops team in one sentence, as an assistant working for editor.

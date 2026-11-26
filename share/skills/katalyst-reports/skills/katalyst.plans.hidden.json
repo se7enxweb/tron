@@ -1,0 +1,79 @@
+{
+    "name": "katalyst.plans.hidden",
+    "title": "Hidden plans",
+    "purpose": "The plans that exist but are not offered.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "katalyst",
+        "hosting",
+        "plans",
+        "cleanup"
+    ],
+    "use_case": "Catalog clean-up",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "katalyst_plans_list"
+        ],
+        "programs": [
+            "katalyst"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/katalyst_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "l",
+            "unit": "katalyst_plans_list",
+            "args": {
+                "hidden": true,
+                "limit": 200
+            }
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.l.items",
+            "fields": [
+                "id",
+                "name",
+                "source",
+                "price_monthly"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "hidden": "$steps.l.total",
+            "plans": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "hidden",
+                "plans"
+            ],
+            "properties": {
+                "hidden": {
+                    "type": "integer"
+                },
+                "plans": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

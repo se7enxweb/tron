@@ -1,0 +1,142 @@
+{
+    "name": "centre.tickets.new",
+    "title": "New in the inbox",
+    "purpose": "Lists the tickets in the inbox lane of a board, newest first, for triage.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "tickets",
+        "triage",
+        "inbox"
+    ],
+    "use_case": "Daily triage",
+    "parameters": {
+        "board": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
+            "default": "main",
+            "description": "The centre board, e.g. main or ops.",
+            "examples": [
+                "main",
+                "ops"
+            ],
+            "short": "-b"
+        },
+        "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20,
+            "description": "At most this many rows in the answer.",
+            "examples": [
+                5,
+                20
+            ],
+            "short": "-n"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "centre_ticket_list"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "list",
+            "unit": "centre_ticket_list",
+            "args": {
+                "lane": "inbox",
+                "board": "$param.board",
+                "status": "open",
+                "limit": 200
+            }
+        },
+        {
+            "id": "sorted",
+            "op": "sort",
+            "from": "$steps.list.items",
+            "by": "created",
+            "order": "desc"
+        },
+        {
+            "id": "top",
+            "op": "limit",
+            "from": "$steps.sorted",
+            "count": "$param.limit"
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.top",
+            "fields": [
+                "id",
+                "title",
+                "lane",
+                "priority",
+                "assignee",
+                "due",
+                "created",
+                "kind"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "board": "$param.board",
+            "count": "$steps.list.items|count",
+            "tickets": "$steps.rows",
+            "summary": "{{$steps.list.total}} tickets wait in the inbox of {{$param.board}}."
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "board",
+                "count",
+                "tickets",
+                "summary"
+            ],
+            "properties": {
+                "board": {
+                    "type": "string"
+                },
+                "count": {
+                    "type": "integer",
+                    "description": "How many match (before the limit)"
+                },
+                "tickets": {
+                    "type": "array"
+                },
+                "summary": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With board main",
+            "params": {
+                "board": "main"
+            }
+        },
+        {
+            "title": "With board ops, limit 5",
+            "params": {
+                "board": "ops",
+                "limit": 5
+            }
+        }
+    ]
+}

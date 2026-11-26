@@ -1,0 +1,8 @@
+{
+    "name": "diff",
+    "class": "tronDiffProgram",
+    "version": "0.0.0.12",
+    "requires": "0.0.0.5",
+    "title": "Diff",
+    "description": "Diff engines (Myers and patience; line, word and character) and structured diffs of JSON, XML, INI, YAML, content object versions, class definitions and layouts, a three-way merge, rendered as unified, side by side, ANSI or admin HTML."
+}

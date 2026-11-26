@@ -1,0 +1,82 @@
+{
+    "name": "class.unused",
+    "title": "Unused classes",
+    "purpose": "The content classes that have no objects at all: candidates for removal.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "classes",
+        "schema",
+        "cleanup"
+    ],
+    "use_case": "Cleaning up the content model",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "class_list"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "class_list",
+            "args": {
+                "limit": 200
+            }
+        },
+        {
+            "id": "o0",
+            "op": "where",
+            "from": "$steps.l.items",
+            "field": "object_count",
+            "cmp": "eq",
+            "value": 0
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.o0",
+            "fields": [
+                "identifier",
+                "name",
+                "groups"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "classes": "$steps.l.total",
+            "count": "$steps.o0|count",
+            "items": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "classes",
+                "count",
+                "items"
+            ],
+            "properties": {
+                "classes": {
+                    "type": "integer",
+                    "description": "Classes in all"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "items": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

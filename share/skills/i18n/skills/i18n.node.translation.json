@@ -1,0 +1,110 @@
+{
+    "name": "i18n.node.translation",
+    "title": "A node in one language",
+    "purpose": "One node read in a given language, with the attributes that are empty in that translation.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "i18n",
+        "content",
+        "translation"
+    ],
+    "use_case": "Reviewing a translation",
+    "parameters": {
+        "node_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 2,
+            "description": "The node.",
+            "examples": [
+                2
+            ]
+        },
+        "language": {
+            "type": "string",
+            "pattern": "^[a-z]{3}-[A-Z]{2}$",
+            "default": "eng-US",
+            "description": "The translation, e.g. ger-DE.",
+            "examples": [
+                "eng-US",
+                "ger-DE"
+            ],
+            "short": "-l"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "node_read"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "n",
+            "unit": "node_read",
+            "args": {
+                "node_id": "$param.node_id",
+                "language": "$param.language",
+                "max_text": 200
+            }
+        },
+        {
+            "id": "empty",
+            "op": "where",
+            "from": "$steps.n.attributes",
+            "field": "value",
+            "cmp": "empty"
+        },
+        {
+            "id": "missing",
+            "op": "pluck",
+            "from": "$steps.empty",
+            "field": "identifier"
+        }
+    ],
+    "output": {
+        "value": {
+            "node_id": "$param.node_id",
+            "language": "$steps.n.language",
+            "name": "$steps.n.name",
+            "empty": "$steps.missing"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "node_id",
+                "language",
+                "name",
+                "empty"
+            ],
+            "properties": {
+                "node_id": {
+                    "type": "integer"
+                },
+                "language": [],
+                "name": {
+                    "type": "string"
+                },
+                "empty": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        },
+        {
+            "title": "With node_id 2, language eng-US",
+            "params": {
+                "node_id": 2,
+                "language": "eng-US"
+            }
+        }
+    ]
+}

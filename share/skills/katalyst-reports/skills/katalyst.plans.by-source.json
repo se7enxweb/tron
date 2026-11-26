@@ -1,0 +1,72 @@
+{
+    "name": "katalyst.plans.by-source",
+    "title": "Plans per source",
+    "purpose": "How many plans come from Plesk, the shop and the old billing system.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "katalyst",
+        "hosting",
+        "plans"
+    ],
+    "use_case": "Catalog overview",
+    "parameters": {},
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "katalyst_plans_list"
+        ],
+        "programs": [
+            "katalyst"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/katalyst_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "l",
+            "unit": "katalyst_plans_list",
+            "args": {
+                "limit": 200
+            }
+        },
+        {
+            "id": "g",
+            "op": "group",
+            "from": "$steps.l.items",
+            "by": "source"
+        }
+    ],
+    "output": {
+        "value": {
+            "plans": "$steps.l.total",
+            "per_source": "$steps.g"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "plans",
+                "per_source"
+            ],
+            "properties": {
+                "plans": {
+                    "type": "integer"
+                },
+                "per_source": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "With the defaults",
+            "params": {}
+        }
+    ]
+}

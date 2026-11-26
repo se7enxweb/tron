@@ -1,0 +1,16 @@
+{
+    "id": "centre-planning",
+    "title": "Centre planning",
+    "description": "Counts and reports over the centre boards: work per lane, priority, person and label, board snapshot and health, work-in-progress check, ticket digest, history and links, the weekly report.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "prefix": "centre",
+    "requires": {
+        "tron": "0.0.0.7",
+        "programs": [
+            "centre"
+        ]
+    },
+    "for_extension": "expcentre"
+}

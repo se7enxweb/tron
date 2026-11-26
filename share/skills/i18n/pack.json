@@ -1,0 +1,16 @@
+{
+    "id": "i18n",
+    "title": "Languages",
+    "description": "Languages per siteaccess, a node in one translation with its empty fields, regional settings of two siteaccesses compared, translation extensions.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "prefix": "i18n",
+    "requires": {
+        "tron": "0.0.0.7",
+        "programs": [
+            "ini",
+            "node"
+        ]
+    }
+}
