@@ -117,6 +117,49 @@ curl -s -X POST https://centre.se7enx.com/tron/mcp \
 Expected: HTTP 200 and `"serverInfo":{"name":"tron",...}`. Without the header: 401 with `WWW-Authenticate: Bearer
 realm="tron"`. A GET: 405. Then `tron.php audit:tail` shows both requests.
 
+## A live install on a site served by several nodes
+
+How centre.se7enx.com got tron's public endpoint (2026-11-26): one Exponential installation, one shared database, two
+serving nodes behind an SNI load balancer, each node with its own copy of the tree (Plesk, Apache with PHP-FPM, nginx
+in front). The names below are placeholders: `node-a`, `node-b`, `<site address of node-a>`.
+
+1. **The same code on every node.** Install the released version on each node (`composer update se7enxweb/tron`, or
+   the tag's files in `extension/tron`; move the old directory out of `extension/` rather than deleting it). Prove it:
+   the md5 of every file under `extension/tron` equals the tag's (`git archive v<version>`), and node-a equals node-b.
+2. **Settings, the same file on every node**, in `settings/override/tron.ini.append.php`: `[HTTPSettings]`
+   (`Enabled=true`, the siteaccess, `AllowedHosts[]=centre.se7enx.com`), and the private words of the installation
+   (`[PromptRules] PrivateNames[]`/`PrivateDomains[]`, `[WebSettings] MeshNetworks[]`,
+   `[SystemAdapterSettings] PrivateNames[]`, see [upgrading.md](upgrading.md), 0.0.0.12). The site's own public domain
+   does not belong in `PrivateDomains[]`.
+3. **PolicyOmitList.** tron ships `PolicyOmitList[]=tron/mcp`, but a site whose `settings/override/site.ini.append.php`
+   empties the list (`PolicyOmitList[]` on a line of its own) drops it: `/tron/mcp` then answers the kernel's HTML
+   "access denied" page (403) instead of tron's JSON 401. Add `PolicyOmitList[]=tron/mcp` to that override.
+4. **Request shield on every node**: `tron.rules` next to the main rule file, `include tron.rules` above the first
+   site block, then `request-shield check` and `request-shield test` (the three TRON rules' examples must pass).
+5. **Per node**: `php bin/php/ezpgenerateautoloads.php -e`, `php bin/php/ezcache.php --clear-tag=ini`, a graceful
+   reload of the PHP-FPM master that serves the site (the Plesk one, e.g. `systemctl reload plesk-php85-fpm`, not the
+   system `php-fpm`).
+6. **Tables, once** (the database is shared): `tron.php install --siteaccess=<sa>`, then `tron.php status` on every
+   node (PASS). Coming from a preview build, `install` creates the tables that build lacked and keeps tokens and audit.
+7. **The Authorization header**: `CGIPassAuth On` (or the `SetEnvIf` line above) in the site's Apache directives on
+   every node. Proof is a 200 with the token and tron's own JSON 401 (not a 403 page) without it.
+8. **Caches in front**: the nginx front cache stores GET and HEAD only; MCP is POST, tron answers `Cache-Control:
+   no-store` and a GET with 405, so nothing of it is kept. Check that no answer carries `X-Cache: HIT`.
+9. **Proof per node, from outside**: pin the public name to each node's site address (the address the site's
+   certificate is bound to; a node's main address may answer with the panel's default certificate):
+
+   ```bash
+   curl --resolve centre.se7enx.com:443:<site address of node-a> -X POST https://centre.se7enx.com/tron/mcp ...
+   ```
+
+   initialize and `tools/list` with the token (200), without it (401), a GET (405); then the same through the public
+   name. Send the token to a remote `curl` on its standard input (`-H @-`), never as an argument.
+
+**A half-done rollout looks intermittent.** The front on one node may hand a request to the other node over the
+private mesh, so a pinned request is not always answered by the node it was pinned to. While one node still lacked
+`tron.rules`, every second POST answered 405 (that node's shield, rule EXP-POST) and the other half reached tron.
+Look in both nodes' shield logs before suspecting tron, and finish every node before judging the endpoint.
+
 ## Using tron from Claude Code
 
 A Claude Code session on a node of the installation uses tron over stdio, one MCP server per account and siteaccess it
