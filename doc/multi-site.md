@@ -1,11 +1,11 @@
 # Several siteaccesses, several installations
 
-An agent often works with more than one site. This page explains what a siteaccess means to tron, how to serve tron
+An agent often works with more than one site. This page explains what a siteaccess means to Exponential Tron, how to serve tron
 from several siteaccesses of one installation, and how to give one agent several installations.
 
 ## What the siteaccess decides
 
-Every tron command and every request runs in one siteaccess (`--siteaccess=<sa>` on the command line; the siteaccess
+Every Exponential Tron command and every request runs in one siteaccess (`--siteaccess=<sa>` on the command line; the siteaccess
 the request matched over HTTP). It decides:
 
 | Decided by the siteaccess | Effect |
@@ -16,7 +16,7 @@ the request matched over HTTP). It decides:
 
 What it does **not** decide: users and roles. They belong to the database, so a user's policies are the same on every
 siteaccess of that database (a role assigned with a Subtree or Section limitation is "limited" and not granted by
-tron, see [permissions.md](permissions.md)).
+Exponential Tron, see [permissions.md](permissions.md)).
 
 ## One installation, several siteaccesses
 
@@ -102,7 +102,7 @@ tokens, even on one database. The audit then tells them apart by login, and revo
 ## Siteaccesses with their own databases
 
 Some installations give a siteaccess its own database (a separate shop, an intranet). Then each database is its own
-tron world:
+Exponential Tron world:
 
 - run `tron.php install --siteaccess=<sa>` once per database;
 - make tokens per database: a token of one does not exist in the other;
@@ -110,7 +110,7 @@ tron world:
 
 ## Several installations
 
-Each installation runs its own tron, with its own users, tokens and audit. An agent that works across installations
+Each installation runs its own Exponential Tron, with its own users, tokens and audit. An agent that works across installations
 gets one MCP server entry per installation, named so the tools stay apart:
 
 ```bash
@@ -140,7 +140,7 @@ Several serving nodes for one installation are one installation to tron:
 
 - the tables live in the shared database, so tokens and audit are shared;
 - HTTP is stateless, so a load balancer may send any request to any node: no stickiness;
-- **tron must be on every serving node before traffic reaches it**: a node without the extension answers `/tron/mcp`
+- **Exponential Tron must be on every serving node before traffic reaches it**: a node without the extension answers `/tron/mcp`
   with 404;
 - the file sink, if used, is per node (`var/log` is usually local); ship it or use the database sink for one view;
 - deploy changes to every node, and where Velocity serves, restart its workers so they load the new classes.

@@ -48,7 +48,7 @@ JSON-RPC error, and the whole audit log is searched for canaries.
 The worlds (`tests/lib/fuzzworld.php`): the ten test users with their roles plus content grants (one editor limited
 to a subtree), centre tickets by several users with canaries in titles, bodies, comments and links, Katalyst rows,
 three content nodes (one a user's profile with an e-mail address and phone number), an INI instruction with a
-password; `tables` has centre on tron's tables, `bridge` centre through a stand-in of centre's API.
+password; `tables` has centre on Exponential Tron's tables, `bridge` centre through a stand-in of centre's API.
 
 ## Running it
 

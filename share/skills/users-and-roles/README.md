@@ -35,7 +35,7 @@ xsh tron:skill:run role.policies --role Anonymous
 
 Over MCP a live skill is the tool `skill_role_policies` and a prompt of the same name.
 
-See tron's doc/skills.md and doc/extension-conventions.md.
+See Exponential Tron's doc/skills.md and doc/extension-conventions.md.
 
 ---
 

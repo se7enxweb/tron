@@ -2,7 +2,7 @@
 
 Exponential Layouts: layout inventory, shared layouts, drafts, zones and their links, blocks and broken blocks, which layout a node or URL gets and why, rules, block definitions by category.
 
-- Pack: `layouts-and-blocks` 0.0.0.1 in `share/skills/layouts-and-blocks/` (tron's own packs)
+- Pack: `layouts-and-blocks` 0.0.0.1 in `share/skills/layouts-and-blocks/` (Exponential Tron's own packs)
 - Prefix: `layout.`
 - Skills: 19
 - Works on: `explayouts`

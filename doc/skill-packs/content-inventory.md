@@ -2,7 +2,7 @@
 
 What the site holds: the latest items of every content type, recently changed and long unchanged content, a subtree map, one node with its fields, empty fields, versions and open drafts, counts per class.
 
-- Pack: `content-inventory` 0.0.0.1 in `share/skills/content-inventory/` (tron's own packs)
+- Pack: `content-inventory` 0.0.0.1 in `share/skills/content-inventory/` (Exponential Tron's own packs)
 - Prefix: `content.`
 - Skills: 15
 - Audience: Editors, content managers and anyone planning a migration or a clean-up.

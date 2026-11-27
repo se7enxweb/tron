@@ -1,6 +1,6 @@
 # Contributing
 
-tron is GPL-2.0-or-later. Contributions are welcome as programs (in your own extension, see
+Exponential Tron is GPL-2.0-or-later. Contributions are welcome as programs (in your own extension, see
 [guides/program-author.md](guides/program-author.md)) and as changes to tron itself. The repository is
 [github.com/se7enxweb/tron](https://github.com/se7enxweb/tron): open an issue or a pull request against `main`.
 
@@ -8,7 +8,7 @@ tron is GPL-2.0-or-later. Contributions are welcome as programs (in your own ext
 
 | Rule | Why |
 |---|---|
-| PHP 7.4 to 8.5, every version | tron runs in default installations on every supported PHP; never drop one |
+| PHP 7.4 to 8.5, every version | Exponential Tron runs in default installations on every supported PHP; never drop one |
 | No Composer dependencies | the MCP layer, JSON-RPC, schema validation and transports are tron's own few hundred lines |
 | No kernel changes | tron is an extension; it reads kernel interfaces and adds `tron_*` tables only |
 | Every behavior has a test | the suite runs without an installation in seconds; there is no reason to skip it |

@@ -2,7 +2,7 @@
 
 From nothing to an AI agent working in your Exponential installation, in five steps. About fifteen minutes.
 
-**Preview.** tron 0.0.0.12 is the first public release, a preview proven on a development installation (see
+**Preview.** Exponential Tron 0.0.0.12 is the first public release, a preview proven on a development installation (see
 [testing.md](testing.md)). Interfaces may still change between preview releases.
 
 ## 0. Try it without an installation
@@ -74,7 +74,7 @@ On the server, Claude Code's `.mcp.json`:
 }
 ```
 
-Ask the agent: "Which tron tools do you have, and who are you?" It calls `tron_whoami`. Then: "Make a ticket to renew
+Ask the agent: "Which Exponential Tron tools do you have, and who are you?" It calls `tron_whoami`. Then: "Make a ticket to renew
 the certificate, high priority." It calls `centre_ticket_create`.
 
 From another machine on your network, run the same command over SSH; the token file stays on the node
@@ -97,7 +97,7 @@ Make a token, open the endpoint for one siteaccess, connect with `Authorization:
 
 | You are | Read |
 |---|---|
-| running agents against tron | [guides/agent-operator.md](guides/agent-operator.md) |
+| running agents against Exponential Tron | [guides/agent-operator.md](guides/agent-operator.md) |
 | responsible for the installation | [guides/site-admin.md](guides/site-admin.md) |
 | writing a program for your extension | [guides/program-author.md](guides/program-author.md) |
 | wondering what tron guarantees | [theory.md](theory.md) |

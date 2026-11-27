@@ -1,6 +1,6 @@
 # Command line reference
 
-tron's commands are in `extension/tron/bin/php/tron.php` (from the installation) and `bin/php/tron-schema.php`
+Exponential Tron's commands are in `extension/tron/bin/php/tron.php` (from the installation) and `bin/php/tron-schema.php`
 (needs no installation). The test and smoke scripts are listed at the end.
 
 ## tron.php
@@ -12,7 +12,7 @@ php extension/tron/bin/php/tron.php <command> [argument] --siteaccess=<sa> [opti
 - Run from the installation root, or from anywhere with an absolute path: `tron.php` changes into the installation
   root (four levels above `extension/tron/bin/php`) when it is not started there.
 - `--siteaccess=<sa>` decides which settings and which database the command uses. Use the siteaccess whose database
-  holds tron's tables; for most installations every siteaccess shares one database ([multi-site.md](multi-site.md)).
+  holds Exponential Tron's tables; for most installations every siteaccess shares one database ([multi-site.md](multi-site.md)).
 - As root the kernel refuses to run without `--allow-root-user` and says so on stderr.
 - **Exit codes:** `0` PASS, `1` FAIL, `2` usage error. Results go to stdout, messages (`PASS: ...`, `FAIL: ...`) to
   stderr, so the output can be piped.
@@ -35,7 +35,7 @@ TRON_TOKEN=<token> tron.php serve --siteaccess=<sa>
 
 Refuses to start (exit 1, reason on stderr) when the token is refused, `--user` is given without a token while
 it is disabled (the default), the user is missing or disabled, the user
-lacks `tron/use`, or a tron table is missing. On start it prints
+lacks `tron/use`, or an Exponential Tron table is missing. On start it prints
 `tron 0.0.0.1 serving stdio as <login>, <n> tools` to stderr. The session must begin with `initialize`. A line
 longer than 4 MB is refused (dropped and logged by the SDK, answered with a parse error by the legacy layer) and the
 server carries on. Role changes and switches
@@ -81,7 +81,7 @@ tron 0.0.0.1, protocol 2025-11-25 2025-06-18 2025-03-26 2024-11-05
 
 A program's state is `loaded`, `failed` (with the reason: class not found, an exception in `register()`, a bad
 manifest), `disabled` (by `[ProgramSettings] Disabled[]` or a switch), `conflict` (name taken) or `incompatible`
-(needs a newer tron). Tools a program declared unavailable are listed as `not registered: <tool> (<reason>)`.
+(needs a newer Exponential Tron). Tools a program declared unavailable are listed as `not registered: <tool> (<reason>)`.
 
 ### token:create
 
@@ -183,7 +183,7 @@ Use it to hand the SQL to a database administrator who creates the tables by han
 |---|---|---|
 | `tests/run.php [filter]` | PHP only | the whole suite: unit, permission matrix, MCP conformance over real stdio and HTTP, cookbook, theory |
 | `tests/matrix.php [php ...]` | several PHP binaries | lint plus suite on each PHP 7.4 or newer found (or given) |
-| `tests/kernel/kernel_probe.php` | an installation (via `bin/php/ezexec.php`) | read-only checks of the kernel binding; works before tron is installed |
+| `tests/kernel/kernel_probe.php` | an installation (via `bin/php/ezexec.php`) | read-only checks of the kernel binding; works before Exponential Tron is installed |
 | `tests/kernel/stdio_smoke.php [--write] -- <server command>` | a server command | MCP over stdio against the real `serve` |
 | `tests/kernel/http_smoke.php --url=<u> --token-file=<f> [--resolve=h:p:a] [--insecure] [--write] [--expect-tools=<n>]` | ext-curl | MCP over HTTP against a real endpoint, every refusal status |
 | `tests/kernel/kernel_tools_run.php` | an installation, throwaway users | every tool as users with real roles (the proving run) |

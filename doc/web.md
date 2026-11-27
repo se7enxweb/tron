@@ -15,7 +15,7 @@
 3. **The request** goes out through curl, pinned to the checked address (`CURLOPT_RESOLVE`), http(s) only, no
    proxy from the environment, no cookies, no referrer, TLS verified, at most `MaxBytes` read and `Timeout` seconds
    in all. Afterwards the address curl really connected to must be the checked one (`ssrf.rebinding` otherwise).
-4. **Redirects** are followed by tron, not by curl: each hop goes through steps 1 to 3 again, at most
+4. **Redirects** are followed by Exponential Tron, not by curl: each hop goes through steps 1 to 3 again, at most
    `MaxRedirects`.
 5. **The answer** is shaped by `extract`: `auto` (by content type), `text` (HTML as Markdown-like text, through
    expai's converter where expai is installed, else tron's own), `links` (absolute URLs, internal or not),
@@ -57,7 +57,7 @@ and `tron_status` names the reason.
 
 `[WebSettings]` in tron.ini: `Network`, `Timeout`, `MaxBytes`, `MaxRedirects`, `AllowedPorts[]`, `PrivateHosts[]`
 (the only exception to the guard), `MeshNetworks[]` (the installation's private mesh, refused as `ssrf.mesh`; set in
-`settings/override`, tron ships none), `RespectRobots`, `CacheTTL`, `CacheDir`. Without `Network=enabled` (a test
+`settings/override`, Exponential Tron ships none), `RespectRobots`, `CacheTTL`, `CacheDir`. Without `Network=enabled` (a test
 world, a broken settings file) tron makes no request and asks no DNS: fail closed.
 
 ## Tests

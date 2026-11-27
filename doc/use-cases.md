@@ -1,11 +1,11 @@
 # Use cases, end to end
 
 Each use case below goes the whole way: the role the agent's user needs, the token, what you ask the agent, the calls
-it makes, what comes back, and how you check the result. The answers shown are real output of tron's test world
+it makes, what comes back, and how you check the result. The answers shown are real output of Exponential Tron's test world
 (`tests/fixtures/stdio_server.php`, fixed clock 2026-11-24 12:00 UTC, example data); on your installation the values
 differ, the shapes do not.
 
-The first part covers what tron 0.0.0.1 does today (programs `tron`, `centre`, `katalyst`); search has its own program
+The first part covers what Exponential Tron 0.0.0.1 does today (programs `tron`, `centre`, `katalyst`); search has its own program
 since then (`search`, below). The second part covers content editing, class inspection, settings and user audits:
 their programs are planned for the next wave, and the section says what to do until then, including writing the
 program yourself.
@@ -43,7 +43,7 @@ New tickets go to the first lane of `[CentreSettings] Lanes[]` (`inbox`) on the 
 
 ### 2. Triage the inbox with a prompt
 
-**Role:** `tron Editor`. tron ships the prompt `centre_triage`; clients show it as a slash command or a prompt picker
+**Role:** `tron Editor`. Exponential Tron ships the prompt `centre_triage`; clients show it as a slash command or a prompt picker
 (in Claude Code: `/mcp__tron__centre_triage`).
 
 `prompts/get {"name":"centre_triage"}` renders:
@@ -164,7 +164,7 @@ planned ones and may still change):
 | Write an article from Markdown, preview, publish | `content`: a write tool with a preview step | the administration |
 | Inspect a content class | `classes`: list, describe | Setup > Classes |
 | Resolve a setting across siteaccesses and overrides | `system`: ini resolve, siteaccess, extension, cache info, system check | Setup > tron > Settings shows tron.ini; the kernel's INI editor for the rest |
-| Who may do what (user and role audit) | `users`: get, role describe, access check | Setup > tron > Programs and tools (roles per tool policy), the kernel's role views, and tron's audit |
+| Who may do what (user and role audit) | `users`: get, role describe, access check | Setup > tron > Programs and tools (roles per tool policy), the kernel's role views, and Exponential Tron's audit |
 | Render a page and inspect its template | `template`: resolve, inspect | the kernel's debug output |
 
 Each will ship with cookbook entries run by the test suite, per-role permission tests, and write tools that are
@@ -173,7 +173,7 @@ audited before they run like every write today.
 ### Writing one of these yourself today
 
 The program model is stable, so an installation that needs a tool now can write it. A minimal read-only settings
-lookup as a sketch (not shipped with tron, and not run by its suite; test yours with the fixture as the program guide
+lookup as a sketch (not shipped with Exponential Tron, and not run by its suite; test yours with the fixture as the program guide
 shows):
 
 ```php

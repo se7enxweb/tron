@@ -1,6 +1,6 @@
 # The HTTP transport
 
-tron serves MCP's **streamable HTTP** transport at the module view `tron/mcp`, in its **stateless** form: every
+Exponential Tron serves MCP's **streamable HTTP** transport at the module view `tron/mcp`, in its **stateless** form: every
 request is a POST carrying one JSON-RPC message, every answer is a single
 JSON body. No session id, no event stream, nothing kept between requests. Any serving node can answer any request,
 so a cluster behind a load balancer needs no stickiness.
@@ -23,7 +23,7 @@ AllowedHosts[]=<host>
 ```
 
 1. Choose a user-facing siteaccess with `RequireUserLogin=false`. An administration siteaccess sends anonymous
-   requests to its login page before tron runs.
+   requests to its login page before Exponential Tron runs.
 2. The siteaccess's `[SiteAccessRules]` must not close the module `tron`.
 3. `tron/mcp` is already in `[RoleSettings] PolicyOmitList` (tron's `settings/site.ini.append.php`): the view signs
    callers in with tokens, not with sessions, and checks the token user's policies on every call.
@@ -31,7 +31,7 @@ AllowedHosts[]=<host>
 
 ### The short address /mcp
 
-tron answers at `/tron/mcp` (or `/<sa>/tron/mcp` with URI-matched siteaccesses). For `https://<host>/mcp`, add a
+Exponential Tron answers at `/tron/mcp` (or `/<sa>/tron/mcp` with URI-matched siteaccesses). For `https://<host>/mcp`, add a
 global URL alias `mcp` with the destination `tron/mcp` (Setup, URL translator). Clients may use either address.
 
 ### Apache and the Authorization header
@@ -43,26 +43,26 @@ Apache with PHP-FPM drops `Authorization` unless told to pass it on. Add to the 
 SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 ```
 
-`CGIPassAuth On` does the same where the handler is a CGI one. tron reads `HTTP_AUTHORIZATION` and Apache's
+`CGIPassAuth On` does the same where the handler is a CGI one. Exponential Tron reads `HTTP_AUTHORIZATION` and Apache's
 `REDIRECT_HTTP_AUTHORIZATION`. Velocity passes the header as it is. nginx with PHP-FPM passes it by default through
 `fastcgi_params`.
 
 ### A request filter in front
 
 Where a request filter allows POST only to known form addresses (exp_request_shield's rule EXP-POST, for example), it
-answers a POST to the endpoint with 405 before tron runs. tron ships the rules it needs in
+answers a POST to the endpoint with 405 before Exponential Tron runs. tron ships the rules it needs in
 `doc/request-shield/tron.rules`: POST allowed, no Origin check and no browser challenge, and only for `/mcp` and
 `**/tron/mcp`. tron does those checks itself with the token. Include the file above the first site block of the main
 rule file, then run the filter's `check` and `test` commands; [hosting.md](hosting.md) has the steps.
 
-## What tron checks, in order
+## What Exponential Tron checks, in order
 
 Each refusal is a JSON-RPC error object with `id: null` and the HTTP status below; the first failing check answers.
 
 | # | Check | Refusal | Body message |
 |---|---|---|---|
 | 0 | `[HTTPSettings] Enabled=true` and the siteaccess listed | **404** | `Not found` |
-| 1 | method is POST | **405** with `Allow: POST` (OPTIONS: **204**) | tron serves MCP over POST only; it offers no event stream. |
+| 1 | method is POST | **405** with `Allow: POST` (OPTIONS: **204**) | Exponential Tron serves MCP over POST only; it offers no event stream. |
 | 2 | no `Origin` header, or one listed in `AllowedOrigins[]` | **403** | Forbidden: this Origin is not allowed |
 | 3 | `Host` listed in `AllowedHosts[]` (when the list is not empty; the port is ignored) | **421** | Misdirected request: this Host is not served here |
 | 4 | `Content-Type: application/json` | **415** | Unsupported media type: send application/json |
@@ -81,7 +81,7 @@ or disabled) goes to the audit, never to the caller.
 
 | Request | Version used |
 |---|---|
-| `initialize` without the header | negotiated from `params.protocolVersion` (a version tron speaks, else the newest, 2025-11-25) |
+| `initialize` without the header | negotiated from `params.protocolVersion` (a version Exponential Tron speaks, else the newest, 2025-11-25) |
 | any other request without the header | 2025-03-26, as the specification says for a missing header |
 | any request with `MCP-Protocol-Version: <v>` | `<v>` (400 when tron does not speak it) |
 
@@ -193,7 +193,7 @@ browser-based MCP client you trust, and always together with `AllowedHosts[]`.
 - Each request builds the server anew (programs registered, settings read): about 10 to 45 ms on a large installation,
   before the tool's own work. Medians measured through Velocity were about 120 ms per request, through the public load
   balancer and PHP-FPM about 300 ms ([performance.md](performance.md)).
-- tron holds no connection open, so proxy timeouts of a minute or two are ample.
+- Exponential Tron holds no connection open, so proxy timeouts of a minute or two are ample.
 
 ## Not offered (yet)
 

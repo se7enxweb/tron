@@ -1,6 +1,6 @@
 # Quick start in 5 minutes
 
-The shortest path from an Exponential installation to an AI agent calling tron's tools. Every command runs from the
+The shortest path from an Exponential installation to an AI agent calling Exponential Tron's tools. Every command runs from the
 installation root. `<sa>` is an administration siteaccess (for example `admin`), `<php>` the PHP binary the
 installation runs (it may need a newer PHP than tron does). Run as root, every command needs `--allow-root-user`.
 
@@ -42,7 +42,7 @@ shared administrator. Then **Roles and policies**, a new role `tron Editor`:
 | tron | centre_read | none |
 | tron | centre_write | none |
 
-Assign the role to the new user. Grant the functions **without** limitations: tron treats a limited policy as not
+Assign the role to the new user. Grant the functions **without** limitations: Exponential Tron treats a limited policy as not
 granted ([permissions.md](permissions.md)).
 
 ## 3. Make a token (30 seconds)
@@ -59,7 +59,7 @@ user who holds `tron/admin` (a token for yourself needs only your own).
 The token is written with mode 0600 and never printed. Only its SHA-256 hash is kept in the database.
 [tokens.md](tokens.md) covers rotation, revocation and expiry.
 
-## 4. Register tron with your MCP client (1 minute)
+## 4. Register Exponential Tron with your MCP client (1 minute)
 
 **Claude Code** (on the server, stdio):
 

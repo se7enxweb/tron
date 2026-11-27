@@ -1,11 +1,11 @@
 # Upgrading
 
-How to move an installation from one tron version to the next, and what each version changed that an upgrade must
+How to move an installation from one Exponential Tron version to the next, and what each version changed that an upgrade must
 know about.
 
 ## Version numbers
 
-tron uses four positions, `X.Y.Z.N`, and **only the last position moves for a change**: 0.0.0.1, 0.0.0.2, ...
+Exponential Tron uses four positions, `X.Y.Z.N`, and **only the last position moves for a change**: 0.0.0.1, 0.0.0.2, ...
 0.0.0.9, 0.0.0.10, 0.0.0.11. A `.9` is followed by `.10`, never by `0.0.1.0`; moving any higher position is a
 deliberate decision about what a release means, not a consequence of reaching nine. Compare versions numerically, never
 as text: `0.0.0.10` is newer than `0.0.0.9` (`tronVersion::compare()` does this; in shell use `sort -V` or
@@ -34,7 +34,7 @@ On the master tree of the installation, then on every serving node after the tre
 8. **New policies**: grant any new function the changelog names to the roles that need it.
 9. **Agents**: running stdio servers keep the old code until their client restarts them. Ask sessions to restart.
 
-Tokens, audit rows, switches and tickets are kept across upgrades. tron never changes a kernel table.
+Tokens, audit rows, switches and tickets are kept across upgrades. Exponential Tron never changes a kernel table.
 
 ## Rolling back
 
@@ -42,7 +42,7 @@ Tokens, audit rows, switches and tickets are kept across upgrades. tron never ch
 2. Autoloads, caches, workers as above.
 3. Tables a newer version added stay; an older version ignores them.
 
-To switch tron off entirely, see [runbook.md](runbook.md), "Roll back": close HTTP, remove `ActiveExtensions[]=tron`,
+To switch Exponential Tron off entirely, see [runbook.md](runbook.md), "Roll back": close HTTP, remove `ActiveExtensions[]=tron`,
 deploy. The tables can stay; they hold the audit and tokens.
 
 ## Notes per version
@@ -77,15 +77,15 @@ SSRF guard refuses those addresses as "private" instead of "mesh", and nothing i
 
 Nothing to upgrade from. A fresh install creates seven tables: `tron_token`, `tron_audit`, `tron_switch` and the four
 `tron_centre_*` tables. An installation that ran an early preview without `tron_switch` gets it from `tron.php install`;
-until then the switches in Setup > tron have no effect and tron serves every program.
+until then the switches in Setup > tron have no effect and Exponential Tron serves every program.
 
 Policies to grant: `tron/use` for anyone who connects, the program functions (`centre_read`, `centre_write`,
-`centre_decide`, `katalyst_read`, `katalyst_detail`), and for the people who run tron `tron/admin`, `tron/tokens`,
+`centre_decide`, `katalyst_read`, `katalyst_detail`), and for the people who run Exponential Tron `tron/admin`, `tron/tokens`,
 `tron/audit`.
 
-## Upgrading the installation around tron
+## Upgrading the installation around Exponential Tron
 
-- **A new PHP for the installation**: tron runs on 7.4 to 8.5; update the PHP in every MCP client entry
+- **A new PHP for the installation**: Exponential Tron runs on 7.4 to 8.5; update the PHP in every MCP client entry
   (`command`) and SSH command at the same time, or they start the old binary.
 - **A kernel upgrade**: run `tron.php status` and the probe afterwards; tron uses only long-standing kernel interfaces.
 - **A database move**: tron's tables move with the database. Tokens keep working (they are hashes of themselves, not

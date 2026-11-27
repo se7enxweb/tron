@@ -2,7 +2,7 @@
 
 Images, files, videos, galleries, audio, logos and banners: the oldest items, where they live, and the image aliases and their settings.
 
-- Pack: `media` 0.0.0.1 in `share/skills/media/` (tron's own packs)
+- Pack: `media` 0.0.0.1 in `share/skills/media/` (Exponential Tron's own packs)
 - Prefix: `media.`
 - Skills: 4
 - Audience: Editors who keep the media library tidy, and developers who change image sizes.

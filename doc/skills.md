@@ -6,7 +6,7 @@ between them (keep, sort, count, group ...), guards, and the schema of its answe
 read exactly what it will do before it runs, and it can never do more than the person who runs it could do by hand:
 every unit it calls is checked against that person's policies and written to the audit log on its own.
 
-Skills come in packs, and packs are the loadable parts of the library: tron ships its own starter packs, and any
+Skills come in packs, and packs are the loadable parts of the library: Exponential Tron ships its own starter packs, and any
 Exponential extension can ship packs of its own (and programs, which bring new units). People remix skills by forking
 them into a pack of their own site.
 
@@ -180,7 +180,7 @@ php extension/tron/bin/php/tron-skills.php harness --live --token-file=<test adm
 For each skill it checks, in order: the manifest keeps the standard; every unit is registered here and only reads;
 the policy simulator allows every unit and guard for the user; every example runs and its answer matches the output
 schema; and no answer still holds anything the redactor would mask. The fixtures plant canaries (a fake password, a
-real-shaped tron token, an e-mail address) in ticket bodies and comments; they must never reach an answer. A skill
+real-shaped Exponential Tron token, an e-mail address) in ticket bodies and comments; they must never reach an answer. A skill
 whose unit is not here is `parked`, not failed. A skill is proven when a mode passed and none failed. A skill that is
 not proven is never offered, whatever its approval says.
 
@@ -224,12 +224,12 @@ site can commit them to its own extension and ship them as a pack.
 ## Translations
 
 A skill carries its own translations in `"i18n": { "ger-DE": { "title": ..., "purpose": ..., "use_case": ... } }`; the
-administration shows them for the user's locale. The interface texts of Setup > tron > Skills are in tron's
+administration shows them for the user's locale. The interface texts of Setup > tron > Skills are in Exponential Tron's
 `translations/eng-GB` and `translations/ger-DE`.
 
 ## Starter library
 
-tron ships these packs (counts per state are in Setup > tron > Skills and `tron-skills.php counts`):
+Exponential Tron ships these packs (counts per state are in Setup > tron > Skills and `tron-skills.php counts`):
 
 | Pack | Prefix | About |
 |---|---|---|
@@ -247,7 +247,7 @@ tron ships these packs (counts per state are in Setup > tron > Skills and `tron-
 | [layouts-and-blocks](skill-packs/layouts-and-blocks.md) | `layout.` | Exponential Layouts: layouts, zones, blocks, rules |
 | [templates-and-overrides](skill-packs/templates-and-overrides.md) | `tpl.` | which template renders what, lint, source |
 | [users-and-roles](skill-packs/users-and-roles.md) | `role.` | access reviews |
-| [ops-reports](skill-packs/ops-reports.md) | `ops.` | tron itself |
+| [ops-reports](skill-packs/ops-reports.md) | `ops.` | Exponential Tron itself |
 | [katalyst-reports](skill-packs/katalyst-reports.md) | `katalyst.` | hosting and shop reports by ids and counts |
 
 ## Administration

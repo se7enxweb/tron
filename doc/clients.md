@@ -1,6 +1,6 @@
 # Connecting MCP clients
 
-tron speaks standard MCP over two transports, so any MCP client works. This page gives the configuration for the
+Exponential Tron speaks standard MCP over two transports, so any MCP client works. This page gives the configuration for the
 common clients, for each of the three ways in:
 
 | Way in | When | Identity | Network |
@@ -30,7 +30,7 @@ Every stdio configuration runs this command:
 | `--token-file=<file>` | a file holding the token (one line) | the usual choice; keep the file 0600 |
 | `--user=<login>` | the command line | no token at all; refused unless an override sets `[StdioSettings] AllowLoginOption=enabled` (off by default since 0.0.0.14) |
 
-The server refuses to start when it has no token (or a refused one), when the user is missing or disabled, when the user lacks `tron/use`, or when tron's tables
+The server refuses to start when it has no token (or a refused one), when the user is missing or disabled, when the user lacks `tron/use`, or when Exponential Tron's tables
 are missing; the reason is printed on stderr (MCP clients show it in their server log). `tron.php` changes into the
 installation root itself, so an absolute path from any working directory works. stdout carries only MCP messages.
 
@@ -94,7 +94,7 @@ claude mcp list                  # tron ... Connected
 claude mcp get tron
 ```
 
-In a session, `/mcp` shows the server and its tools. Claude Code names tron's tools `mcp__tron__<tool>` (for example
+In a session, `/mcp` shows the server and its tools. Claude Code names Exponential Tron's tools `mcp__tron__<tool>` (for example
 `mcp__tron__centre_ticket_list`); with several installations, the server name keeps them apart
 ([multi-site.md](multi-site.md)). A session loads its MCP servers when it starts: after changing the configuration,
 start a new session.
@@ -118,7 +118,7 @@ start a new session.
 On a machine that holds the installation itself, use the `<php>` command directly instead of `ssh`. Restart Desktop
 after editing the file.
 
-For the HTTP endpoint, Desktop's remote connectors expect OAuth sign-in, which tron does not offer yet (planned, see
+For the HTTP endpoint, Desktop's remote connectors expect OAuth sign-in, which Exponential Tron does not offer yet (planned, see
 [roadmap.md](roadmap.md)). Until then use stdio over SSH, or a local stdio-to-HTTP bridge that adds the
 `Authorization` header (for example the community package `mcp-remote` with its `--header` option) if your policy
 allows third-party bridges.
@@ -175,7 +175,7 @@ never written into the file:
 
 ## Any other client
 
-| The client needs | tron gives |
+| The client needs | Exponential Tron gives |
 |---|---|
 | a stdio command | `tron.php serve ...` as above; newline-delimited JSON-RPC 2.0 on stdin/stdout |
 | a "streamable HTTP" URL | `https://<host>/tron/mcp` (or `/mcp` with the URL alias); POST only, JSON answers |

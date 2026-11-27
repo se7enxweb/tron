@@ -2,7 +2,7 @@
 
 Settings checks with a verdict: debug and SQL output off, caches on, development mode off, mail and site basics set, security settings of the admin and public siteaccesses, and a production-readiness check in one call.
 
-- Pack: `site-audit` 0.0.0.1 in `share/skills/site-audit/` (tron's own packs)
+- Pack: `site-audit` 0.0.0.1 in `share/skills/site-audit/` (Exponential Tron's own packs)
 - Prefix: `audit.`
 - Skills: 19
 - Audience: Whoever signs off a launch or a deploy, and periodic audits.

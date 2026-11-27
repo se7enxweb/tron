@@ -43,7 +43,7 @@ xsh tron:skill:run content.latest --class ng_article
 
 Over MCP a live skill is the tool `skill_content_latest` and a prompt of the same name.
 
-See tron's doc/skills.md and doc/extension-conventions.md.
+See Exponential Tron's doc/skills.md and doc/extension-conventions.md.
 
 ---
 

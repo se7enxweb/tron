@@ -15,7 +15,7 @@ Every entry below was seen on a real installation (see [testing.md](testing.md))
 |---|---|---|
 | A CLI command prints "Running scripts as root may be dangerous" and does nothing | the kernel refuses root without the flag | add `--allow-root-user`, also in an MCP client's `serve` command |
 | `serve` exits "does not hold the policy tron/use" | the user's roles lack `tron/use` | grant it (doc/guides/site-admin.md) |
-| `serve` exits "missing tables" | tron was never installed here, or not on this database | `tron.php install --siteaccess=<sa>` |
+| `serve` exits "missing tables" | Exponential Tron was never installed here, or not on this database | `tron.php install --siteaccess=<sa>` |
 | "Composer detected issues in your platform" | the PHP is older than the installation needs | run the PHP the site runs (for 6.0.15 installations: 8.4 or later) |
 | The MCP client shows the server "failed" and nothing else | the server exited before answering; its reason is on stderr | run the same command in a shell; `tests/kernel/stdio_smoke.php` prints the reason |
 | A program shows `failed` in status | its reason is in the row: class not found, an exception in register(), a bad manifest | after adding a program: `php bin/php/ezpgenerateautoloads.php -e`; fix what the reason says |
@@ -25,7 +25,7 @@ Every entry below was seen on a real installation (see [testing.md](testing.md))
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| 404 from `/tron/mcp` | `[HTTPSettings] Enabled` is not `true`, the siteaccess is not in `SiteAccesses[]`, or this node lacks tron | settings; deploy tron to every serving node before traffic reaches it |
+| 404 from `/tron/mcp` | `[HTTPSettings] Enabled` is not `true`, the siteaccess is not in `SiteAccesses[]`, or this node lacks Exponential Tron | settings; deploy tron to every serving node before traffic reaches it |
 | 405 `{"status":405,"error":"not allowed","reference":...}` | the request shield's rule EXP-POST, before tron | include `doc/request-shield/tron.rules` (doc/hosting.md) |
 | 405 from tron itself (`Allow: POST`) | the client sent GET or DELETE | tron offers no event stream; clients POST |
 | 401 although the token works on stdio | Apache with PHP-FPM dropped the Authorization header | `SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1` (doc/hosting.md) |
@@ -53,7 +53,7 @@ Every entry below was seen on a real installation (see [testing.md](testing.md))
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| A second `install` fails with "relation already exists" | tron before 0.0.0.1's fix asked the kernel's table list, which on PostgreSQL holds only `ez*` tables | use tron with the fix (testing.md, defect 1) |
+| A second `install` fails with "relation already exists" | Exponential Tron before 0.0.0.1's fix asked the kernel's table list, which on PostgreSQL holds only `ez*` tables | use tron with the fix (testing.md, defect 1) |
 | "tron's schema has no statements for the engine ..." | Oracle and MongoDB are not supported yet | planned; see the plan |
 | Katalyst tools absent | sevenx_katalyst is not active in this installation, or `[KatalystSettings] Source=none` | expected outside the Katalyst installation |
 

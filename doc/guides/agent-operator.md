@@ -1,6 +1,6 @@
 # Guide for agent operators
 
-You run AI agents (Claude Code sessions, scripts, other MCP clients) against an installation with tron. This page:
+You run AI agents (Claude Code sessions, scripts, other MCP clients) against an installation with Exponential Tron. This page:
 how to connect, what the agent sees, how to keep its power small, and how to see what it did.
 
 ## Choose the way in

@@ -5,7 +5,7 @@ Diff engines, structured diffs, a three-way merge and four renderers. Policy `tr
 
 ## Engines
 
-tron carries its own engines (`tronDiffEngine`); the installation needs no diff library (none is installed for
+Exponential Tron carries its own engines (`tronDiffEngine`); the installation needs no diff library (none is installed for
 production use here: `sebastian/diff` is only a test dependency, and tron does not run composer).
 
 - **Myers** (default): the shortest edit script, O(ND). Common prefix and suffix are taken first; above 6000 edits a

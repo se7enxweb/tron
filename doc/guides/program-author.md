@@ -1,6 +1,6 @@
 # Guide for extension authors: writing a program
 
-A program adds tools, resources and prompts to tron from your extension. This guide builds one step by step; the
+A program adds tools, resources and prompts to Exponential Tron from your extension. This guide builds one step by step; the
 finished example is `examples/hello/`, and `examples/scripts/07-your-own-program.php` runs it
 ([cookbook](../cookbook.md), example 7). The reference is [../programs.md](../programs.md).
 
@@ -13,7 +13,7 @@ finished example is `examples/hello/`, and `examples/scripts/07-your-own-program
   "title": "My extension", "description": "What its tools are for." }
 ```
 
-The name is the prefix of everything you register: tools and prompts `myext_*`, resources `myext://...`. tron
+The name is the prefix of everything you register: tools and prompts `myext_*`, resources `myext://...`. Exponential Tron
 refuses anything else, so two programs can never take each other's names.
 
 ## 2. The class
@@ -70,7 +70,7 @@ $registry->tool( tronTool::define( array(
 },
 ```
 
-tron writes a `started` audit entry before the handler runs, and does not run it when that fails. Throw
+Exponential Tron writes a `started` audit entry before the handler runs, and does not run it when that fails. Throw
 `tronToolError` for refusals the agent should read; any other exception is reported as "internal error" and logged.
 
 ## 5. A resource and a prompt

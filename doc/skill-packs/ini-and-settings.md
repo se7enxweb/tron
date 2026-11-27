@@ -2,7 +2,7 @@
 
 Where a setting is set and what wins: key settings of site.ini, image.ini, content.ini and more with every file that sets them, siteaccess comparisons per INI file, block inventories and who overrides what.
 
-- Pack: `ini-and-settings` 0.0.0.1 in `share/skills/ini-and-settings/` (tron's own packs)
+- Pack: `ini-and-settings` 0.0.0.1 in `share/skills/ini-and-settings/` (Exponential Tron's own packs)
 - Prefix: `ini.`
 - Skills: 6
 - Audience: Developers and site administrators who change settings, and anyone asking why two siteaccesses behave differently.

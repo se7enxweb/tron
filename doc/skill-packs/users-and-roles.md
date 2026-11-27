@@ -2,7 +2,7 @@
 
 Access reviews: policies of a role per module, unlimited policies, who has a role, finding users with their roles, disabled users and administrators.
 
-- Pack: `users-and-roles` 0.0.0.1 in `share/skills/users-and-roles/` (tron's own packs)
+- Pack: `users-and-roles` 0.0.0.1 in `share/skills/users-and-roles/` (Exponential Tron's own packs)
 - Prefix: `role.`
 - Skills: 7
 - Audience: Administrators who review access, and support answering "why can this person (not) do that?".

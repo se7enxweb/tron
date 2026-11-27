@@ -2,7 +2,7 @@
 
 Which template renders a node in each view mode and why, which file renders the page layout, edit, login and error pages, template lint and source, override rules.
 
-- Pack: `templates-and-overrides` 0.0.0.1 in `share/skills/templates-and-overrides/` (tron's own packs)
+- Pack: `templates-and-overrides` 0.0.0.1 in `share/skills/templates-and-overrides/` (Exponential Tron's own packs)
 - Prefix: `tpl.`
 - Skills: 7
 - Audience: Template developers and anyone debugging how a page renders.

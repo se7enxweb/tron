@@ -1,18 +1,18 @@
-# tron operations
+# Exponential Tron operations
 
-The state of tron itself: who a session acts as, the programs and their state, failed programs, tools left out and the protocol versions.
+The state of Exponential Tron itself: who a session acts as, the programs and their state, failed programs, tools left out and the protocol versions.
 
 Pack `ops-reports` 0.0.0.1, GPL-2.0-or-later, by 7x. Skill names start with `ops.`.
 
 ## Who it is for
 
-Operators of tron and anyone connecting a new client.
+Operators of Exponential Tron and anyone connecting a new client.
 
 ## Skills
 
 | Skill | What it answers | Parameters | Units | Wave |
 |---|---|---|---|---|
-| `ops.tron.whoami` | The user, token and transport this tron session acts as. | (none) | tron_whoami | A |
+| `ops.tron.whoami` | The user, token and transport this Exponential Tron session acts as. | (none) | tron_whoami | A |
 | `ops.tron.programs` | The programs tron loaded, with their version and state. | (none) | tron_status | A |
 | `ops.tron.failed-programs` | The programs that failed, conflict or need a newer tron, with the reason. | (none) | tron_status | A |
 | `ops.tron.left-out` | The tools a program left out on purpose here, with the reason (a missing extension or source). | (none) | tron_status | A |
@@ -33,7 +33,7 @@ xsh tron:skill:run ops.tron.whoami
 
 Over MCP a live skill is the tool `skill_ops_tron_whoami` and a prompt of the same name.
 
-See tron's doc/skills.md and doc/extension-conventions.md.
+See Exponential Tron's doc/skills.md and doc/extension-conventions.md.
 
 ---
 

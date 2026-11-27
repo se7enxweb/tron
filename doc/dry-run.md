@@ -1,6 +1,6 @@
 # Dry runs: see the exact change, then apply exactly that
 
-Every write tool of tron can run as a dry run. Nothing changes; the answer is the exact change the call would make,
+Every write tool of Exponential Tron can run as a dry run. Nothing changes; the answer is the exact change the call would make,
 and a plan id. A second call with that plan id applies the change, but only if it is still exactly the planned one.
 
 ```
@@ -22,7 +22,7 @@ true}` makes the call a dry run, `"_meta": {"tron/planId": "<id>"}` applies a pl
 
 | Mode | Used by | How the change is found | How apply checks it |
 |---|---|---|---|
-| `transaction` | the centre tools on tron's tables (`centre_ticket_*`, `centre_decision_record`) | the tool runs for real inside a database transaction; its tables are read before and after; the difference is the change; the transaction is rolled back | the tool runs again inside a transaction; the change, normalised, must equal the planned one byte for byte, else the transaction is rolled back and the apply refused |
+| `transaction` | the centre tools on Exponential Tron's tables (`centre_ticket_*`, `centre_decision_record`) | the tool runs for real inside a database transaction; its tables are read before and after; the difference is the change; the transaction is rolled back | the tool runs again inside a transaction; the change, normalised, must equal the planned one byte for byte, else the transaction is rolled back and the apply refused |
 | `computed` | `content_node_update`, the centre tools in front of centre's API | the tool computes the change from the current state without writing: attribute by attribute from/to, the version the publish will make, and the effects outside the tables | the plan is computed again; its state (object, versions, modified, every editable value; or the card as centre returns it) and its changes must be unchanged, then the tool runs |
 
 Normalising (transaction mode) leaves out values that legitimately differ between the dry run and the apply:
@@ -36,7 +36,7 @@ updated".
 
 ## What a plan is bound to
 
-A plan id is 32 hex characters. tron keeps, in the table `tron_plan`, only hashes: of the arguments (after
+A plan id is 32 hex characters. Exponential Tron keeps, in the table `tron_plan`, only hashes: of the arguments (after
 defaults), of the state and of the change, plus who made it, with which token, for which tool, when it expires and
 whether it was used. Never the arguments or the change themselves.
 

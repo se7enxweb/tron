@@ -1,6 +1,6 @@
 # Performance
 
-tron is small and does little per call besides the tool's own work: build the server, check the policy, validate the
+Exponential Tron is small and does little per call besides the tool's own work: build the server, check the policy, validate the
 arguments, write the audit. This page gives the measured costs, what drives them and what to tune. All figures are
 from the proving runs recorded in [testing.md](testing.md) (a development installation with about 68 active
 extensions, PostgreSQL over a private network, PHP 8.5, PHP-FPM and Velocity) unless stated otherwise.
@@ -48,7 +48,7 @@ server: page with `limit` and `offset`.
 | Faster HTTP | serve the endpoint through Velocity; keep the database close to the nodes |
 | Less audit cost | one sink (`database` or `file`), not both; the file sink is cheaper than a remote database |
 | Smaller answers | lower `ResponseMaxBytes`; teach agents to page (see the prompt cookbook) |
-| Less registration | leave unused programs out (`[ProgramSettings] Disabled[]`, or switches in Setup > tron); `ExtensionScan=disabled` when only tron's own programs are wanted |
+| Less registration | leave unused programs out (`[ProgramSettings] Disabled[]`, or switches in Setup > tron); `ExtensionScan=disabled` when only Exponential Tron's own programs are wanted |
 | Lists that stay fast | the centre tables are indexed by board, lane and status, by status and change time, and by decision week; audit by time and by user |
 
 Program authors: keep `register()` free of work (it runs on every HTTP request), page every list, select only the

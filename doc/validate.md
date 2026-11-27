@@ -10,7 +10,7 @@ never the address or number.
 
 | tool | rules (prefix) | notes |
 |---|---|---|
-| `validate_html` | `html.*`: parse, tag-mismatch, entity, structure, doctype, lang, title, duplicate-id, id-syntax, label-for, img-alt, button-name, link-name, javascript-url, target-blank, nested-form, input-label, obsolete, inline-style, inline-handler | libxml for structure (HTML5 elements and custom elements are not complaints), tron's rules on the tree; `html` or `url` |
+| `validate_html` | `html.*`: parse, tag-mismatch, entity, structure, doctype, lang, title, duplicate-id, id-syntax, label-for, img-alt, button-name, link-name, javascript-url, target-blank, nested-form, input-label, obsolete, inline-style, inline-handler | libxml for structure (HTML5 elements and custom elements are not complaints), Exponential Tron's rules on the tree; `html` or `url` |
 | `validate_css` | `css.*`: comment, string, brace, paren, selector, declaration, declaration-outside, property, value, color, duplicate-property, empty-rule, at-rule, important, trailing | a tokenizer that understands strings, comments, `url()`, nesting and custom properties |
 | `validate_json` | `json.syntax`, `schema.*` (one per keyword) | the syntax error's line and column; JSON Schema draft 2020-12 and draft-07 keywords, local `$ref` only |
 | `validate_xml` | `xml.syntax`, `xml.entity`, `xsd.invalid`, `xsd.entity` | entity declarations refused (XXE); an XSD's imports are never fetched |

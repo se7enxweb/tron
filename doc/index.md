@@ -1,6 +1,6 @@
-# tron documentation
+# Exponential Tron documentation
 
-tron brings the ordinary MCP connector up to what a content platform needs, and hands control back to the people who
+Exponential Tron brings the ordinary MCP connector up to what a content platform needs, and hands control back to the people who
 run it: every call an agent makes runs as a real Exponential user under that user's roles and policies, every tool
 can be switched on or off, every token expires and can be revoked, and every call is audited. This is the map of its
 documentation. Every page lives in this directory; the README at the top of the extension is the overview.
@@ -13,7 +13,7 @@ documentation. Every page lives in this directory; the README at the top of the 
 | [getting-started.md](getting-started.md) | The same path with the reasons, about fifteen minutes |
 | [clients.md](clients.md) | Claude Code, Claude Desktop, Cursor, VS Code and any other MCP client, over stdio, SSH and HTTP |
 | [use-cases.md](use-cases.md) | Worked end-to-end examples: tickets, triage, decisions, links, reports, reviews |
-| [prompt-cookbook.md](prompt-cookbook.md) | Prompts that work well with tron's tools, and the ones to avoid |
+| [prompt-cookbook.md](prompt-cookbook.md) | Prompts that work well with Exponential Tron's tools, and the ones to avoid |
 | [faq.md](faq.md) | Short answers |
 
 ## Guides by role
@@ -24,11 +24,11 @@ documentation. Every page lives in this directory; the README at the top of the 
 | [guides/site-admin.md](guides/site-admin.md) | People who run the installation: roles, tokens, endpoint, audit, Setup > tron |
 | [guides/program-author.md](guides/program-author.md) | Extension authors: a program step by step |
 
-## Running tron
+## Running Exponential Tron
 
 | Page | Covers |
 |---|---|
-| [configuration.md](configuration.md) | Every tron.ini setting, the settings tron adds elsewhere, recipes |
+| [configuration.md](configuration.md) | Every tron.ini setting, the settings Exponential Tron adds elsewhere, recipes |
 | [cli.md](cli.md) | `tron.php` and `tron-schema.php`, every command and option, the test and smoke scripts |
 | [admin-views.md](admin-views.md) | Setup > tron: dashboard, tokens, programs and tools with switches, audit with live tail, settings |
 | [agent-rules.md](agent-rules.md) | The agent rules layer: the site's AGENTS.md, the shipped MASTER.md that supersedes it, overrides, every off-switch, the questionnaire and the expai wizard |
@@ -71,7 +71,7 @@ documentation. Every page lives in this directory; the README at the top of the 
 | [skill-packs/](skill-packs/) | The starter skill packs, one page each |
 | [architecture.md](architecture.md) | Core, programs, transports, the request path, data, kernel binding |
 | [protocol.md](protocol.md) | The protocol layer: the official MCP PHP SDK, the frozen legacy layer, the official conformance suite |
-| [theory.md](theory.md) | What tron guarantees, each claim tied to the test that proves it |
+| [theory.md](theory.md) | What Exponential Tron guarantees, each claim tied to the test that proves it |
 | [testing.md](testing.md) | The suite, the PHP matrix, kernel probe and smoke tests, proving runs, defects found and fixed |
 | [cookbook.md](cookbook.md) | Eight runnable examples whose output the suite checks byte for byte |
 | [glossary.md](glossary.md) | The terms used across these pages |

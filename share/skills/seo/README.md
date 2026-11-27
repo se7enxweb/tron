@@ -32,7 +32,7 @@ xsh tron:skill:run seo.urls --class ng_article
 
 Over MCP a live skill is the tool `skill_seo_urls` and a prompt of the same name.
 
-See tron's doc/skills.md and doc/extension-conventions.md.
+See Exponential Tron's doc/skills.md and doc/extension-conventions.md.
 
 ---
 

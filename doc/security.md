@@ -1,12 +1,12 @@
 # Security
 
-tron hands an AI agent access to a running installation. This page says what protects that access.
+Exponential Tron hands an AI agent access to a running installation. This page says what protects that access.
 
 ## Summary
 
 - **Fail closed.** The HTTP endpoint answers 404 until `[HTTPSettings] Enabled=true` lists the siteaccess. stdio
   refuses to start without a user that holds `tron/use`, and without the tables (no audit, no run).
-- **One permission model: the installation's.** Every tool names an Exponential policy; tron asks `eZUser::hasAccessTo`
+- **One permission model: the installation's.** Every tool names an Exponential policy; Exponential Tron asks `eZUser::hasAccessTo`
   for the token's user. Tools a user may not call are not listed, and a call is refused and audited.
 - **Per-user tokens**, hashed, expiring, revocable, scoped to programs.
 - **Everything audited**, writes before they run.
@@ -35,7 +35,7 @@ Module `tron`, functions:
 |---|---|
 | `use` | connect at all (both transports); `tron_whoami`, `tron_status` |
 | `admin` | see program origins and load times; manage other users' tokens (wave 2 admin views) |
-| `centre_read` | the centre read tools, resources and prompts (tron's own tables) |
+| `centre_read` | the centre read tools, resources and prompts (Exponential Tron's own tables) |
 | `centre_write` | create, update, comment, move, close and link tickets |
 | `centre_decide` | record a decision |
 | `katalyst_read` | Katalyst services, plans, orders; domains masked |
@@ -55,7 +55,7 @@ Suggested roles:
 | tron Operator (detail) | Operator + tron/katalyst_detail |
 | AI session | tron/use plus exactly what that session needs; never `admin`, `centre_decide` or `katalyst_detail` unless the owner grants it to one session |
 
-A policy granted **with limitations** (for example a Section limitation) is reported by the kernel as `limited`; tron
+A policy granted **with limitations** (for example a Section limitation) is reported by the kernel as `limited`; Exponential Tron
 treats it as not granted unless the tool declares `limitedOk` and checks the limitation itself. No built-in tool
 declares it, so give tron functions without limitations.
 
@@ -71,7 +71,7 @@ reaches a running stdio server when it restarts.
 | Checks | the user holds `tron/use`; tables present | method POST, Origin allowlist (empty: browsers refused), Host allowlist, `application/json`, body size, protocol version header, token, `tron/use` |
 | Session | for the process; initialize first | none (stateless) |
 
-Unlike servers that keep writes on stdio, tron allows write tools over HTTP: each HTTP caller is a named user with
+Unlike servers that keep writes on stdio, Exponential Tron allows write tools over HTTP: each HTTP caller is a named user with
 their own token and policies, which is the identity a write needs. An installation that wants read-only HTTP grants
 HTTP users no write functions, or scopes their tokens.
 
@@ -95,7 +95,7 @@ transport, remote address, method, target, program, outcome (`started`, `ok`, `e
 replaced; tokens and bearer strings masked anywhere; strings cut at 200 characters).
 
 Sinks: `database` (`tron_audit`), `file` (JSON lines, `[AuditSettings] FilePath`), or both. With both, an entry
-counts as kept only when both took it. tron does not start without a sink, and a **write tool does not run** when its
+counts as kept only when both took it. Exponential Tron does not start without a sink, and a **write tool does not run** when its
 `started` entry cannot be written. Read with `tron.php audit:tail`.
 
 ## Data that leaves the server

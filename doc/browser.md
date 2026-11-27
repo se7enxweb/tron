@@ -15,7 +15,7 @@ Headless Chromium, Chrome for Testing, Firefox and WebKit, as queued jobs on the
      minutes);
    - asks Playwright (pinned: `[BrowserSettings] PlaywrightVersion`, the runner's version) which build it needs;
    - **adopts** that build when it is already on the node (another Playwright cache, e.g. root's, when run through
-     xsh), else lets Playwright download it, into tron's own directory `[BrowserSettings] BrowsersPath`
+     xsh), else lets Playwright download it, into Exponential Tron's own directory `[BrowserSettings] BrowsersPath`
      (`/var/lib/tron/browsers`) only;
    - starts the engine once as proof and records its version and the sha256 of its executable in `engines.json`.
      The runner checks that checksum again before every job, so a changed binary is refused.
@@ -29,7 +29,7 @@ Headless Chromium, Chrome for Testing, Firefox and WebKit, as queued jobs on the
 | `firefox` | `firefox` | Playwright's Firefox |
 | `webkit` | `webkit` | Playwright's WebKit (needs its system libraries; the install's proof start says when they are missing) |
 
-Google's branded Chrome is installed system-wide by its own packages, outside tron's directory, so it is not one of
+Google's branded Chrome is installed system-wide by its own packages, outside Exponential Tron's directory, so it is not one of
 tron's engines; Chrome for Testing is the same browser built for automation.
 
 ## Where jobs run

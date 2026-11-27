@@ -1,6 +1,6 @@
 # Theory and proofs
 
-What tron guarantees, why, and which test proves each claim. Every proof named here is a test in `tests/` that runs on
+What Exponential Tron guarantees, why, and which test proves each claim. Every proof named here is a test in `tests/` that runs on
 every `php tests/run.php` and on every PHP from 7.4 to 8.5 (`php tests/matrix.php`); `tests/conformance/TheoryTest.php`
 fails if a test named on this page does not exist. Claims about a real installation are proven by the runs recorded in
 [testing.md](testing.md).
@@ -10,11 +10,11 @@ Notation: **C** is a claim, **P** its proof.
 ## 1. The protocol
 
 The protocol is the official MCP PHP SDK's on PHP 8.2 and newer and the frozen legacy layer's before (protocol.md);
-the claims below hold on both unless they name a layer. tron speaks JSON-RPC 2.0 with the MCP methods `initialize`, `ping`, `tools/list`, `tools/call`, `resources/list`,
+the claims below hold on both unless they name a layer. Exponential Tron speaks JSON-RPC 2.0 with the MCP methods `initialize`, `ping`, `tools/list`, `tools/call`, `resources/list`,
 `resources/templates/list`, `resources/read`, `prompts/list`, `prompts/get`, in the versions 2025-11-25,
 2025-06-18, 2025-03-26 and 2024-11-05.
 
-**C1.1 Negotiation.** A client asking for a version tron speaks gets that version; any other is answered with the
+**C1.1 Negotiation.** A client asking for a version Exponential Tron speaks gets that version; any other is answered with the
 newest. *P:* `TronCoreUnitsTest::testProtocolNegotiation`, `TronMcpConformanceTest::testStdioNegotiatesEachVersion`
 (all four versions over real stdio), `TronServerAuditTest::testInitializeAnswers`.
 
@@ -36,7 +36,7 @@ invalid arguments carry the schema. *P:* `TronServerAuditTest::testToolCallResul
 2025-06-18 on; the SDK refuses batches in every version.
 *P:* `TronServerAuditTest::testBatchesFollowTheVersion`, `TronHttpTransportTest::testNoHeaderMeansTheDefaultVersion`.
 
-**C1.6 stdio carries only the protocol.** Every line tron writes to stdout is a JSON-RPC message; the session must
+**C1.6 stdio carries only the protocol.** Every line Exponential Tron writes to stdout is a JSON-RPC message; the session must
 begin with `initialize` (the legacy layer also answers ping before it); end of input ends the process with exit code
 0; an oversized line is refused (the legacy layer answers it with a parse error, the SDK drops it) and the server
 carries on. *P:* `TronServerAuditTest::testRequireInitializeOnStdio`,
@@ -53,7 +53,7 @@ once, sorted by name. *P:* `TronServerAuditTest::testToolsListPaginates`.
 
 ## 2. The permission model
 
-tron has no permissions of its own. A principal is an Exponential user (plus, over a token, the token's scopes).
+Exponential Tron has no permissions of its own. A principal is an Exponential user (plus, over a token, the token's scopes).
 
 **C2.1 Visibility equals permission.** A user sees in `tools/list` (and resource and prompt lists) exactly the tools
 whose policy the user holds; nothing more, nothing less. *P:* `TronPermissionMatrixTest::testToolsListPerRole` (ten
@@ -76,7 +76,7 @@ declares it checks the limitation itself. *P:* `TronPermissionMatrixTest::testLi
 **C2.6 HTTP needs tron/use.** A valid token of a user without `tron/use` gets 403; no token or a wrong one 401.
 *P:* `TronHttpTransportTest::testUsersWithoutTronUseAreRefused`, `TronHttpTransportTest::testRefusals`.
 
-**C2.7 Bridged programs are double-gated.** With expcentre, tron requires `centre/api` before centre is called, and
+**C2.7 Bridged programs are double-gated.** With expcentre, Exponential Tron requires `centre/api` before centre is called, and
 centre's own refusals reach the agent unchanged. *P:* `TronCentreBridgeTest::testTronGateBeforeCentre`,
 `TronCentreBridgeTest::testCentreErrorsBecomeToolErrors`.
 
@@ -98,7 +98,7 @@ recorded with user, token, transport, method, target, program, outcome and durat
 the tool does not run (read tools still answer). *P:* `TronServerAuditTest::testWriteToolsRefuseWithoutAudit`,
 `TronServerAuditTest::testEveryCallIsAudited` (started, then ok; the started row carries the arguments).
 
-**C4.3 Secrets do not reach the log.** Values under secret-looking keys, secrets written into text, tron tokens and
+**C4.3 Secrets do not reach the log.** Values under secret-looking keys, secrets written into text, Exponential Tron tokens and
 bearer strings are masked before any sink sees them. *P:* `TronCoreUnitsTest::testRedactor`,
 `TronServerAuditTest::testEveryCallIsAudited`, `TronHttpTransportTest::testRefusals`.
 

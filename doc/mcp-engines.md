@@ -1,18 +1,18 @@
 # MCP engines
 
-An MCP engine is an extension that serves tools to tron and, through tron, to every host that asks tron for tools:
+An MCP engine is an extension that serves tools to Exponential Tron and, through tron, to every host that asks tron for tools:
 expai's assistant in the admin panel, and tron's own stdio and HTTP transports. Several engines are active at once;
 each engine's tools carry its own prefix.
 
 | Prefix | Tools of |
 |---|---|
-| `tron__<tool>` | tron's own programs (`tron__tron_whoami`, `tron__centre_ticket_list`), as hosts see them |
+| `tron__<tool>` | Exponential Tron's own programs (`tron__tron_whoami`, `tron__centre_ticket_list`), as hosts see them |
 | `<id>__<tool>` | the engine registered as `[McpEngine_<id>]` (`notes__note_list`) |
 
-Over stdio and HTTP tron's own tools keep their plain names (`tron_whoami`); engine tools are `<id>__<tool>` there
+Over stdio and HTTP Exponential Tron's own tools keep their plain names (`tron_whoami`); engine tools are `<id>__<tool>` there
 too.
 
-Whatever engine serves a tool, tron does the same around every call: it offers the tool only to users who hold its
+Whatever engine serves a tool, Exponential Tron does the same around every call: it offers the tool only to users who hold its
 policy, checks the policy again on the call, writes the call to the audit log (a write tool before it runs, and it
 does not run when the audit log cannot take the entry), and honours a token's program scopes, `[ProgramSettings]
 Disabled[]` and the switches of Setup > tron. An engine id is a program name for all of these.
@@ -20,7 +20,7 @@ Disabled[]` and the switches of Setup > tron. An engine id is a program name for
 ## Registering an engine
 
 An extension ships the registration in its own `settings/tron.ini.append.php`. Activating the extension is enough;
-neither tron nor the host changes.
+neither Exponential Tron nor the host changes.
 
 ```ini
 [McpEngine_notes]
@@ -33,7 +33,7 @@ ReadPolicy=
 WritePolicy=notes/write
 ```
 
-- The id is `a-z0-9`, at most 20 characters, starting with a letter. `tron` is tron itself; `mcp` is reserved for
+- The id is `a-z0-9`, at most 20 characters, starting with a letter. `tron` is Exponential Tron itself; `mcp` is reserved for
   hosts that reach remote MCP servers. An id that is already a program name is a conflict.
 - `Enabled=disabled` switches the engine off. The change takes effect on the next request after the INI cache is
   cleared (`--clear-tag=ini`); tron keeps nothing between requests.
@@ -58,7 +58,7 @@ interface tronMcpEngine
 Each tool of `listTools()` is an array with `name` (`a-z0-9_`, at most 40 characters), `description`,
 `inputSchema` (type object), `write` (bool) and optionally `title` and `policy` (`array( module, function )`).
 `callTool()` runs as the Exponential user of `$principal` and returns an array or a string; it throws
-`tronToolError` for an answer the caller should see as an error. tron builds the class with
+`tronToolError` for an answer the caller should see as an error. Exponential Tron builds the class with
 `new Class( $settings )` (the INI group), or `Class::fromSettings( $settings )` when it has that method.
 
 ### The bridge API: `tronMcpBridgeApi`
@@ -96,15 +96,15 @@ foreach ( $hub->tools( $principal ) as $tool )             // name, engine, tool
 $answer = $hub->call( 'notes__note_list', array(), $principal );   // throws tronToolError on a refusal
 ```
 
-The calls go through tron's server as transport `inprocess`, with the host's name as the audit's remote. A call of
+The calls go through Exponential Tron's server as transport `inprocess`, with the host's name as the audit's remote. A call of
 a tool tron does not have is audited as well (outcome `invalid`) before it is refused.
 
-expai uses the hub when tron is active: see expai's doc/mcp.md, `[McpEngineSettings]` (which engines, which may
+expai uses the hub when Exponential Tron is active: see expai's doc/mcp.md, `[McpEngineSettings]` (which engines, which may
 write) and the policy `expai/mcp` with Server set to the engine id.
 
 ## Discovery: the interface scan
 
-Besides the INI registration, tron can scan the extension autoload array for classes that implement
+Besides the INI registration, Exponential Tron can scan the extension autoload array for classes that implement
 `tronMcpEngine` or `tronMcpBridgeApi`, or have the bridge API's methods. The scan reads the class files; it loads
 none of them.
 

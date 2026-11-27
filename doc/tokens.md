@@ -1,6 +1,6 @@
 # Tokens: create, hand out, rotate, revoke, expire
 
-A tron token stands for one Exponential user. It is the identity of every HTTP request and of every stdio server
+An Exponential Tron token stands for one Exponential user. It is the identity of every HTTP request and of every stdio server
 (`serve --user=<login>` without a token is refused unless an override sets `[StdioSettings] AllowLoginOption=enabled`). Code: `classes/core/trontokenservice.php`,
 table `tron_token`.
 
@@ -19,7 +19,7 @@ tron_Q2hxW0aZ1bKe_<43 characters of secret>
 | secret | never | |
 
 A stolen copy of the table yields no usable token. The audit, the logs and every error message mask anything that
-looks like a tron token (`tron_<prefix>_[redacted]`) or a bearer header.
+looks like an Exponential Tron token (`tron_<prefix>_[redacted]`) or a bearer header.
 
 ## Row fields
 
@@ -72,7 +72,7 @@ Rules checked on creation: the user exists and is enabled; the name has 1 to 100
 - **One token per agent and place.** One revoke then stops one agent; the audit tells them apart by token id.
 - **Write it to a file, never into a configuration.** `--out` writes mode 0600 under a umask of 0077. Point the
   client at the file (`--token-file`) or load it into an environment variable when the session starts.
-- **Never put a token in a URL**, a commit, a ticket or a chat message. tron accepts it only in the
+- **Never put a token in a URL**, a commit, a ticket or a chat message. Exponential Tron accepts it only in the
   `Authorization: Bearer` header (HTTP), the `TRON_TOKEN` variable or a token file (stdio).
 - **Keep tokens on the server for stdio over SSH.** The client needs only an SSH key; the token file stays on the node.
 
@@ -168,7 +168,7 @@ in Setup > tron. Self-service tokens on the account page are planned ([roadmap.m
 read. A per-token read-only flag is planned.
 
 **Does a token carry the siteaccess?** No. A token belongs to the database it was made in; it works on every
-siteaccess that uses that database and serves tron ([multi-site.md](multi-site.md)).
+siteaccess that uses that database and serves Exponential Tron ([multi-site.md](multi-site.md)).
 
 ---
 

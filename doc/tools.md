@@ -8,11 +8,11 @@ allow. Every tool's exact input schema is in its `tools/list` entry; arguments o
 | Tool | Policy | Arguments | Answer |
 |---|---|---|---|
 | `tron_whoami` | tron/use | none | user_id, login, token_id, scopes, transport, protocol_version |
-| `tron_status` | tron/use | none | tron version, protocol versions, programs (name, version, state, reason, counts; with tron/admin also origin and ms), tool count, `not_registered` (tool => reason) |
+| `tron_status` | tron/use | none | Exponential Tron version, protocol versions, programs (name, version, state, reason, counts; with tron/admin also origin and ms), tool count, `not_registered` (tool => reason) |
 
 Resources: `tron://status` (as tron_status), `tron://programs` (the programs part).
 
-## Program centre, tron's own tables
+## Program centre, Exponential Tron's own tables
 
 Used where the extension expcentre is not in the installation (`[CentreSettings] Backend=auto` or `tron`).
 
@@ -42,7 +42,7 @@ Prompts: `centre_weekly_review` (week), `centre_triage` (board).
 
 Where expCentreApi exists (`Backend=auto` or `expcentre`), the centre program offers the tools of centre's API
 contract instead, passes each call to `expCentreApi::call( $tool, $args, $user )` as the session's user, and turns
-centre's `{"ok":false,"error":{"code","message"}}` into a tool error `<code>: <message>`. tron checks `centre/api`
+centre's `{"ok":false,"error":{"code","message"}}` into a tool error `<code>: <message>`. Exponential Tron checks `centre/api`
 first; centre checks its own policies per card.
 
 | Tool | Write | Arguments |
@@ -92,7 +92,7 @@ Registered only where sevenx_katalyst is active (`[KatalystSettings] Source=kern
 ## Program search
 
 The installation's search, as the calling user (units `search.query` and `search.index`, see [units.md](units.md#search)).
-Registered wherever tron runs inside an installation. Read only.
+Registered wherever Exponential Tron runs inside an installation. Read only.
 
 | Tool | Policy | Arguments | Answer |
 |---|---|---|---|

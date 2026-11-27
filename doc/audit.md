@@ -21,7 +21,7 @@ FilePath=var/log/tron-audit.log
 | `file` | log shipping, fail2ban, `tail -f`, `jq` | one JSON object per line, appended under a lock |
 | both | both | an entry counts as kept only when **both** took it |
 
-tron refuses to start without a sink. The file sink creates its directory (0770) and file (0660) when missing; run as
+Exponential Tron refuses to start without a sink. The file sink creates its directory (0770) and file (0660) when missing; run as
 root, it gives a new file the owner and group of its directory, so the web server can append to a file the command
 line created first. If you create the file by hand, give it to the web server's user
 (`chown --reference=var/log var/log/tron-audit.log`).
@@ -62,7 +62,7 @@ the process died inside the tool: look in the server log at that time.
   `cookie`) become `[redacted]`.
 - In free text, `password=...`, `secret: ...`, `api_key=...`, `token=...`, `credentials: ...` keep their name and lose
   their value.
-- Anything shaped like a tron token or a bearer header is masked wherever it appears.
+- Anything shaped like an Exponential Tron token or a bearer header is masked wherever it appears.
 - Strings are cut at 200 characters, arrays at 50 entries, nesting at 6 levels.
 
 What tools **return** is not written to the audit: the arguments, the outcome and the time are.
@@ -164,7 +164,7 @@ balancer, ban on the node only if the node sees the real client address (PROXY p
 
 ## Retention
 
-The table grows with use; tron 0.0.0.1 has no retention job yet (planned, with shipping to a storage node). Until
+The table grows with use; Exponential Tron 0.0.0.1 has no retention job yet (planned, with shipping to a storage node). Until
 then, archive and delete old rows with your database tools, for example monthly:
 
 ```sql

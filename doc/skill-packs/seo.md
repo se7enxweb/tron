@@ -2,7 +2,7 @@
 
 URL aliases per content type, content buried deep in the tree, site description, meta data and the canonical site URL.
 
-- Pack: `seo` 0.0.0.1 in `share/skills/seo/` (tron's own packs)
+- Pack: `seo` 0.0.0.1 in `share/skills/seo/` (Exponential Tron's own packs)
 - Prefix: `seo.`
 - Skills: 4
 - Audience: Whoever looks after search engine visibility.

@@ -47,7 +47,7 @@ xsh tron:skill:run audit.ini.debug-output-off --siteaccess site
 
 Over MCP a live skill is the tool `skill_audit_ini_debug_output_off` and a prompt of the same name.
 
-See tron's doc/skills.md and doc/extension-conventions.md.
+See Exponential Tron's doc/skills.md and doc/extension-conventions.md.
 
 ---
 

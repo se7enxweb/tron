@@ -1,6 +1,6 @@
 {
     "name": "se7enxweb/tron",
-    "description": "tron, the open MCP server layer of Exponential, built on the official MCP PHP SDK: stdio and streamable HTTP transports, per-user tokens, Exponential roles and policies, an audit log, and programs (child extensions) found and loaded by convention",
+    "description": "Exponential Tron, the open MCP server layer of Exponential, built on the official MCP PHP SDK: stdio and streamable HTTP transports, per-user tokens, Exponential roles and policies, an audit log, and programs (child extensions) found and loaded by convention",
     "type": "ezpublish-legacy-extension",
     "keywords": [ "Exponential", "Exponential 6", "legacy extension", "MCP", "Model Context Protocol", "AI agents", "tickets" ],
     "homepage": "https://github.com/se7enxweb/tron",

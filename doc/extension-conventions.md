@@ -1,6 +1,6 @@
-# Shipping tron skills and programs from an extension
+# Shipping Exponential Tron skills and programs from an extension
 
-This is the standard. Any Exponential extension can bring tron **skill packs** (data: reviewed chains of units) and
+This is the standard. Any Exponential extension can bring Exponential Tron **skill packs** (data: reviewed chains of units) and
 tron **programs** (code: new tools and units). tron finds them when the extension is active, lists them in Setup >
 tron with the providing extension's name, version and license, and enforces this page: a pack that breaks it is
 refused with every reason, and nothing of it is offered. The concept and the tools are in [skills.md](skills.md);
@@ -30,7 +30,7 @@ extension/<ext>/
 
 - A pack directory MUST be named after its id. A skill file MUST be named `<skill name>.json`.
 - Only these files are data of a pack. `install` and `export` copy nothing else, so a pack can never carry code.
-- An extension MUST NOT write into another extension's folder, and MUST NOT write into tron's.
+- An extension MUST NOT write into another extension's folder, and MUST NOT write into Exponential Tron's.
 
 ## 2. Settings blocks
 
@@ -49,7 +49,7 @@ Enabled=enabled
 A pack directory found without its group is listed as `unregistered` with the group it needs, and is not loaded. That
 keeps a stray directory (an unpacked archive, a copy) from turning into live tools.
 
-tron's own settings (`extension/tron/settings/tron.ini.append.php`, override in `settings/override`):
+Exponential Tron's own settings (`extension/tron/settings/tron.ini.append.php`, override in `settings/override`):
 
 ```ini
 [SkillPackSettings]
@@ -94,7 +94,7 @@ Names are never reused for something else. A skill that is replaced is deprecate
 | `author` | yes | a person or organisation |
 | `license` | yes | an SPDX id: `GPL-2.0-or-later`, `GPL-2.0-only`, `GPL-3.0-or-later`, `LGPL-2.1-or-later`, `MIT`, `BSD-3-Clause`, `Apache-2.0`, `CC0-1.0`, `CC-BY-4.0`, `CC-BY-SA-4.0`, `proprietary` |
 | `prefix` | yes | every skill name starts with `<prefix>.` |
-| `requires.tron` | yes | the oldest tron the pack works with; a newer requirement than this tron makes the pack `incompatible` |
+| `requires.tron` | yes | the oldest Exponential Tron the pack works with; a newer requirement than this tron makes the pack `incompatible` |
 | `requires.programs` | no | programs whose units the pack uses |
 | `for_extension` | no | the extension whose data the pack works on |
 | `local` | no | `true`: a site's own pack where forks may go; may be empty |
@@ -150,9 +150,9 @@ setting) is a parameter with a default and examples, not a skill of its own. Shi
   reason its program left it out, e.g. a missing extension). It runs nothing and is offered nowhere.
 - A skill whose unit writes is `parked` until wave B: writes in a skill run only behind a dry run of the whole chain
   and an approval of that plan.
-- A pack whose `requires.tron` is newer than the running tron is `incompatible`.
+- A pack whose `requires.tron` is newer than the running Exponential Tron is `incompatible`.
 
-Programs an extension ships follow tron's tool contract (section 11) and are listed in Setup > tron > Programs and
+Programs an extension ships follow Exponential Tron's tool contract (section 11) and are listed in Setup > tron > Programs and
 tools with their origin.
 
 ## 6. Versioning
@@ -163,7 +163,7 @@ tools with their origin.
 - A pack's version moves with every release of the pack; a skill's version moves whenever its manifest changes.
 - The extension's `ezinfo.php` and `extension.xml` carry the extension's release number (the codebase's rule); a pack
   inside an extension SHOULD carry the same number as the extension release that ships it.
-- `requires.tron` names the oldest tron that has every feature the pack uses (a new op, a new reference).
+- `requires.tron` names the oldest Exponential Tron that has every feature the pack uses (a new op, a new reference).
 - A published version is never changed: fix it in the next one.
 
 ## 7. License and author
@@ -178,7 +178,7 @@ Nothing is offered until it is proven:
 
 1. `php extension/tron/bin/php/tron-skills.php lint extension/<ext>/tron/skills/<pack>` passes (the standard).
 2. The harness passes for every skill:
-   `tron-skills.php harness --fixtures --pack=<id> --write-proof` (tron's SQLite world, with planted canaries) and/or
+   `tron-skills.php harness --fixtures --pack=<id> --write-proof` (Exponential Tron's SQLite world, with planted canaries) and/or
    `tron-skills.php harness --live --token-file=<test administrator's token> --pack=<id> --write-proof` (read-only on a real
    installation). Each skill: standard, units here and read-only, policy simulation, every example run with its answer
    matching the output schema, no unredacted value in any answer.
@@ -186,7 +186,7 @@ Nothing is offered until it is proven:
    its proof is `unproven` again.
 4. A person approves the proven skills in Setup > tron > Skills. Approving proves the skill again as that person.
 
-Programs: the extension's own tests, plus tron's contract tests (every tool declares input and output schemas, every
+Programs: the extension's own tests, plus Exponential Tron's contract tests (every tool declares input and output schemas, every
 write tool has a dry run) and the fuzz run, which must pass with the extension active.
 
 ## 9. Translations
@@ -209,7 +209,7 @@ write tool has a dry run) and the fuzz run, which must pass with the extension a
   only read. A skill never nests another skill and makes at most 100 unit calls per run.
 - **A skill runs as its caller.** Every unit step goes through the same checks as a direct call: token scope,
   the unit's policy, argument schema, audit entry, redaction. A skill cannot widen anyone's rights.
-- **Programs follow tron's tool contract:** an input schema and an output schema for every tool; a policy
+- **Programs follow Exponential Tron's tool contract:** an input schema and an output schema for every tool; a policy
   (module/function) for every tool; write tools declare `write`, are audited before they run and have a dry run;
   every answer passes the redactor; failures the agent should see are `tronToolError`, anything else is an internal
   error whose message is not passed on; tools are named `<program>_*`. A program registers inside a transaction and a
@@ -240,7 +240,7 @@ write tool has a dry run) and the fuzz run, which must pass with the extension a
 
 ## 14. Worked example: an extension with a pack
 
-The extension `expskillsexample` (it is tron's test fixture, `tests/fixtures/extensions/expskillsexample/`):
+The extension `expskillsexample` (it is Exponential Tron's test fixture, `tests/fixtures/extensions/expskillsexample/`):
 
 ```
 extension/expskillsexample/

@@ -2,7 +2,7 @@
 
 Lists over the centre's tickets: overdue, due soon, by priority, lane, kind, label and person, stale and waiting work, search.
 
-- Pack: `centre-tickets` 0.0.0.1 in `share/skills/centre-tickets/` (tron's own packs)
+- Pack: `centre-tickets` 0.0.0.1 in `share/skills/centre-tickets/` (Exponential Tron's own packs)
 - Prefix: `centre.`
 - Skills: 20
 - Works on: `expcentre`

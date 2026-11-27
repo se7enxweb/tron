@@ -2,7 +2,7 @@
 
 Skills that change tickets: move between lanes, close what is done, nudge, raise priority, assign, date, file, decide, link. They wait for wave B (a dry run of the whole chain, applied after approval) and are parked until then.
 
-- Pack: `centre-triage` 0.0.0.1 in `share/skills/centre-triage/` (tron's own packs)
+- Pack: `centre-triage` 0.0.0.1 in `share/skills/centre-triage/` (Exponential Tron's own packs)
 - Prefix: `centre.`
 - Skills: 19
 - Works on: `expcentre`

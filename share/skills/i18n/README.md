@@ -32,7 +32,7 @@ xsh tron:skill:run i18n.siteaccess --siteaccess site
 
 Over MCP a live skill is the tool `skill_i18n_siteaccess` and a prompt of the same name.
 
-See tron's doc/skills.md and doc/extension-conventions.md.
+See Exponential Tron's doc/skills.md and doc/extension-conventions.md.
 
 ---
 

@@ -2,7 +2,7 @@
 
 The weekly decision review in parts: overdue, due, undated, later and taken decisions, open and closed decisions, and whether a week's meeting can take its load.
 
-- Pack: `centre-decisions` 0.0.0.1 in `share/skills/centre-decisions/` (tron's own packs)
+- Pack: `centre-decisions` 0.0.0.1 in `share/skills/centre-decisions/` (Exponential Tron's own packs)
 - Prefix: `centre.`
 - Skills: 9
 - Works on: `expcentre`

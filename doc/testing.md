@@ -22,7 +22,7 @@ extension). `TRON_TEST_LOG=1` prints the server log.
 | `tests/unit/ProgramLoaderTest.php` | the built-in programs; both extension layouts; ten kinds of broken program each failing alone (throwing register, parse error, no interface, no class, file outside, bad JSON, bad name, too new, name clash, foreign prefix) with a healthy one after them; Disabled[]; the core cannot be disabled; ExtensionScan; discovery of 300 extensions with 50 programs under 250 ms (about 3 ms measured) |
 | `tests/unit/TokenServiceTest.php` | token form, hash-only storage, scopes, expiry, revocation, disabled users, throttled last_used, listing without hashes |
 | `tests/unit/ServerAuditTest.php` | initialize, stdio initialize rule, every JSON-RPC error (each layer's own), batches per layer and version, pagination, results and structuredContent per version, cut answers, internal errors not leaked, every call audited with outcome, write tools refused without audit, database and file sinks |
-| `tests/unit/CentreToolsTest.php` | every centre tool, resource and prompt on tron's tables, with their validation errors |
+| `tests/unit/CentreToolsTest.php` | every centre tool, resource and prompt on Exponential Tron's tables, with their validation errors |
 | `tests/unit/CentreBridgeTest.php` | the 29 contract tools in front of a stand-in expCentreApi: pass-through as the session user, error mapping, tron's gate before centre, the Backend setting |
 | `tests/unit/KatalystCoreToolsTest.php` | the three Katalyst tools: column allowlist, masking, detail policy, filters; left out without a source; tron_whoami, tron_status and their resources |
 | `tests/unit/PermissionMatrixTest.php` | per role (admin, viewer, editor, decider, operator, detail, useonly, limited, norole, disabled): the exact tools/list, and every tool called by every role (allowed or "Permission denied" plus a `denied` audit row); resources and prompts; token scopes; limited policies; disabled users |
@@ -62,7 +62,7 @@ layer, PASS over stdio on the legacy layer.
 <php> bin/php/ezexec.php <tron>/tests/kernel/kernel_probe.php --allow-root-user
 ```
 
-Works before tron is installed (it loads tron from the checkout) and writes nothing: eZDB statements with quoting,
+Works before Exponential Tron is installed (it loads tron from the checkout) and writes nothing: eZDB statements with quoting,
 limit and errors; users; the administrator holds tron/use, anonymous does not; the convention scan over the active
 extensions; tools/list and tools/call through the real policy check. Result on alpha (PostgreSQL, 67 active
 extensions) on 2026-11-24: PASS, server built in 43 ms.
@@ -94,7 +94,7 @@ roles made for the run (viewer, editor, decider, operator, detail, use only, non
 | Request shield with `tron.rules` included (owner's go) | on each of the three nodes: check ok, 231 of 231 examples |
 | `http_smoke.php` through Velocity (serving node 1, port 8080), administrator / viewer | **17 / 13 checks PASS** (after defects 9 and 10 were fixed): initialize 200, notification 202, 17 / 7 tools, whoami over http with the token, create and close (administrator), write refused (viewer), 401 without or with an unknown token, 405 GET, 403 foreign Origin, 415 text/plain, 400 unknown protocol version; median 122 / 135 ms. Velocity's workers had the classes without a restart |
 | `http_smoke.php` through the public front (load balancer, PHP-FPM), administrator / viewer | **17 / 13 checks PASS**: the same checks; the Authorization header reaches PHP; median 308 / 523 ms |
-| Other POSTs after the shield change | still refused: `/news/...` and `/tron/other` 405 by EXP-POST, `/content/view/full/2` 404 by EXP-SYSVIEW; a token of a user without tron/use: 403 from tron |
+| Other POSTs after the shield change | still refused: `/news/...` and `/tron/other` 405 by EXP-POST, `/content/view/full/2` 404 by EXP-SYSVIEW; a token of a user without tron/use: 403 from Exponential Tron |
 
 Median time per tool in the run (each call includes two audit writes, to PostgreSQL over the mesh and to the file):
 list, review, katalyst lists, whoami 19 to 23 ms; get, board, status 30 to 38 ms; writes 47 to 97 ms (a write
@@ -104,12 +104,12 @@ carries its started row, the change and its history rows).
 
 Deployed to serving node 1 with `--packer` (19 steps PASS, 185 s); the table `tron_switch` created on PostgreSQL. Browser
 check (a Playwright script of the development tree, light and dark, 1440 px and 960 px at scale 2) as a
-throwaway administrator, and the role test as a throwaway user who signs in to the administration without any tron
+throwaway administrator, and the role test as a throwaway user who signs in to the administration without any Exponential Tron
 policy; both removed afterwards.
 
 | Check | Result |
 |---|---|
-| Six pages (dashboard, tokens, programs, audit, audit filtered, settings) x light/dark x 1440 at 100 % and 960 at 200 %: HTTP 200, the tron frame, no console or page error, no failed request, no horizontal overflow, the theme asked for, no white box in dark mode, no inline style | **24 of 24 PASS** through the public front (PHP-FPM) |
+| Six pages (dashboard, tokens, programs, audit, audit filtered, settings) x light/dark x 1440 at 100 % and 960 at 200 %: HTTP 200, the Exponential Tron frame, no console or page error, no failed request, no horizontal overflow, the theme asked for, no white box in dark mode, no inline style | **24 of 24 PASS** through the public front (PHP-FPM) |
 | Setup menu entry; a token made through the form, shown once, not shown on the next visit, revoked through the form; a tool switched on through the form; the live tail shows a new audit row within its 5 s poll | **6 of 6 PASS** (the "switch off" step of this run found the tool already off from the run before, which is why one check of that run failed; the run before had switched it off successfully) |
 | Role test: all six pages answer 403 and show no tron frame; no tron entry in the user's Setup menu | **8 of 8 PASS** |
 | "Verify it's you": the kernel's matcher with the installation's settings asks for `tron/tokens` CreateButton and RevokeButton and `tron/programs` SwitchButton, and not for any page view | **7 of 7 PASS** (a check of the matcher against the administration posts); in the browser the fresh sign-in counted as a recent confirmation, as the kernel intends |
@@ -121,7 +121,7 @@ Through Velocity (port 8080) the same check found the pages served with styleshe
 `--packer` deploy had removed (404), and a worker still running the `tronKernel` class from before switches existed.
 Both come from deploying with `--no-velocity`: Velocity's workers keep what they loaded at their last start. A
 Velocity restart was not done (it needs the owner's go); until then Velocity on that node serves the administration
-without its packed stylesheets, and tron's switches take effect there only after a restart. tron's own endpoint
+without its packed stylesheets, and Exponential Tron's switches take effect there only after a restart. tron's own endpoint
 through Velocity is not affected by the packed files (its HTTP proofs above passed).
 
 ### Administration views, second round, 2026-11-24 (evening)
@@ -136,7 +136,7 @@ on both serving nodes (19 of 19 steps PASS on each); the master tree's own deplo
 | `php tests/run.php` (new: AdminDataTest, 8 tests on SQLite for every view's data) | 86 tests, 1408 assertions, PASS |
 | `php tests/matrix.php` (lint + suite) | PASS on PHP 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5 (and 8.6) |
 | Browser check through the public front (PHP-FPM) as a throwaway administrator: six pages x light/dark x 1440 at 100 % and 960 at 200 %; make, rotate, filter, revoke a token; switch a tool off and on; admin actions listed in the audit; audit user filter; live tail | **63 of 63 PASS** (with the role test below) |
-| Role test: no tron policy (all six pages 403, no Setup entry); `tron/audit` only (only Audit, only its tab); `tron/tokens` + `tron/audit` (Tokens and Audit only, makes and revokes a token); administrator (everything) | PASS (in the 63) |
+| Role test: no Exponential Tron policy (all six pages 403, no Setup entry); `tron/audit` only (only Audit, only its tab); `tron/tokens` + `tron/audit` (Tokens and Audit only, makes and revokes a token); administrator (everything) | PASS (in the 63) |
 | AdminStylingRulesTest | 29 tests, 3119 assertions, OK |
 | stdio smoke on a serving node as the throwaway administrator and with the two permanent session tokens | 12 of 12 PASS each (17 tools; 13 for the editor account) |
 
@@ -147,7 +147,7 @@ rule list now has `tron/tokens RotateButton` too.
 
 | # | Defect | Found by | Fix |
 |---|---|---|---|
-| 1 | `tronDbKernel::tableExists()` used the kernel's table list, which on PostgreSQL holds only tables named `ez*`: a second `install` failed with "relation already exists", and `serve` would have refused to start ("missing tables") | the second `install` run | ask the engine's catalog (`pg_class` with `pg_table_is_visible`, `information_schema`, `sqlite_master`), shared by both adapters; the probe now checks that `tableExists()` agrees with a real query on every tron table and is false for a missing one |
+| 1 | `tronDbKernel::tableExists()` used the kernel's table list, which on PostgreSQL holds only tables named `ez*`: a second `install` failed with "relation already exists", and `serve` would have refused to start ("missing tables") | the second `install` run | ask the engine's catalog (`pg_class` with `pg_table_is_visible`, `information_schema`, `sqlite_master`), shared by both adapters; the probe now checks that `tableExists()` agrees with a real query on every Exponential Tron table and is false for a missing one |
 | 2 | `stdio_smoke.php` reported only timeouts when the server exited at once, hiding the server's own message | the first smoke run | it stops at the first missing answer and prints the server's stderr |
 | 3 | As root the kernel refuses every command without `--allow-root-user`; the mesh configuration, README and runbook did not say so | the first smoke run | added to every command shown, with a note in the runbook |
 | 4 | The runbook said to run commands on the node with the master tree; on a synced set they run on each serving node | the install | corrected |

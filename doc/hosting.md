@@ -2,7 +2,7 @@
 
 Two ways in, both wanted on the 7x network:
 
-1. **Mesh, for 7x sessions**: stdio over SSH on the WireGuard mesh. The agent's MCP client starts tron on the node
+1. **Mesh, for 7x sessions**: stdio over SSH on the WireGuard mesh. The agent's MCP client starts Exponential Tron on the node
    through SSH; nothing listens, nothing leaves the mesh, and both the SSH key and the tron token must be right.
 2. **Public HTTPS with tokens**: `https://centre.se7enx.com/tron/mcp` (and `/mcp` with a URL alias) through the load
    balancer front, for agents outside the mesh.
@@ -35,7 +35,7 @@ In the session's MCP configuration (Claude Code `.mcp.json`):
   8.3).
 - The token file stays on the node; the token is never typed, never in the config, never in a URL.
 - On the node itself, drop the `ssh` part and run the same command.
-- stdout carries only MCP; tron's own messages go to stderr (the MCP client shows them in its log).
+- stdout carries only MCP; Exponential Tron's own messages go to stderr (the MCP client shows them in its log).
 
 A mesh HTTP listener (the endpoint on the node's WireGuard address, without the PROXY protocol that the public entry
 expects) is planned for wave 2; until then the mesh way is stdio over SSH.
@@ -55,12 +55,12 @@ AllowedHosts[]
 AllowedHosts[]=centre.se7enx.com
 ```
 
-The view `tron/mcp` is in `[RoleSettings] PolicyOmitList` (shipped in tron's `site.ini.append.php`): callers sign in
+The view `tron/mcp` is in `[RoleSettings] PolicyOmitList` (shipped in Exponential Tron's `site.ini.append.php`): callers sign in
 with tokens, not sessions. The siteaccess's `[SiteAccessRules]` must not close the module `tron`. Serve the endpoint
 from a user-facing siteaccess with `RequireUserLogin=false` (as `centre` has), not from an administration siteaccess
 that sends every anonymous request to its login page; prove it with the smoke request below.
 
-**The path /mcp**: tron answers at `/tron/mcp`. For the shorter `/mcp`, add a global URL alias `mcp` with the
+**The path /mcp**: Exponential Tron answers at `/tron/mcp`. For the shorter `/mcp`, add a global URL alias `mcp` with the
 destination `tron/mcp` (admin: Setup, URL translator, global aliases). Clients may use either.
 
 **Authorization header**: Apache with PHP-FPM drops `Authorization` unless told to pass it. In Plesk, the domain's
@@ -70,11 +70,11 @@ destination `tron/mcp` (admin: Setup, URL translator, global aliases). Clients m
 SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 ```
 
-(`CGIPassAuth On` does the same where the FPM handler is a CGI one.) tron reads `HTTP_AUTHORIZATION` and
+(`CGIPassAuth On` does the same where the FPM handler is a CGI one.) Exponential Tron reads `HTTP_AUTHORIZATION` and
 `REDIRECT_HTTP_AUTHORIZATION`. Velocity passes the header as it is; check with the smoke request below.
 
 **Request shield**: where the extension exp_request_shield filters requests (alpha, se7enx.com), its rule EXP-POST
-answers every POST outside the known form addresses with 405, so `/tron/mcp` is refused before tron runs (found on
+answers every POST outside the known form addresses with 405, so `/tron/mcp` is refused before Exponential Tron runs (found on
 alpha 2026-11-24, both through PHP-FPM and through Velocity). tron ships the three rules it needs in
 `doc/request-shield/tron.rules` (POST allowed, no Origin check, no browser check; only for `/mcp` and
 `**/tron/mcp`; tron does those checks itself with the token). Copy the file next to the site's main rule file and add
@@ -98,7 +98,7 @@ backends as the site. For example, in HAProxy:
 
 Nothing else changes for MCP:
 
-- a `timeout client` / `timeout server` of 120s is ample: tron answers each POST at once and holds no stream open;
+- a `timeout client` / `timeout server` of 120s is ample: Exponential Tron answers each POST at once and holds no stream open;
 - tron is stateless (no `Mcp-Session-Id`), so no stickiness is needed; any serving node with tron installed answers;
 - the backend's health check stays the site's own. A node without tron would answer `/tron/mcp` with 404 (unknown
   module), so tron must reach every serving node before the rule sends traffic.
@@ -119,7 +119,7 @@ realm="tron"`. A GET: 405. Then `tron.php audit:tail` shows both requests.
 
 ## A live install on a site served by several nodes
 
-How centre.se7enx.com got tron's public endpoint (2026-11-26): one Exponential installation, one shared database, two
+How centre.se7enx.com got Exponential Tron's public endpoint (2026-11-26): one Exponential installation, one shared database, two
 serving nodes behind an SNI load balancer, each node with its own copy of the tree (Plesk, Apache with PHP-FPM, nginx
 in front). The names below are placeholders: `node-a`, `node-b`, `<site address of node-a>`.
 
@@ -131,7 +131,7 @@ in front). The names below are placeholders: `node-a`, `node-b`, `<site address 
    (`[PromptRules] PrivateNames[]`/`PrivateDomains[]`, `[WebSettings] MeshNetworks[]`,
    `[SystemAdapterSettings] PrivateNames[]`, see [upgrading.md](upgrading.md), 0.0.0.12). The site's own public domain
    does not belong in `PrivateDomains[]`.
-3. **PolicyOmitList.** tron ships `PolicyOmitList[]=tron/mcp`, but a site whose `settings/override/site.ini.append.php`
+3. **PolicyOmitList.** Exponential Tron ships `PolicyOmitList[]=tron/mcp`, but a site whose `settings/override/site.ini.append.php`
    empties the list (`PolicyOmitList[]` on a line of its own) drops it: `/tron/mcp` then answers the kernel's HTML
    "access denied" page (403) instead of tron's JSON 401. Add `PolicyOmitList[]=tron/mcp` to that override.
 4. **Request shield on every node**: `tron.rules` next to the main rule file, `include tron.rules` above the first
@@ -157,12 +157,12 @@ in front). The names below are placeholders: `node-a`, `node-b`, `<site address 
 
 **A half-done rollout looks intermittent.** The front on one node may hand a request to the other node over the
 private mesh, so a pinned request is not always answered by the node it was pinned to. While one node still lacked
-`tron.rules`, every second POST answered 405 (that node's shield, rule EXP-POST) and the other half reached tron.
+`tron.rules`, every second POST answered 405 (that node's shield, rule EXP-POST) and the other half reached Exponential Tron.
 Look in both nodes' shield logs before suspecting tron, and finish every node before judging the endpoint.
 
-## Using tron from Claude Code
+## Using Exponential Tron from Claude Code
 
-A Claude Code session on a node of the installation uses tron over stdio, one MCP server per account and siteaccess it
+A Claude Code session on a node of the installation uses Exponential Tron over stdio, one MCP server per account and siteaccess it
 should work as. Each account is a permanent user of the installation made for the session (never a person's account
 or the shared administrator), with exactly the roles its work needs; each token is that user's, 90 days, in a 0600
 file:
@@ -174,7 +174,7 @@ php extension/tron/bin/php/tron.php token:create --siteaccess=editor --token-fil
     --name="claude@<node> editor" --days=90 --out=/root/.config/tron/<session editor login>.token --allow-root-user
 ```
 
-An editor account needs the tron policies besides its editing role (`tron/use`, and `tron/centre_read`,
+An editor account needs the Exponential Tron policies besides its editing role (`tron/use`, and `tron/centre_read`,
 `tron/centre_write` for the centre tools): the kernel's Editor role holds none of them, and without `tron/use` the
 server refuses to start.
 

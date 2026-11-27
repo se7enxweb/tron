@@ -1,13 +1,13 @@
 # Agent rules: AGENTS.md and MASTER.md
 
 Agents do better work when they know a project's rules before they start: how a change is verified, what must never
-be committed, how versions are numbered, how templates are styled. tron's **agent rules layer** hands every agent
+be committed, how versions are numbered, how templates are styled. Exponential Tron's **agent rules layer** hands every agent
 those rules with its session, from two files:
 
 | File | What it is | Where it comes from |
 |---|---|---|
 | **AGENTS.md** | The site's own rules for agents, written by the team | The site's prompt directory; no shipped default |
-| **MASTER.md** | The Exponential rules: the working rules of the Exponential project itself, made shippable | tron's `doc/MASTER.md`, or a site override |
+| **MASTER.md** | The Exponential rules: the working rules of the Exponential project itself, made shippable | Exponential Tron's `doc/MASTER.md`, or a site override |
 
 **MASTER.md supersedes AGENTS.md.** While both are on, an agent receives MASTER.md first, then AGENTS.md, with the
 sentence "MASTER.md (the Exponential rules) SUPERSEDES the site's AGENTS.md. Where the two conflict, follow MASTER.md;
@@ -59,7 +59,7 @@ same rules; the admin page writes on the node that answered it.
 
 | Way | What it gives |
 |---|---|
-| The `initialize` instructions | tron's own instructions, then the combined rules (cut at `InstructionsMaxBytes`, with a pointer to the resource) |
+| The `initialize` instructions | Exponential Tron's own instructions, then the combined rules (cut at `InstructionsMaxBytes`, with a pointer to the resource) |
 | Resource `tron://rules/combined` | `{ master: { source, decided_by }, agents: { source, strength }, precedence, text }` |
 | Resource `tron://rules/master` | `{ active, source, file, decided_by, bytes, sha256, text }` |
 | Resource `tron://rules/agents` | `{ active, source, strength, bytes, sha256, superseded_by_master, text }` |
@@ -70,7 +70,7 @@ same rules; the admin page writes on the node that answered it.
 | `tron_status` | A `rules` field: `{ master, master_decided_by, agents, agents_strength }` |
 
 All of them need only `tron/use`. File paths appear only for a user holding `tron/admin` (the resources and
-`tron_rules`) and on the admin page. Like every answer, the texts pass tron's redactor on the way out.
+`tron_rules`) and on the admin page. Like every answer, the texts pass Exponential Tron's redactor on the way out.
 
 ## Which source is active
 
@@ -150,7 +150,7 @@ Or put the file in the prompt directory yourself (deploy tooling, configuration 
 - **What an agent receives**: the combined text for your own sessions.
 
 Saving, uploading or removing either file, the admin toggle and the file marker ask "Verify it's you"
-(`[ReauthGroup_tron]` in tron's `settings/site.ini.append.php`); the questionnaire, the expai draft and your own
+(`[ReauthGroup_tron]` in Exponential Tron's `settings/site.ini.append.php`); the questionnaire, the expai draft and your own
 preference do not. Every change is written to the audit log as `admin/rules.agents.save`, `admin/rules.agents.remove`,
 `admin/rules.master.save`, `admin/rules.master.remove`, `admin/rules.master.toggle` or `admin/rules.master.marker`,
 with the size and a hash of the text, never the text. Saving warns, by line number and kind, when the text looks like
@@ -179,7 +179,7 @@ php extension/tron/bin/php/tron-rules.php check extension/tron/doc/MASTER.md
    internal host names `www.example.org`, `admin.example.org`, `api.example.org`; addresses `192.0.2.x`; server paths
    `/path/to/site`; the product's former name Exponential. The `--secrets-file` lists literal secrets (one per line)
    that are replaced as well; keep it outside the repository, mode 0600.
-5. **The installation's own private words.** What is private to one installation is not written in tron at all:
+5. **The installation's own private words.** What is private to one installation is not written in Exponential Tron at all:
    `[PromptRules] PrivateNames[]` (a line naming one is left out with its item), `PrivateDomains[]` (replaced by
    example.org names) and `[WebSettings] MeshNetworks[]` (addresses replaced by `192.0.2.20`) come from the
    installation's `settings/override/tron.ini.append.php`, which is never shipped. The command line reads that file
@@ -197,7 +197,7 @@ The test `TronRulesTest::testShippedMasterIsClean` fails when the shipped file h
 | Setting | Default | |
 |---|---|---|
 | `Directory` | empty: `<VarDir>/storage/claude/prompt` | The prompt directory |
-| `DefaultMaster` | empty: tron's `doc/MASTER.md` | The MASTER.md used when the prompt directory has none |
+| `DefaultMaster` | empty: Exponential Tron's `doc/MASTER.md` | The MASTER.md used when the prompt directory has none |
 | `Master` | `enabled` | Switch 4; set per siteaccess in that siteaccess's `tron.ini.append.php` |
 | `Agents` | `enabled` | `disabled` leaves the site's AGENTS.md out everywhere |
 | `Instructions` | `enabled` | `disabled`: not in the `initialize` instructions, only resources, prompts and tool |

@@ -49,7 +49,7 @@ xsh tron:skill:run centre.tickets.overdue --board main
 
 Over MCP a live skill is the tool `skill_centre_tickets_overdue` and a prompt of the same name.
 
-See tron's doc/skills.md and doc/extension-conventions.md.
+See Exponential Tron's doc/skills.md and doc/extension-conventions.md.
 
 ---
 

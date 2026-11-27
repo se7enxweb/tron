@@ -2,7 +2,7 @@
 
 Hosting and shop reports from Katalyst by ids and counts only: services per status, plan, server and cycle, due and overdue services, disk use, plans and prices, orders per state, pending orders, revenue and fraud checks.
 
-- Pack: `katalyst-reports` 0.0.0.1 in `share/skills/katalyst-reports/` (tron's own packs)
+- Pack: `katalyst-reports` 0.0.0.1 in `share/skills/katalyst-reports/` (Exponential Tron's own packs)
 - Prefix: `katalyst.`
 - Skills: 19
 - Works on: `sevenx_katalyst`

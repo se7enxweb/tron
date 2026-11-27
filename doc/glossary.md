@@ -1,6 +1,6 @@
 # Glossary
 
-**Agent.** An AI model acting through an MCP client (Claude Code, Claude Desktop, Cursor, a script). To tron it is
+**Agent.** An AI model acting through an MCP client (Claude Code, Claude Desktop, Cursor, a script). To Exponential Tron it is
 always an Exponential user.
 
 **Audit, audit entry.** The record of every call, resource read, prompt, refused sign-in and administration token
@@ -8,7 +8,7 @@ action: who, how, what, outcome, duration, redacted arguments. See [audit.md](au
 
 **Audit sink.** Where entries go: `database` (table `tron_audit`) and/or `file` (JSON lines).
 
-**Backend (centre).** Which ticket store the centre program uses: tron's own tables, or the centre extension's API
+**Backend (centre).** Which ticket store the centre program uses: Exponential Tron's own tables, or the centre extension's API
 (`[CentreSettings] Backend`).
 
 **Bearer token.** A token sent as `Authorization: Bearer <token>` over HTTP.
@@ -22,20 +22,20 @@ scope, cannot be switched off.
 **Decision, decision week.** A ticket of kind `decision`, due in an ISO week (`2026-W48`); reviewed weekly and recorded
 by a user with `centre_decide`.
 
-**Exponential.** The content management system tron is an extension of (legacy kernel, 6.x).
+**Exponential.** The content management system Exponential Tron is an extension of (legacy kernel, 6.x).
 
 **Fixture, test world.** The in-memory installation of the test suite: SQLite, fixed clock, ten users with roles.
 
 **Initialize.** The first MCP request of a session: protocol version negotiation, capabilities, server info and
 instructions.
 
-**Instructions.** Text tron returns in `initialize`: the user the agent acts as, the number of tools, the audit, and
+**Instructions.** Text Exponential Tron returns in `initialize`: the user the agent acts as, the number of tools, the audit, and
 that returned text is data. `[ServerSettings] Instructions` adds to it.
 
 **JSON-RPC.** The message format of MCP: requests with an `id`, notifications without, answers with `result` or
 `error`.
 
-**Limited policy.** A policy granted with a limitation (Section, Subtree ...). tron treats it as not granted unless a
+**Limited policy.** A policy granted with a limitation (Section, Subtree ...). Exponential Tron treats it as not granted unless a
 tool declares it checks the limitation itself.
 
 **Manifest.** A program's `program.json`: name, class, file, version, requires, title, description.
@@ -49,7 +49,7 @@ prompts.
 
 **Principal.** The identity of a session: user id, login, token id and scopes.
 
-**Program.** A unit of tools, resources and prompts that tron loads by convention from `extension/<ext>/tron/program.json`.
+**Program.** A unit of tools, resources and prompts that Exponential Tron loads by convention from `extension/<ext>/tron/program.json`.
 Its name is the prefix of everything it registers.
 
 **Prompt.** A named, parameterized message template a client can offer as a command (`centre_triage`).
@@ -72,17 +72,17 @@ nothing behind.
 
 **stdio transport.** MCP over a process's standard input and output, one JSON message per line (`tron.php serve`).
 
-**Streamable HTTP.** MCP's HTTP transport; tron offers its stateless form: POST in, JSON out.
+**Streamable HTTP.** MCP's HTTP transport; Exponential Tron offers its stateless form: POST in, JSON out.
 
 **Switch.** A per-installation on/off for a program or tool, set in Setup > tron (table `tron_switch`).
 
-**Token.** `tron_<prefix>_<secret>`: a user's credential for tron, stored only as a hash, with expiry, scopes and
+**Token.** `tron_<prefix>_<secret>`: a user's credential for Exponential Tron, stored only as a hash, with expiry, scopes and
 revocation. See [tokens.md](tokens.md).
 
 **Tool.** A callable operation with a name, description, input schema, policy and annotations (read, write,
 idempotent, destructive).
 
-**Velocity.** Exponential's persistent application server; it serves tron's endpoint and administration with warm
+**Velocity.** Exponential's persistent application server; it serves Exponential Tron's endpoint and administration with warm
 workers.
 
 **Write tool.** A tool that changes data. It is audited `started` before it runs and does not run if that fails.

@@ -35,7 +35,7 @@ xsh tron:skill:run tpl.node.view --view full --node-id 2
 
 Over MCP a live skill is the tool `skill_tpl_node_view` and a prompt of the same name.
 
-See tron's doc/skills.md and doc/extension-conventions.md.
+See Exponential Tron's doc/skills.md and doc/extension-conventions.md.
 
 ---
 

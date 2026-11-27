@@ -2,7 +2,7 @@
 
 Counts and reports over the centre boards: work per lane, priority, person and label, board snapshot and health, work-in-progress check, ticket digest, history and links, the weekly report.
 
-- Pack: `centre-planning` 0.0.0.2 in `share/skills/centre-planning/` (tron's own packs)
+- Pack: `centre-planning` 0.0.0.2 in `share/skills/centre-planning/` (Exponential Tron's own packs)
 - Prefix: `centre.`
 - Skills: 14
 - Works on: `expcentre`

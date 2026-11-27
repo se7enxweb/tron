@@ -1,11 +1,11 @@
 # Root programs: web, browser, validate, diff, api
 
-Five programs that every tron installation carries, the base that skills are built on. Each tool below is
+Five programs that every Exponential Tron installation carries, the base that skills are built on. Each tool below is
 schema-declared (input and output, so the contract tests and the fuzzer cover it), runs as the calling Exponential
 user under a policy of its own, is redacted on the way out, audited and journaled like every other tron tool, and a
 tool that changes something outside tron has a dry run (`tron_plan` / `tron_apply`).
 
-Tool names follow tron's rule `<program>_<name>`: what a skill may call `web.fetch` is the tool `web_fetch`.
+Tool names follow Exponential Tron's rule `<program>_<name>`: what a skill may call `web.fetch` is the tool `web_fetch`.
 
 | Program | Policy (module tron) | Tools | Page |
 |---|---|---|---|
@@ -23,7 +23,7 @@ an implicit download inside a call:
 1. `browser_engines` lists the engines (`chromium`, `chrome`, `firefox`, `webkit`) and which are installed, with
    their versions and paths.
 2. `browser_install {"engine": "firefox"}` installs one (or `xsh tron:browser:install firefox` on the runner node).
-   It runs on the runner node only (CLUSTER), into tron's fixed path, at the Playwright version pinned in
+   It runs on the runner node only (CLUSTER), into Exponential Tron's fixed path, at the Playwright version pinned in
    `[BrowserSettings]`, load-gated and journaled. It adopts a build that is already on the box before downloading.
 3. Every other `browser_*` call (and `validate_a11y`) takes `engine`; an engine that is not installed is refused with
    `engine '<e>' is not installed: run browser_install {"engine":"<e>"} first`.
@@ -121,7 +121,7 @@ Renderers (`format`): `unified`, `side_by_side`, `ansi`, `html` (admin4 classes,
 ### api (policies tron/api_read, tron/api_write, tron/api_http)
 
 Secrets are never written into a call: a call names an expSecrets entry (`key_secret`, `secrets[].name`), the value is
-read inside tron, sent, and masked in every answer, audit entry and journal line. Only names on
+read inside Exponential Tron, sent, and masked in every answer, audit entry and journal line. Only names on
 `[ApiSettings] SecretNames[]` can be used.
 
 | Tool | Policy | Input | Output |

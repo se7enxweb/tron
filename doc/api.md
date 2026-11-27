@@ -19,7 +19,7 @@ are left out.
 
 ## Two permission checks
 
-tron checks the caller's tron policy (`api_read` or `api_write`). The request itself carries a personal API key or
+Exponential Tron checks the caller's tron policy (`api_read` or `api_write`). The request itself carries a personal API key or
 OAuth token read from the secret store, so the REST layer then applies the **key owner's** content policies
 (`content/read`, `create`, `edit`, `remove`) on top. Give each agent user a key of their own (My account > API
 access), store it in Setup > Secrets under a name listed in `[ApiSettings] SecretNames[]`, and pass that name as
@@ -27,7 +27,7 @@ access), store it in Setup > Secrets under a name listed in `[ApiSettings] Secre
 
 ## Secrets are names, never values
 
-- A call names a secret; tron reads the value inside the call (`expSecrets::get()`), puts it into the header, and
+- A call names a secret; Exponential Tron reads the value inside the call (`expSecrets::get()`), puts it into the header, and
   replaces it with `[redacted:secret]` wherever it appears in the answer (a body that echoes it included).
 - Only names on `[ApiSettings] SecretNames[]` can be used (`secret.not-allowed` otherwise).
 - `api_http_request` refuses a credential-looking header with an inline value (`Authorization`, `Cookie`,

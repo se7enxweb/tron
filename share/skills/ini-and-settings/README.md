@@ -34,7 +34,7 @@ xsh tron:skill:run ini.setting --file site.ini --block SiteSettings --setting Si
 
 Over MCP a live skill is the tool `skill_ini_setting` and a prompt of the same name.
 
-See tron's doc/skills.md and doc/extension-conventions.md.
+See Exponential Tron's doc/skills.md and doc/extension-conventions.md.
 
 ---
 

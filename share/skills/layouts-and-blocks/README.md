@@ -48,7 +48,7 @@ xsh tron:skill:run layout.inventory
 
 Over MCP a live skill is the tool `skill_layout_inventory` and a prompt of the same name.
 
-See tron's doc/skills.md and doc/extension-conventions.md.
+See Exponential Tron's doc/skills.md and doc/extension-conventions.md.
 
 ---
 

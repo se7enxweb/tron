@@ -1,6 +1,6 @@
 # Compatibility
 
-What tron 0.0.0.1 runs on, what was tested, and what is not supported yet.
+What Exponential Tron 0.0.0.1 runs on, what was tested, and what is not supported yet.
 
 ## Summary
 
@@ -20,18 +20,18 @@ What tron 0.0.0.1 runs on, what was tested, and what is not supported yet.
 `composer.json`: `"php": ">=7.4 <8.6"`, `ext-json`. Suggested: `ext-mbstring` (cuts long text by characters, not
 bytes), `ext-pdo_sqlite` (the test suite), `ext-curl` (the HTTP smoke client).
 
-tron follows the rule of never dropping a PHP version: code is written for 7.4 (no enums, no readonly properties, no
+Exponential Tron follows the rule of never dropping a PHP version: code is written for 7.4 (no enums, no readonly properties, no
 first-class callable syntax, no `match`) and checked on every version by `php tests/matrix.php`, which lints every file
 and runs the suite with each PHP binary it finds. Result of 2026-11-24: PASS on 7.4.33, 8.0.30, 8.1.34, 8.2.36,
 8.3.37, 8.4.28, 8.5.13 and 8.6.0-dev.
 
-**The installation may need a newer PHP than tron.** An Exponential 6.0.15 installation's Composer platform check
+**The installation may need a newer PHP than Exponential Tron.** An Exponential 6.0.15 installation's Composer platform check
 asks for PHP 8.4 or later; run `tron.php` with the PHP the installation runs, or it stops with "Composer detected
 issues in your platform" before tron starts.
 
 ## Exponential
 
-tron is an extension of the legacy kernel (a Composer legacy-extension package, installed by
+Exponential Tron is an extension of the legacy kernel (a Composer legacy-extension package, installed by
 `se7enxweb/exponential-legacy-installer`). It uses only long-standing kernel interfaces: `eZScript` and `eZCLI`,
 `eZINI`, `eZDB`, `eZUser::hasAccessTo`, `eZSiteAccess`, module views and the extension autoloads. The administration
 views use the admin designs' shared component classes (admin, admin4 and the others). Proven on 6.0.15; it is planned
@@ -64,7 +64,7 @@ All statements go through `tronDb` with named parameters (`tronDbKernel` on the 
 | nginx + PHP-FPM | expected | `fastcgi_params` passes `HTTP_AUTHORIZATION`; not yet proven |
 | Velocity | proven | the endpoint and admin views work; workers load new classes and switches only after a restart |
 | PHP's built-in server | test suite only | the conformance test runs the HTTP transport through it |
-| Load balancers | proven in TCP mode with SNI pass-through | stateless: no stickiness; tron on every node first |
+| Load balancers | proven in TCP mode with SNI pass-through | stateless: no stickiness; Exponential Tron on every node first |
 | Request filters | proven with exp_request_shield | include `doc/request-shield/tron.rules` |
 
 ## MCP clients
@@ -72,7 +72,7 @@ All statements go through `tronDb` with named parameters (`tronDbKernel` on the 
 Any client that speaks stdio or streamable HTTP with a static bearer header. Configurations for Claude Code, Claude
 Desktop, Cursor and VS Code are in [clients.md](clients.md).
 
-| Client capability | tron |
+| Client capability | Exponential Tron |
 |---|---|
 | tools, resources, resource templates, prompts, pagination | yes |
 | `structuredContent` | from 2025-06-18 on |

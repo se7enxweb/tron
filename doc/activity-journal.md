@@ -41,7 +41,7 @@ and an audit entry names the journal session it belongs to.
 
 - the session list, newest first, with filters as view parameters: `(user)`, `(outcome)`, `(transport)`, `(kind)` (sessions or background jobs), `(tool)`, `(from)`, `(to)`;
 - a session (`tron/activity/(session)/<id>`): its facts, the intent, the hash chain check, the **story** in plain sentences, the jobs it started and the **timeline** in the order it happened, with each step's objects (links to their history), arguments and diff;
-- an object's history (`tron/activity/(object)/node:123`): everything tron did to that object, across sessions;
+- an object's history (`tron/activity/(object)/node:123`): everything Exponential Tron did to that object, across sessions;
 - exports of a session as text, Markdown or JSON (`(format)/text|markdown|json`).
 
 A story reads like this:
@@ -58,7 +58,7 @@ A story reads like this:
 |---|---|
 | `tron_journal_list` | sessions by `user`, `from`/`to` (YYYY-MM-DD), `tool`, `outcome`, `object`, `kind` (`mcp`, `job`), `transport` |
 | `tron_journal_show` | one `session` (or `current: true`) as `narrative` (default), `timeline`, `markdown` or `json`, with `verify` |
-| `tron_journal_search` | steps across sessions: the filters above plus `text`; "everything tron did to node 123" is `object: "node:123"` |
+| `tron_journal_search` | steps across sessions: the filters above plus `text`; "everything Exponential Tron did to node 123" is `object: "node:123"` |
 | `tron_journal_note` | see below |
 
 **Command line** (`bin/php/tron-journal.php`, from the installation root, `--siteaccess=<sa>`):
@@ -129,7 +129,7 @@ carries the session key on every line) or an archive.
 ## Redaction
 
 Nothing reaches a journal row unredacted: arguments are stored as the audit stores them (secret-looking keys
-replaced, tron tokens and bearer headers masked, `password=...` in text masked, long strings cut), result summaries,
+replaced, Exponential Tron tokens and bearer headers masked, `password=...` in text masked, long strings cut), result summaries,
 notes, diffs, client names and job texts go through the same redactor, and tool answers are redacted before the
 journal sees them. The test suite plants canary secrets in arguments, notes, diffs and job results and checks that
 none of them appears in any journal table or export.

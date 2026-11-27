@@ -1,6 +1,6 @@
-# tron
+# Exponential Tron
 
-**The MCP server layer of Exponential.** tron takes what an ordinary MCP connector offers and gives it an edge a
+**The MCP server layer of Exponential.** Exponential Tron takes what an ordinary MCP connector offers and gives it an edge a
 content platform can trust: an AI agent works inside your Exponential installation as one of its real users, under that
 user's roles and policies, through a token of its own, with every call written to an audit log. You decide which
 programs and tools exist, who may call them and for how long, and you can see everything that happened. The agent does
@@ -14,13 +14,13 @@ the work; the control stays with you.
 ![Status: preview](https://img.shields.io/badge/status-preview-orange)
 [![Packagist](https://img.shields.io/packagist/v/se7enxweb/tron)](https://packagist.org/packages/se7enxweb/tron)
 
-> **Preview.** tron is public since 0.0.0.12, and built and proven on a development installation (every PHP
+> **Preview.** Exponential Tron is public since 0.0.0.12, and built and proven on a development installation (every PHP
 > from 7.4 to 8.5, proving runs through PHP-FPM, Velocity and a load balancer; see [doc/testing.md](doc/testing.md)).
 > Interfaces may still change between preview releases.
 
 ## Contents
 
-- [Why tron](#why-tron)
+- [Why Exponential Tron](#why-exponential-tron)
 - [Features](#features)
 - [Quick start in 5 minutes](#quick-start-in-5-minutes)
 - [Connecting clients](#connecting-clients)
@@ -45,12 +45,12 @@ the work; the control stays with you.
 - [Documentation](#documentation)
 - [License](#license)
 
-## Why tron
+## Why Exponential Tron
 
 Most MCP connectors sign in once with a single service account, expose a fixed list of tools, and leave you to trust
-whatever the agent does with them. tron starts where they stop:
+whatever the agent does with them. Exponential Tron starts where they stop:
 
-| | A typical MCP connector | tron |
+| | A typical MCP connector | Exponential Tron |
 |---|---|---|
 | **Identity** | one shared account for every agent | every call runs as a real Exponential user, with that user's roles and policies |
 | **Permissions** | all tools for everyone, or a separate list to maintain | the installation's own policies decide; an agent sees only what its user may call |
@@ -65,7 +65,7 @@ until when, and what it did.
 
 ## Features
 
-- **Real users, real policies.** tron has no permission system of its own. Every tool names an Exponential policy
+- **Real users, real policies.** Exponential Tron has no permission system of its own. Every tool names an Exponential policy
   (`tron/centre_write`, ...); the kernel's `eZUser::hasAccessTo` decides on every call, and `tools/list` shows exactly
   what the user may call.
 - **Search as the user.** `search_query` runs the installation's own search engine (the built-in engine or eZ Find)
@@ -228,7 +228,7 @@ curl -s -X POST "$URL" -H "$AUTH" -H 'Content-Type: application/json' -H 'MCP-Pr
 | 401 | no token, or a malformed, unknown, expired or revoked one, or a disabled user (`WWW-Authenticate: Bearer realm="tron"`) |
 | 403 | a foreign `Origin`, or a user without `tron/use` |
 | 404 | the endpoint is off for this siteaccess |
-| 405 | not POST (tron offers no event stream) |
+| 405 | not POST (Exponential Tron offers no event stream) |
 | 413 / 415 / 421 | body too large / not `application/json` / Host not in `AllowedHosts[]` |
 
 Every check in order, version negotiation, errors and browsers: [doc/http-transport.md](doc/http-transport.md).
@@ -236,7 +236,7 @@ Load balancers, the private mesh and certificates: [doc/hosting.md](doc/hosting.
 
 ## Programs and tools
 
-tron ships three programs; your extensions can add more. A user sees only what the token's scopes and the user's
+Exponential Tron ships three programs; your extensions can add more. A user sees only what the token's scopes and the user's
 policies allow. Full arguments and answers: [doc/tools.md](doc/tools.md); the policy matrices:
 [doc/permissions.md](doc/permissions.md).
 
@@ -250,7 +250,7 @@ policies allow. Full arguments and answers: [doc/tools.md](doc/tools.md); the po
 
 ### `centre`: tickets, cards and decisions
 
-On tron's own tables (`[CentreSettings] Backend=tron`, or `auto` without the centre extension):
+On Exponential Tron's own tables (`[CentreSettings] Backend=tron`, or `auto` without the centre extension):
 
 | Tool | Policy | Kind | Does |
 |---|---|---|---|
@@ -283,7 +283,7 @@ Only where the Katalyst extension is active. Column allowlists; never names, add
 
 ### `search`: the installation's search, as the user
 
-Wherever tron runs inside an installation. Read only; the units `search.query` and `search.index`
+Wherever Exponential Tron runs inside an installation. Read only; the units `search.query` and `search.index`
 ([doc/units.md](doc/units.md#search)).
 
 | Tool | Policy | Does |
@@ -321,7 +321,7 @@ Ready-made prompts for all of it: [doc/prompt-cookbook.md](doc/prompt-cookbook.m
 | **Programs** | each registers only under its own name prefix, cannot replace another's tools, and fails alone; switches turn any of them off |
 | **Answers** | returned text is declared data, not instructions, in the `initialize` instructions; internal errors say only "internal error"; answers capped |
 
-What tron never does: store a token in clear, accept a token in a URL, show a tool a user may not call, run a write
+What Exponential Tron never does: store a token in clear, accept a token in a URL, show a tool a user may not call, run a write
 without its audit entry, return the details of an internal error to the client, return customer names or addresses
 from Katalyst, or change a kernel table. Details and threat notes: [doc/security.md](doc/security.md); the token
 lifecycle: [doc/tokens.md](doc/tokens.md); reading the audit: [doc/audit.md](doc/audit.md).
@@ -412,7 +412,7 @@ final class myextTronProgram implements tronProgram
 ```
 
 Regenerate the autoloads and `tron.php status` lists `myext ... loaded`. The name is the prefix of everything the
-program registers; the schema is enforced before the handler; `'write' => true` makes tron audit before running.
+program registers; the schema is enforced before the handler; `'write' => true` makes Exponential Tron audit before running.
 Step by step: [doc/guides/program-author.md](doc/guides/program-author.md); the rules:
 [doc/programs.md](doc/programs.md).
 
@@ -421,7 +421,7 @@ Step by step: [doc/guides/program-author.md](doc/guides/program-author.md); the 
 A skill is a reviewed chain of units written as data: a manifest with typed, bounded parameters (each with examples and
 a CLI option), the units it runs and how their arguments are wired, declarative steps between them (where, sort, group,
 count, age, test ...), guards, and the schema of its answer. It holds no code and runs as its caller: every unit call
-goes through the same scope, policy, schema, audit and redaction checks as a direct call. Skills come in packs; tron
+goes through the same scope, policy, schema, audit and redaction checks as a direct call. Skills come in packs; Exponential Tron
 ships 16 starter packs (centre, content inventory, classes, media, SEO, languages, INI and settings, site audit,
 Exponential Layouts, templates, users and roles, tron itself, Katalyst), and any extension can ship its own under
 `extension/<ext>/tron/skills/<pack>/` with a `[SkillPack_<id>]` group in its settings.
@@ -474,7 +474,7 @@ schema, writes the `started` entry for a write tool, runs the handler, and audit
 
 ## Several sites, clusters, hosting
 
-- **Several siteaccesses** of one installation share tron's tables (tokens, audit) when they share a database;
+- **Several siteaccesses** of one installation share Exponential Tron's tables (tokens, audit) when they share a database;
   settings can differ per siteaccess, and HTTP can be served from several.
 - **Several installations** each run their own tron; an agent gets one MCP server entry per installation
   (`tron-shop`, `tron-docs`), and the client keeps the tools apart by server name.
@@ -520,7 +520,7 @@ php extension/tron/bin/php/tron.php audit:tail --siteaccess=<sa> --limit=20
 | `serve` exits "does not hold the policy tron/use" | grant `tron/use` to the user's role |
 | `serve` exits "missing tables" | `tron.php install` |
 | "Composer detected issues in your platform" | run the PHP the installation needs |
-| HTTP 404 | `[HTTPSettings] Enabled` / `SiteAccesses[]`, or the node lacks tron |
+| HTTP 404 | `[HTTPSettings] Enabled` / `SiteAccesses[]`, or the node lacks Exponential Tron |
 | HTTP 405 with a `reference` | a request filter: include `doc/request-shield/tron.rules` |
 | HTTP 401 although the token works on stdio | Apache drops `Authorization`: pass it on |
 | A tool is missing | `tron_status` lists left-out tools with the reason; check roles, scopes, switches |
@@ -579,7 +579,7 @@ The full map is [doc/index.md](doc/index.md). Every page:
 | [doc/getting-started.md](doc/getting-started.md) | The same path with the reasons, about fifteen minutes |
 | [doc/clients.md](doc/clients.md) | Claude Code, Claude Desktop, Cursor, VS Code and other clients over stdio, SSH and HTTP |
 | [doc/use-cases.md](doc/use-cases.md) | Worked end-to-end examples with real requests and answers |
-| [doc/prompt-cookbook.md](doc/prompt-cookbook.md) | Prompts for agents that work well with tron, and anti-patterns |
+| [doc/prompt-cookbook.md](doc/prompt-cookbook.md) | Prompts for agents that work well with Exponential Tron, and anti-patterns |
 | [doc/guides/agent-operator.md](doc/guides/agent-operator.md) | For people who run agents: connect, keep the power small, see what they did |
 | [doc/guides/site-admin.md](doc/guides/site-admin.md) | For people who run the installation: roles, tokens, endpoint, audit |
 | [doc/guides/program-author.md](doc/guides/program-author.md) | For extension authors: writing a program step by step |
@@ -636,7 +636,7 @@ The full map is [doc/index.md](doc/index.md). Every page:
 GNU General Public License v2.0 or later. See [LICENSE](LICENSE).
 
 The official MCP PHP SDK (`mcp/sdk`) is licensed under the Apache License 2.0. Apache 2.0 code can be combined with
-code under the GPL version 3, not version 2. tron's "or later" lets the two run together: an installation that
+code under the GPL version 3, not version 2. Exponential Tron's "or later" lets the two run together: an installation that
 installs the SDK next to tron runs and distributes the combination under the terms of the GPL version 3. Without the
 SDK (PHP 7.4 to 8.1, or the package not installed) tron is GPL version 2 or later as before.
 

@@ -4,7 +4,7 @@ Units are small read tools with one job each. Every unit takes a declared input 
 type, so units compose into pipes (`tron_pipe`) the way Unix tools compose with `|`, and later into recipes (design
 patterns by use case, see [units-roadmap.md](units-roadmap.md)).
 
-A unit is an ordinary tron tool of an ordinary program. What makes it a unit is its line in the program's manifest
+A unit is an ordinary Exponential Tron tool of an ordinary program. What makes it a unit is its line in the program's manifest
 (`programs/<area>/program.json`, key `"units"`): the unit id (`node.read`), the MCP tool name (`node_read`), the input
 types (`in`) and the output type (`out`). Every unit:
 

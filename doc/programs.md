@@ -1,6 +1,6 @@
-# Programs: extending tron by convention
+# Programs: extending Exponential Tron by convention
 
-A program is how an extension adds tools, resources and prompts to tron. tron finds it by a file in a fixed place;
+A program is how an extension adds tools, resources and prompts to Exponential Tron. tron finds it by a file in a fixed place;
 there is nothing to register in INI settings and nothing to change in tron.
 
 ## The convention
@@ -28,7 +28,7 @@ extension/<ext>/tron/programs/<name>/program.json       several programs in one 
 | `class` | a class with a constructor without arguments that implements `tronProgram` |
 | `file` | optional: a `.php` path inside the extension, used when the autoload does not know the class yet. Regenerating the autoloads is the normal way |
 | `version` | `X.Y.Z` or `X.Y.Z.N` |
-| `requires` | optional: the oldest tron the program works with. An older tron lists the program as `incompatible` |
+| `requires` | optional: the oldest Exponential Tron the program works with. An older tron lists the program as `incompatible` |
 
 ## The class
 
@@ -65,7 +65,7 @@ final class myextTronProgram implements tronProgram
 - **Everything is staged.** If register() throws, nothing it added stays; the program is listed `failed` with the
   exception's message (`tron_status`, `tron.php status`).
 - **Policies are the installation's.** `policy` is any Exponential module/function. Declare your own functions in
-  your module's `$FunctionList` and grant them in roles. tron refuses a function granted with limitations unless the
+  your module's `$FunctionList` and grant them in roles. Exponential Tron refuses a function granted with limitations unless the
   tool sets `'limitedOk' => true` and checks the limitation itself.
 - **Write tools say so.** `'write' => true` (plus `destructive`, `idempotent`) sets the MCP annotations, makes the
   tool read-write in every list, and makes tron audit it before it runs.
@@ -89,7 +89,7 @@ final class myextTronProgram implements tronProgram
 
 ## Testing a program
 
-The tron test fixture builds the whole stack without an installation:
+The Exponential Tron test fixture builds the whole stack without an installation:
 
 ```php
 require '<tron>/autoload.php';

@@ -2,7 +2,7 @@
 
 The content model: class inventory, unused and largest classes, groups, attributes with required, search, translation and form flags, datatypes, name and URL patterns, and class comparisons for migrations.
 
-- Pack: `classes-and-schema` 0.0.0.2 in `share/skills/classes-and-schema/` (tron's own packs)
+- Pack: `classes-and-schema` 0.0.0.2 in `share/skills/classes-and-schema/` (Exponential Tron's own packs)
 - Prefix: `class.`
 - Skills: 12
 - Audience: Developers and site builders who change the content model or migrate between classes.

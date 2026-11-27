@@ -1,7 +1,7 @@
 <?php
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: tron
+// SOFTWARE NAME: Exponential Tron
 // COPYRIGHT NOTICE: Copyright (C) 1998 - 2026 Exponential Foundation and 7x; All rights reserved.
 // SOFTWARE LICENSE: GNU General Public License v2.0 (or any later version)
 // NOTICE: >
@@ -26,7 +26,7 @@ class tronInfo
 {
     static function info()
     {
-        return array( 'Name' => 'tron',
+        return array( 'Name' => 'Exponential Tron',
                       'Version' => "0.0.0.15",
                       'Copyright' => 'Copyright (C) 1998 - 2026 Exponential Foundation and 7x; All rights reserved.',
                       'License' => 'GNU General Public License v2.0 (or any later version)',

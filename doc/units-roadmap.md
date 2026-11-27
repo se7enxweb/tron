@@ -2,7 +2,7 @@
 
 The units ([units.md](units.md)) are built in waves. Each wave adds one kind of unit and keeps every rule of the waves
 before it: one job per unit, typed input and output, the calling user's policies, an audit entry per call, redaction on
-the way out. The goal is that an agent, through expai or directly through tron, can design and change a whole site at
+the way out. The goal is that an agent, through expai or directly through Exponential Tron, can design and change a whole site at
 the level of features ("a landing page with a header, three teasers and a newsletter box") by composing units, while
 every step stays small enough to check and to undo.
 
@@ -41,7 +41,7 @@ planned change. The class value of class.describe already works as an exchange f
 Recipes are named, parameterised pipes for a use case (design patterns by use case): "landing page with layout and
 teasers", "news section with list and full view override", "member area with role and section". A recipe declares its
 parameters and the units it uses, runs as a plan first, and records what it built so it can be checked and rolled back.
-Extensions will be able to ship recipes and units in their program manifests, the same way tron's programs do.
+Extensions will be able to ship recipes and units in their program manifests, the same way Exponential Tron's programs do.
 
 ## Wave E: planning from expai
 

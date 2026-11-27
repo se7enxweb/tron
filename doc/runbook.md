@@ -62,7 +62,7 @@ missing) and `tron.php status`, then the probe and the smoke. A release's change
 ## Roll back
 
 1. `[HTTPSettings] Enabled=false` (if it was opened), clear the INI cache.
-2. Remove `ActiveExtensions[]=tron`, regenerate autoloads, deploy. tron is now inert: no module, no tools.
+2. Remove `ActiveExtensions[]=tron`, regenerate autoloads, deploy. Exponential Tron is now inert: no module, no tools.
 3. Leave the tables: they hold the audit and tokens and do no harm. Move `extension/tron` aside if the code must go.
 
 ### Remove the tables (only on the owner's word)
@@ -116,7 +116,7 @@ releases first.
 |---|---|
 | `serve` exits "does not hold the policy tron/use" | give the user's role `tron/use` |
 | `serve` exits "missing tables" | `tron.php install` |
-| HTTP 404 | `[HTTPSettings] Enabled` or `SiteAccesses[]`, or the node lacks tron (code drift) |
+| HTTP 404 | `[HTTPSettings] Enabled` or `SiteAccesses[]`, or the node lacks Exponential Tron (code drift) |
 | HTTP 401 with a token that works on stdio | the Authorization header is dropped before PHP (doc/hosting.md, Apache) |
 | HTTP 403 "Origin" | a browser-based client: list its origin in `AllowedOrigins[]` |
 | HTTP 421 | `AllowedHosts[]` does not list the host |

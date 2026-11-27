@@ -12,7 +12,7 @@ instead of adding to it. After a change: `php bin/php/ezcache.php --clear-tag=in
 | | PageSize | 100 | items per tools/list (and resources, prompts) page |
 | | ResponseMaxBytes | 200000 | answers above this are cut with a note; structuredContent is left out |
 | | Protocol | auto | the protocol layer: auto (the official MCP PHP SDK where it can run, else legacy), sdk, legacy; [protocol.md](protocol.md) |
-| ProgramSettings | ExtensionScan | enabled | look for programs in active extensions; `disabled`: tron's own only |
+| ProgramSettings | ExtensionScan | enabled | look for programs in active extensions; `disabled`: Exponential Tron's own only |
 | | Disabled[] | (none) | program names to leave out; the core `tron` cannot be |
 | AuditSettings | Sinks[] | database | `database` and/or `file`; at least one |
 | | FilePath | var/log/tron-audit.log | the file sink, JSON lines |
@@ -53,9 +53,9 @@ AllowedHosts[]=centre.se7enx.com
 | `TokenSettings` | when a token is made | tokens already made keep their expiry |
 | switches (Setup > tron) | table `tron_switch`, when the server is built | as for tron.ini, without an INI cache clear |
 
-## Settings tron adds to other INI files
+## Settings Exponential Tron adds to other INI files
 
-tron ships these in its own `settings/`; they need no change, but they explain what happens.
+Exponential Tron ships these in its own `settings/`; they need no change, but they explain what happens.
 
 | File | Group | Setting | Why |
 |---|---|---|---|
@@ -68,7 +68,7 @@ tron ships these in its own `settings/`; they need no change, but they explain w
 
 ## Recipes
 
-**Only tron's own programs, never scan extensions:**
+**Only Exponential Tron's own programs, never scan extensions:**
 
 ```ini
 [ProgramSettings]

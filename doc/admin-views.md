@@ -1,6 +1,6 @@
 # Setup > tron: the administration views
 
-tron is controlled from the Exponential administration, next to the rest of the installation's settings. The entry
+Exponential Tron is controlled from the Exponential administration, next to the rest of the installation's settings. The entry
 **tron (MCP)** sits in the Setup menu (in the grouped menu of admin4, under System) and is shown only to users with
 `tron/admin`. The pages work in every admin design and follow its light and dark mode.
 
@@ -10,7 +10,7 @@ Translations: eng-GB and ger-DE.
 
 | Page | Address | Policy | What it is for |
 |---|---|---|---|
-| Dashboard | `/tron/dashboard` | tron/admin | the state of tron at a glance |
+| Dashboard | `/tron/dashboard` | tron/admin | the state of Exponential Tron at a glance |
 | Tokens | `/tron/tokens` | tron/tokens | make, rotate, list and revoke tokens for any user |
 | Programs and tools | `/tron/programs` | tron/admin | every program and tool, who may call it, switches |
 | Audit | `/tron/audit` | tron/audit | the audit log with filters and a live tail |
@@ -20,7 +20,7 @@ The three policies are separate so you can let a support person read the audit w
 
 ## Dashboard
 
-- tron's version and the protocol versions it speaks.
+- Exponential Tron's version and the protocol versions it speaks.
 - The programs with their state (`loaded`, `failed` with the reason, `disabled`, `conflict`, `incompatible`) and their
   tools, resources and prompts.
 - Active tokens.
@@ -53,7 +53,7 @@ Every program and tool with:
 Switches are stored in the table `tron_switch` and take effect on the next HTTP request and the next start of a stdio
 server. Where Velocity serves, its workers read them only after a restart. Switching asks "Verify it's you" and is
 written to the audit (`admin/switch.on`, `admin/switch.off`). The page also counts the tools that are on, the write
-tools, and the tools no role grants, and marks roles whose policy has limitations as "limited" (tron treats those as
+tools, and the tools no role grants, and marks roles whose policy has limitations as "limited" (Exponential Tron treats those as
 not granted).
 
 A switch is the quick, per-installation way. The INI way, `[ProgramSettings] Disabled[]=<program>`, does the same for
@@ -91,7 +91,7 @@ administrator (their real policies) and approves exactly that manifest; Revoke t
 
 ## "Verify it's you"
 
-tron adds the reauth group `tron` (on by default) in its `site.ini.append.php`:
+Exponential Tron adds the reauth group `tron` (on by default) in its `site.ini.append.php`:
 
 ```ini
 [ReauthGroup_tron]

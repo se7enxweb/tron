@@ -1,6 +1,6 @@
 # Architecture
 
-tron is built like a microkernel with its services outside it: a small core that speaks MCP, authenticates, checks
+Exponential Tron is built like a microkernel with its services outside it: a small core that speaks MCP, authenticates, checks
 policies and audits, and **programs** that bring the tools. The core knows no tool of its own beyond `tron_whoami`
 and `tron_status`, and those come from a program too (the built-in program `tron`).
 
@@ -53,7 +53,7 @@ and `tron_status`, and those come from a program too (the built-in program `tron
 
 A program is a class implementing `tronProgram::register( tronRegistry, tronEnvironment )`. The loader:
 
-1. **discovers** manifests: tron's own `programs/*/program.json`, then each active extension's `tron/program.json`
+1. **discovers** manifests: Exponential Tron's own `programs/*/program.json`, then each active extension's `tron/program.json`
    and `tron/programs/*/program.json`, in extension order;
 2. **reads** each manifest without running code (name, class, file, version, requires);
 3. **skips** it when `[ProgramSettings] Disabled[]` names it (never the core `tron`), when its name is already taken
@@ -94,7 +94,7 @@ real installation.
 ## Built on the official SDK
 
 The protocol is the official MCP PHP SDK's (`mcp/sdk`): its message parsing, version negotiation, lifecycle and
-transports. tron's own code starts at the method: what `tools/list` shows a user, what `tools/call` checks, audits and
+transports. Exponential Tron's own code starts at the method: what `tools/list` shows a user, what `tools/call` checks, audits and
 runs. On PHP 7.4 to 8.1, where the SDK cannot run, the frozen `tronLegacyProtocol` takes its place; both layers pass the
 same suite and the official conformance suite's generic scenarios. [protocol.md](protocol.md).
 

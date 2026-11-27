@@ -48,7 +48,7 @@ xsh tron:skill:run centre.triage.move-inbox-to-next --board main
 
 Over MCP a live skill is the tool `skill_centre_triage_move_inbox_to_next` and a prompt of the same name.
 
-See tron's doc/skills.md and doc/extension-conventions.md.
+See Exponential Tron's doc/skills.md and doc/extension-conventions.md.
 
 ---
 

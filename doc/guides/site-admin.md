@@ -1,16 +1,16 @@
 # Guide for site administrators
 
-You are responsible for an installation and decide who may use tron, how, and what it may do.
+You are responsible for an installation and decide who may use Exponential Tron, how, and what it may do.
 
 ## Install, upgrade, remove
 
 [../runbook.md](../runbook.md) has every step with its undo. The short version: activate the extension, regenerate
-autoloads, deploy, `tron.php install`, `tron.php status`. tron changes no kernel table; it adds seven tables named
+autoloads, deploy, `tron.php install`, `tron.php status`. Exponential Tron changes no kernel table; it adds seven tables named
 `tron_*` and nothing else.
 
 ## Roles
 
-tron has no permission model of its own; it uses yours. Module **tron**, functions:
+Exponential Tron has no permission model of its own; it uses yours. Module **tron**, functions:
 
 | Function | What it opens |
 |---|---|
@@ -23,7 +23,7 @@ tron has no permission model of its own; it uses yours. Module **tron**, functio
 | katalyst_detail | Katalyst: full domains and search by domain |
 
 Suggested roles: **tron Viewer** (use, centre_read), **tron Editor** (+ centre_write), **tron Decider**
-(+ centre_decide), **tron Operator** (use, katalyst_read). Grant functions without limitations: tron treats a policy
+(+ centre_decide), **tron Operator** (use, katalyst_read). Grant functions without limitations: Exponential Tron treats a policy
 with limitations as not granted (a tool must declare that it checks limitations itself; none of the built-in tools
 does).
 
@@ -78,7 +78,7 @@ Off until you open it: `[HTTPSettings] Enabled=true`, the siteaccess in `SiteAcc
 when its first audit entry cannot be written. Read it with `tron.php audit:tail`; the file sink suits log shipping
 and fail2ban (failed HTTP sign-ins carry the remote address and the token's public prefix only).
 
-The table grows with use; tron 0.0.0.1 has no retention job yet (planned for the next wave). Until then, archive and
+The table grows with use; Exponential Tron 0.0.0.1 has no retention job yet (planned for the next wave). Until then, archive and
 delete old rows with your usual database tools if needed.
 
 ## Programs

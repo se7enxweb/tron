@@ -1,6 +1,6 @@
 # Redaction: answers are blind to secrets
 
-Every answer tron sends passes its redactor on the way out: tool results and tool errors, resources, prompts, the
+Every answer Exponential Tron sends passes its redactor on the way out: tool results and tool errors, resources, prompts, the
 initialize instructions, JSON-RPC errors. Secrets and personal data are masked wherever they appear, and the audit
 records that it happened: which kinds and how many, never the values.
 
@@ -9,7 +9,7 @@ records that it happened: which kinds and how many, never the values.
 | Kind | In text | By key (structured answers) |
 |---|---|---|
 | `secret` | `password=...`, `passwd: ...`, `secret = ...`, `api_key: ...`, `client_secret ...`, `access_key ...`, `token: ...` (the value) | `password`, `passwd`, `pwd`, `secret`, `*_secret`, `api_key`, `private_key`, `access_key`, `access_token`, `refresh_token`, `auth_token`, `token`, `bearer`, `credentials`, `authorization`, `cookie`, `dsn`, `connection_string`, `password_hash` |
-| `token` | tron tokens, `Bearer ...`, JWTs, provider tokens (`ghp_`, `github_pat_`, `glpat-`, `xox?-`, `sk-`, `sk_live_`, ...) | |
+| `token` | Exponential Tron tokens, `Bearer ...`, JWTs, provider tokens (`ghp_`, `github_pat_`, `glpat-`, `xox?-`, `sk-`, `sk_live_`, ...) | |
 | `key` | PEM private keys (whole block), cloud access keys (`AKIA...`, `ASIA...`) | |
 | `dsn` | `scheme://user:password@host` (user and password), PDO data source names (`mysql:host=...;password=...`) | |
 | `email` | e-mail addresses | `email`, `e_mail`, `mail`, `email_address` |

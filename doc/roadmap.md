@@ -1,6 +1,6 @@
 # Roadmap
 
-tron grows in four waves. Each wave refactors what the one before showed needs it, adds features, and ships with
+Exponential Tron grows in four waves. Each wave refactors what the one before showed needs it, adds features, and ships with
 worked examples run by the test suite, proofs (tests and theory claims, plus a proving run on a real installation) and
 usage guides. A wave is done only when its exit gate is met. Throughout: PHP 7.4 to 8.5, no new Composer dependency,
 everything new off by default where it widens access.
@@ -71,7 +71,7 @@ report; a client with a tool cap using a profile.
 | Completion, logging, elicitation | argument completion, `logging/setLevel`, confirmation of destructive tools |
 | Private-network listener | the HTTP endpoint on a node's private address for the mesh |
 | More programs | the message bus (read, send notes, link) and the operations docs (read only) |
-| Remote centre | tron in one installation calls another installation's centre API |
+| Remote centre | Exponential Tron in one installation calls another installation's centre API |
 | Engines | Oracle and MongoDB in the schema and the database layer; schema files for the setup wizard |
 | Default install | tron in Exponential's default install, activated by the setup wizard with suggested roles |
 | Velocity native | the endpoint served by Velocity workers without a per-request bootstrap |
@@ -90,7 +90,7 @@ report; a client with a tool cap using a profile.
 | Policy simulator | "what could this token do?" across every tool, without calling anything |
 | Tools from content classes | typed tools generated per content class |
 | Federation | several installations route a call to the one that owns the data |
-| Gateway | tron in front of other MCP servers, with the installation's users, policies and audit |
+| Gateway | Exponential Tron in front of other MCP servers, with the installation's users, policies and audit |
 | Semantic layer | permission-filtered embeddings of content and tickets for search and duplicates |
 | Anomaly watch | the audit stream scored per token (volume, new tools, odd hours), with alerts |
 | Program store | signed programs, verified before load |
@@ -101,7 +101,7 @@ Every advanced feature is off by default and switchable per installation.
 
 ## Release
 
-tron is a preview until it is proven on real installations; the repository and the Composer package are published
+Exponential Tron is a preview until it is proven on real installations; the repository and the Composer package are published
 after that. Versions then follow [upgrading.md](upgrading.md), "Version numbers".
 
 ---

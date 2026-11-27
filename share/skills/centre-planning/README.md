@@ -43,7 +43,7 @@ xsh tron:skill:run centre.count.by --by lane --status open --board main
 
 Over MCP a live skill is the tool `skill_centre_count_by` and a prompt of the same name.
 
-See tron's doc/skills.md and doc/extension-conventions.md.
+See Exponential Tron's doc/skills.md and doc/extension-conventions.md.
 
 ---
 

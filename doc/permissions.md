@@ -1,6 +1,6 @@
 # Roles and the policy matrix
 
-tron has no permission system of its own. Every tool, resource and prompt names one Exponential policy
+Exponential Tron has no permission system of its own. Every tool, resource and prompt names one Exponential policy
 (module/function); tron asks the kernel (`eZUser::hasAccessTo`) whether the calling user holds it. You grant tron's
 functions in **Roles and policies** exactly like any other module's. Code: `modules/tron/module.php`,
 `classes/kernel/tronkernelaccesschecker.php`, `classes/core/tronserver.php`.
@@ -38,7 +38,7 @@ change).
 | `admin` | Setup > tron: Dashboard, Programs and tools (with the switches), Settings; program origins and load times in `tron_status` |
 | `tokens` | Setup > tron > Tokens: make, list and revoke every user's tokens |
 | `audit` | Setup > tron > Audit: read the audit log, live tail |
-| `centre_read` | the centre program's read tools, its resources and its prompts (tron's own tables) |
+| `centre_read` | the centre program's read tools, its resources and its prompts (Exponential Tron's own tables) |
 | `centre_write` | create, update, comment, move, close and link tickets |
 | `centre_decide` | record a decision |
 | `katalyst_read` | Katalyst services, plans and orders, with domains masked |
@@ -57,7 +57,7 @@ with the roles that grant them.
 | `tron_status` | tron/use (origins and times only with tron/admin) | read |
 | `tron://status`, `tron://programs` | tron/use | resource |
 
-### Program centre, on tron's tables
+### Program centre, on Exponential Tron's tables
 
 | Tool / resource / prompt | Policy | Kind |
 |---|---|---|
@@ -80,7 +80,7 @@ with the roles that grant them.
 
 Where the extension expcentre is in the installation (`[CentreSettings] Backend=auto` or `expcentre`), the 29
 contract tools (`centre_whoami`, `centre_list_projects`, ... `centre_record_decision`, see [tools.md](tools.md)) need
-`centre/api` in tron, and centre then checks its own policies on every card (`centre/board`, `card_read`,
+`centre/api` in Exponential Tron, and centre then checks its own policies on every card (`centre/board`, `card_read`,
 `card_write`, `decide`, `manage`, with their Subtree limitations).
 
 ### Program katalyst
@@ -112,7 +112,7 @@ The suggested roles, and what each sees. "W" marks a write tool. The test suite 
 | tron Decider | Editor + tron/centre_decide |
 | tron Operator | tron/use, tron/katalyst_read |
 | tron Operator (detail) | Operator + tron/katalyst_detail |
-| tron Administrator | tron/admin, tron/tokens, tron/audit (people who run tron, not agents) |
+| tron Administrator | tron/admin, tron/tokens, tron/audit (people who run Exponential Tron, not agents) |
 | AI session | tron/use plus exactly what that session needs |
 
 A user with `*/*` (the kernel's Administrator role) holds every function, so an agent signed in as an administrator
@@ -120,7 +120,7 @@ sees every tool. Do not do that: make a dedicated user per agent with only the r
 
 ## Limitations
 
-A policy granted **with limitations** (Section, Subtree, SiteAccess ...) comes back from the kernel as "limited". tron
+A policy granted **with limitations** (Section, Subtree, SiteAccess ...) comes back from the kernel as "limited". Exponential Tron
 treats it as **not granted**, unless the tool declares `limitedOk` and checks the limitation itself. No built-in tool
 declares it, so grant tron's functions without limitations. This fails closed: a limitation can never be ignored by
 accident.
@@ -128,7 +128,7 @@ accident.
 ## Combining roles
 
 Roles add up, as everywhere in Exponential. An editor of web content who should also keep tickets gets both their
-editing role and `tron Editor`. The kernel's Editor role holds no tron function: without `tron/use` the user cannot
+editing role and `tron Editor`. The kernel's Editor role holds no Exponential Tron function: without `tron/use` the user cannot
 connect at all.
 
 ## Scopes narrow, never widen
