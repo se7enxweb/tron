@@ -1,4 +1,4 @@
 protocol: 2025-11-25
-server:   tron 0.0.0.15
+server:   tron 0.0.0.16
 tools:    24 (what the editor's role allows)
 whoami:   editor (user 3) over stdio

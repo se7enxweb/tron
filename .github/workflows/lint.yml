@@ -1,0 +1,62 @@
+# Copyright (C) 1998 - 2026 Exponential Foundation and 7x; All rights reserved. Licensed under the GNU General Public License v2.0 (or any later version).
+#
+# Every PHP file of tron must parse on every PHP version tron supports, the SDK layer's files too: an installation's
+# boot check and autoload generator parse them all, whichever PHP runs them. Then the suite runs on the oldest and the
+# newest PHP (the legacy protocol layer on 7.4, the official MCP SDK on 8.5).
+name: Lint and suite
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5' ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: none
+      - name: php -l on every PHP file
+        run: |
+          fail=0
+          while IFS= read -r -d '' f; do
+            php -l "$f" > /dev/null 2> lint.err || { echo "::error file=$f::$(cat lint.err)"; fail=1; }
+          done < <(find . -name '*.php' -not -path './.git/*' -not -path './var/*' -print0)
+          exit $fail
+
+  suite:
+    needs: lint
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php: '7.4'
+            layer: legacy
+          - php: '8.5'
+            layer: sdk
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: pdo_sqlite, mbstring
+          coverage: none
+      - name: The official MCP SDK for the SDK layer
+        if: matrix.layer == 'sdk'
+        run: |
+          mkdir -p "$RUNNER_TEMP/sdk" && cd "$RUNNER_TEMP/sdk"
+          echo '{"config":{"allow-plugins":{"php-http/discovery":true}}}' > composer.json
+          composer require --no-interaction --no-progress mcp/sdk:^0.10 nyholm/psr7:^1.8
+          echo "TRON_SDK_AUTOLOAD=$RUNNER_TEMP/sdk/vendor/autoload.php" >> "$GITHUB_ENV"
+      - name: Suite
+        env:
+          TRON_PROTOCOL: ${{ matrix.layer }}
+        run: php tests/run.php

@@ -5,7 +5,6 @@
  * @package tron
  */
 
-use Mcp\Schema\JsonRpc\Error;
 use Mcp\Schema\JsonRpc\Request;
 use Mcp\Schema\JsonRpc\Response;
 use Mcp\Schema\Request\InitializeRequest;
@@ -19,18 +18,23 @@ use Mcp\Server\Session\SessionInterface;
  * the version (its own InitializeHandler) and keeps the lifecycle; this handler answers the methods with what
  * tronServer says for the bound tron session (its user, token scope, policies, audit and redaction).
  *
- * Needs PHP 8.2 and the package mcp/sdk; tronProtocolLayers loads it only then.
+ * A tron protocol error (tronRpcError) is thrown, not returned: the SDK turns it into its error event, where
+ * tronSdkErrors puts tron's own code, message and data back. That keeps this file in PHP 7.4 syntax (the interface's
+ * return type Response|Error is a union, PHP 8.0; Response alone is a narrower, compatible type), as every tron file
+ * must parse on every PHP tron supports, although it runs only with PHP 8.2 and the package mcp/sdk.
  */
 final class tronSdkHandler implements RequestHandlerInterface
 {
     const METHODS = array( 'initialize', 'tools/list', 'tools/call', 'resources/list', 'resources/templates/list',
                            'resources/read', 'prompts/list', 'prompts/get' );
 
-    private ?tronSession $session = null;
-    private InitializeHandler $initialize;
+    /** @var tronServer */ private $server;
+    /** @var tronSession|null */ private $session = null;
+    /** @var InitializeHandler */ private $initialize;
 
-    public function __construct( private readonly tronServer $server, Configuration $configuration )
+    public function __construct( tronServer $server, Configuration $configuration )
     {
+        $this->server = $server;
         $this->initialize = new InitializeHandler( $configuration );
     }
 
@@ -45,33 +49,27 @@ final class tronSdkHandler implements RequestHandlerInterface
         return in_array( $request::getMethod(), self::METHODS, true );
     }
 
-    public function handle( Request $request, SessionInterface $session ): Response|Error
+    /** @throws tronRpcError for a protocol error, which tronSdkErrors answers with its code, message and data */
+    public function handle( Request $request, SessionInterface $session ): Response
     {
         $tron = $this->session;
         if ( $tron === null )
             throw new LogicException( 'tron: no session is bound to the SDK handler' );
         $id = $request->getId();
         $params = self::params( $request );
-        try
+        if ( $request instanceof InitializeRequest )
         {
-            if ( $request instanceof InitializeRequest )
-            {
-                // The SDK negotiates the version and records the client in its session; tron answers the rest.
-                $negotiated = $this->initialize->handle( $request, $session )->result->protocolVersion;
-                $version = $negotiated !== null ? $negotiated->value : (string)$session->get( 'protocol_version' );
-                $tron->clientInfo = is_array( $params['clientInfo'] ?? null ) ? $params['clientInfo'] : array();
-                return new Response( $id, self::clean( $this->server->initialize( $params, $tron, $version ) ) );
-            }
-            $version = $session->get( 'protocol_version' );
-            if ( is_string( $version ) && $version !== '' )
-                $tron->protocolVersion = $version;
-            return new Response( $id, self::clean( $this->server->dispatch( $request::getMethod(), $params, $tron ) ) );
+            // The SDK negotiates the version and records the client in its session; tron answers the rest.
+            $negotiated = $this->initialize->handle( $request, $session )->result->protocolVersion;
+            $version = $negotiated !== null ? $negotiated->value : (string)$session->get( 'protocol_version' );
+            $tron->clientInfo = is_array( $params['clientInfo'] ?? null ) ? $params['clientInfo'] : array();
+            return new Response( $id, self::clean( $this->server->initialize( $params, $tron, $version ) ) );
         }
-        catch ( tronRpcError $e )
-        {
-            $error = $this->server->redactOut( $e->toArray() );
-            return new Error( $id, (int)$error['code'], (string)$error['message'], $error['data'] ?? null );
-        }
+        $version = $session->get( 'protocol_version' );
+        if ( is_string( $version ) && $version !== '' )
+            $tron->protocolVersion = $version;
+        // a tronRpcError goes on to the SDK's error event (tronSdkErrors)
+        return new Response( $id, self::clean( $this->server->dispatch( $request::getMethod(), $params, $tron ) ) );
     }
 
     /** The request's params as tron reads them: plain arrays, _meta included. */

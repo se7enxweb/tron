@@ -11,13 +11,20 @@ use Psr\Log\LogLevel;
 /** The SDK's PSR-3 log lines into tron's logger (stderr over stdio, the kernel's log over HTTP); info and debug are dropped. */
 final class tronSdkLogger extends AbstractLogger
 {
-    public function __construct( private readonly tronServer $server )
+    /** @var tronServer */ private $server;
+
+    public function __construct( tronServer $server )
     {
+        $this->server = $server;
     }
 
-    public function log( $level, string|\Stringable $message, array $context = array() ): void
+    /** $message is a string or a Stringable (untyped here, a wider type than PSR-3's, so the file parses on PHP 7.4) */
+    public function log( $level, $message, array $context = array() ): void
     {
         if ( in_array( $level, array( LogLevel::DEBUG, LogLevel::INFO ), true ) )
+            return;
+        // a tron protocol error is an answer to the client, not a fault (tronSdkErrors)
+        if ( isset( $context['exception'] ) && $context['exception'] instanceof tronRpcError )
             return;
         $text = (string)$message;
         if ( isset( $context['exception'] ) && $context['exception'] instanceof Throwable )

@@ -47,6 +47,11 @@ deploy. The tables can stay; they hold the audit and tokens.
 
 ## Notes per version
 
+### 0.0.0.16
+
+No schema change. The SDK layer's classes parse on PHP 7.4 and 8.0 again; installations on those versions that took
+0.0.0.15 need it ([changelog/0.0.0.16.md](changelog/0.0.0.16.md)).
+
 ### 0.0.0.15
 
 No schema change. `tron.php call`, `token:create` and the `tron-skills.php` commands that act as a user need a token,

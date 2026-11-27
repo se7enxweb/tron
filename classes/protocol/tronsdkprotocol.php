@@ -34,8 +34,11 @@ final class tronSdkProtocol implements tronProtocolLayer
     private ?tronSdkLoop $loop = null;
     private ?tronSession $loopSession = null;
 
-    public function __construct( private readonly tronServer $server )
+    /** @var tronServer */ private $server;
+
+    public function __construct( tronServer $server )
     {
+        $this->server = $server;
     }
 
     public function name(): string
@@ -53,15 +56,16 @@ final class tronSdkProtocol implements tronProtocolLayer
     {
         if ( $this->sdk !== null )
             return $this->sdk;
-        $info = new Implementation( (string)$this->server->option( 'name' ), (string)$this->server->option( 'version' ), title: (string)$this->server->option( 'title' ) );
-        $capabilities = new ServerCapabilities( tools: true, toolsListChanged: false, resources: true, resourcesSubscribe: false,
-                                                resourcesListChanged: false, prompts: true, promptsListChanged: false,
-                                                logging: false, completions: false );
+        // positional arguments, not named ones, so the file parses on PHP 7.4 (named arguments are PHP 8.0)
+        $info = new Implementation( (string)$this->server->option( 'name' ), (string)$this->server->option( 'version' ), null, null, null, (string)$this->server->option( 'title' ) );
+        // tools, toolsListChanged, resources, resourcesSubscribe, resourcesListChanged, prompts, promptsListChanged, logging, completions
+        $capabilities = new ServerCapabilities( true, false, true, false, false, true, false, false, false );
         $this->handler = new tronSdkHandler( $this->server, new Configuration( $info, $capabilities, max( 1, (int)$this->server->option( 'pageSize' ) ) ) );
         return $this->sdk = Server::builder()
-            ->setServerInfo( (string)$this->server->option( 'name' ), (string)$this->server->option( 'version' ), title: (string)$this->server->option( 'title' ) )
+            ->setServerInfo( (string)$this->server->option( 'name' ), (string)$this->server->option( 'version' ), null, null, null, (string)$this->server->option( 'title' ) )
             ->setCapabilities( $capabilities )
             ->setLogger( new tronSdkLogger( $this->server ) )
+            ->setEventDispatcher( new tronSdkErrors( $this->server ) )   // tron's error codes and messages (tronSdkHandler)
             ->addRequestHandler( $this->handler )
             ->withoutModernEra()
             ->build();

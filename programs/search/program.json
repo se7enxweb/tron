@@ -1,7 +1,7 @@
 {
     "name": "search",
     "class": "tronUnitsSearchProgram",
-    "version": "0.0.0.15",
+    "version": "0.0.0.16",
     "title": "Search units",
     "description": "Read units for the installation's search, as the calling user may read: full-text search with filters, sort, paging and facets, and the state of the search index.",
     "units": [

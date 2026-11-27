@@ -1,7 +1,7 @@
 {
     "name": "ini",
     "class": "tronUnitsIniProgram",
-    "version": "0.0.0.15",
+    "version": "0.0.0.16",
     "title": "INI units",
     "description": "Read units for INI settings: a setting's value and the file that gives it, the difference between two siteaccesses or two files, the blocks and settings of a file.",
     "units": [

@@ -1,4 +1,4 @@
--- tron 0.0.0.15 schema for pgsql. Generated from tronSchema::tables(); do not edit by hand.
+-- tron 0.0.0.16 schema for pgsql. Generated from tronSchema::tables(); do not edit by hand.
 -- Copyright (C) 1998 - 2026 Exponential Foundation and 7x; All rights reserved. Licensed under the GNU General Public License v2.0 (or any later version).
 
 CREATE TABLE tron_token (
