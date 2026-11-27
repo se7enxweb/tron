@@ -1,0 +1,235 @@
+{
+    "name": "centre.label",
+    "title": "Open tickets with a label",
+    "purpose": "Lists the open tickets of a board that carry a label (admin, backup, db, docs, ops, security ...), highest priority first.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "tickets",
+        "labels"
+    ],
+    "use_case": "Reviewing the work of one area",
+    "parameters": {
+        "label": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,31}$",
+            "default": "admin",
+            "description": "The label, e.g. admin, ops or security.",
+            "examples": [
+                "admin",
+                "security"
+            ],
+            "short": "-l"
+        },
+        "board": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
+            "default": "main",
+            "description": "The centre board, e.g. main or ops.",
+            "examples": [
+                "main",
+                "ops"
+            ],
+            "short": "-b"
+        },
+        "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20,
+            "description": "At most this many rows in the answer.",
+            "examples": [
+                5,
+                20
+            ],
+            "short": "-n"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "centre_ticket_list"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "list",
+            "unit": "centre_ticket_list",
+            "args": {
+                "label": "$param.label",
+                "board": "$param.board",
+                "status": "open",
+                "limit": 200
+            }
+        },
+        {
+            "id": "sorted",
+            "op": "sort",
+            "from": "$steps.list.items",
+            "by": "priority",
+            "order": "desc"
+        },
+        {
+            "id": "top",
+            "op": "limit",
+            "from": "$steps.sorted",
+            "count": "$param.limit"
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.top",
+            "fields": [
+                "id",
+                "title",
+                "lane",
+                "priority",
+                "assignee",
+                "due"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "board": "$param.board",
+            "count": "$steps.list.items|count",
+            "tickets": "$steps.rows",
+            "summary": "{{$steps.list.total}} open {{$param.label}} tickets on {{$param.board}}."
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "board",
+                "count",
+                "tickets",
+                "summary"
+            ],
+            "properties": {
+                "board": {
+                    "type": "string"
+                },
+                "count": {
+                    "type": "integer",
+                    "description": "How many match (before the limit)"
+                },
+                "tickets": {
+                    "type": "array"
+                },
+                "summary": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "Administration tickets",
+            "params": {
+                "board": "main",
+                "label": "admin"
+            }
+        },
+        {
+            "title": "Backup tickets",
+            "params": {
+                "board": "main",
+                "label": "backup"
+            }
+        },
+        {
+            "title": "Database tickets",
+            "params": {
+                "board": "main",
+                "label": "db"
+            }
+        },
+        {
+            "title": "Documentation tickets",
+            "params": {
+                "board": "main",
+                "label": "docs"
+            }
+        },
+        {
+            "title": "Translation tickets",
+            "params": {
+                "board": "main",
+                "label": "i18n"
+            }
+        },
+        {
+            "title": "Exponential Layouts tickets",
+            "params": {
+                "board": "main",
+                "label": "layouts"
+            }
+        },
+        {
+            "title": "Media and images tickets",
+            "params": {
+                "board": "main",
+                "label": "media"
+            }
+        },
+        {
+            "title": "Operations tickets",
+            "params": {
+                "board": "main",
+                "label": "ops"
+            }
+        },
+        {
+            "title": "Performance tickets",
+            "params": {
+                "board": "main",
+                "label": "perf"
+            }
+        },
+        {
+            "title": "PHP tickets",
+            "params": {
+                "board": "main",
+                "label": "php"
+            }
+        },
+        {
+            "title": "Search tickets",
+            "params": {
+                "board": "main",
+                "label": "search"
+            }
+        },
+        {
+            "title": "Security tickets",
+            "params": {
+                "board": "main",
+                "label": "security"
+            }
+        },
+        {
+            "title": "Search engine tickets",
+            "params": {
+                "board": "main",
+                "label": "seo"
+            }
+        },
+        {
+            "title": "Public site tickets",
+            "params": {
+                "board": "main",
+                "label": "site"
+            }
+        }
+    ]
+}

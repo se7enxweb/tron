@@ -6,7 +6,9 @@
  */
 
 /**
- * The MCP server: JSON-RPC 2.0 in, JSON-RPC 2.0 out, independent of the transport.
+ * The MCP server's behaviour, independent of the wire: what each method answers for a session. The JSON-RPC framing,
+ * the version negotiation and the transports belong to the protocol layer (protocol()): the official MCP PHP SDK
+ * where it is installed and PHP is 8.2 or newer, else tron's frozen legacy layer (doc/protocol.md).
  *
  * Methods: initialize, ping, tools/list, tools/call, resources/list, resources/templates/list, resources/read,
  * prompts/list, prompts/get; notifications are accepted and need no answer. Every list shows only what the caller
@@ -23,6 +25,7 @@ final class tronServer
     /** @var array */ private $options;
     /** @var callable|null */ private $logger;
     /** @var tronPlanner */ private $planner;
+    /** @var tronProtocolLayer|null */ private $protocol = null;
 
     /**
      * Options: name, title, version, instructions (extra text), pageSize (tools/list page), responseMaxBytes,
@@ -36,7 +39,7 @@ final class tronServer
         $this->env = $env;
         $this->options = $options + array(
             'name' => 'tron', 'title' => 'Exponential tron', 'version' => tronVersion::VERSION, 'instructions' => '',
-            'pageSize' => 100, 'responseMaxBytes' => 200000, 'programs' => array(),
+            'pageSize' => 100, 'responseMaxBytes' => 200000, 'programs' => array(), 'protocol' => 'auto',
         );
         $this->logger = $logger;
         $this->planner = new tronPlanner( $env );
@@ -64,75 +67,61 @@ final class tronServer
         return $this->options[$name] ?? null;
     }
 
-    /** Handles one raw message (a line or an HTTP body). Returns the encoded answer, or null when none is due. */
+    /** The protocol layer that frames this server's messages: the official MCP SDK or the legacy one (doc/protocol.md). */
+    public function protocol(): tronProtocolLayer
+    {
+        if ( $this->protocol === null )
+            $this->protocol = tronProtocolLayers::create( $this, (string)$this->options['protocol'] );
+        return $this->protocol;
+    }
+
+    /** Handles one raw message (a line or an HTTP body) through the protocol layer. Returns the encoded answer, or null. */
     public function handleRaw( string $raw, tronSession $session ): ?string
     {
-        $decoded = json_decode( $raw, true );
-        if ( $decoded === null && json_last_error() !== JSON_ERROR_NONE )
-            return self::encode( self::errorResponse( null, tronProtocol::PARSE_ERROR, 'Parse error: ' . json_last_error_msg() ) );
-        $answer = $this->handle( $decoded, $session );
-        return $answer === null ? null : self::encode( $answer );
+        return $this->protocol()->handleRaw( $raw, $session );
     }
 
-    /** Handles a decoded message or batch. Returns the answer (array) or null. */
+    /** Handles a decoded message (or batch) through the protocol layer. Returns the answer (array) or null. */
     public function handle( $message, tronSession $session ): ?array
     {
-        if ( is_array( $message ) && $message !== array() && tronSchemaValidator::isList( $message ) )
-        {
-            $version = $session->protocolVersion;
-            if ( !tronProtocol::allowsBatch( $version ) )
-                return self::errorResponse( null, tronProtocol::INVALID_REQUEST, "JSON-RPC batches are not part of MCP $version" );
-            $out = array();
-            foreach ( $message as $one )
-            {
-                $r = $this->handleOne( $one, $session );
-                if ( $r !== null )
-                    $out[] = $r;
-            }
-            return $out ?: null;
-        }
-        return $this->handleOne( $message, $session );
+        return $this->protocol()->handle( $message, $session );
     }
 
-    private function handleOne( $msg, tronSession $session ): ?array
+    /**
+     * Answers one MCP request method for a session, whatever the protocol layer: the result as an array, or a
+     * tronRpcError. initialize is not here: its version negotiation belongs to the protocol layer, which then calls
+     * initialize() with the version it settled on. Every answer except tools/list and ping passes the redactor.
+     */
+    public function dispatch( string $method, array $params, tronSession $session )
     {
-        if ( !is_array( $msg ) || $msg === array() || tronSchemaValidator::isList( $msg ) )
-            return self::errorResponse( null, tronProtocol::INVALID_REQUEST, 'Invalid Request: a message is a JSON object' );
-        $hasId = array_key_exists( 'id', $msg );
-        $id = $hasId ? $msg['id'] : null;
-        if ( $hasId && !is_string( $id ) && !is_int( $id ) )
-            return self::errorResponse( null, tronProtocol::INVALID_REQUEST, 'Invalid Request: the id must be a string or an integer' );
-        if ( ( $msg['jsonrpc'] ?? null ) !== '2.0' )
-            return self::errorResponse( $id, tronProtocol::INVALID_REQUEST, 'Invalid Request: jsonrpc must be "2.0"' );
-        if ( !isset( $msg['method'] ) )
+        switch ( $method )
         {
-            // A response from the client (to a request tron never sends): nothing to answer.
-            if ( array_key_exists( 'result', $msg ) || array_key_exists( 'error', $msg ) )
-                return null;
-            return self::errorResponse( $id, tronProtocol::INVALID_REQUEST, 'Invalid Request: no method' );
+            case 'ping':                     return new stdClass();
+            case 'tools/list':               return $this->toolsList( $params, $session );
+            case 'tools/call':               $r = $this->toolsCall( $params, $session ); break;
+            case 'resources/list':           $r = $this->resourcesList( $params, $session, false ); break;
+            case 'resources/templates/list': $r = $this->resourcesList( $params, $session, true ); break;
+            case 'resources/read':           $r = $this->resourcesRead( $params, $session ); break;
+            case 'prompts/list':             $r = $this->promptsList( $params, $session ); break;
+            case 'prompts/get':              $r = $this->promptsGet( $params, $session ); break;
+            default:
+                throw new tronRpcError( tronProtocol::METHOD_NOT_FOUND, "Method not found: $method" );
         }
-        if ( !is_string( $msg['method'] ) )
-            return self::errorResponse( $id, tronProtocol::INVALID_REQUEST, 'Invalid Request: the method must be a string' );
-        $params = $msg['params'] ?? array();
-        if ( !is_array( $params ) )
-            return $hasId ? self::errorResponse( $id, tronProtocol::INVALID_PARAMS, 'Invalid params: params must be an object' ) : null;
+        // the last line of the redaction: whatever a method answers passes the redactor (doc/redaction.md)
+        return $this->redactOut( $r );
+    }
 
-        $method = $msg['method'];
-        if ( !$hasId )
-        {
-            $this->notification( $method, $params, $session );
-            return null;
-        }
-
+    /**
+     * One request in process, without a wire: a program calling a tool for its session (the pipe, a skill, the tron
+     * engine, the CLI). Answers in the JSON-RPC shape, array( 'result' => ... ) or array( 'error' => ... ).
+     */
+    public function call( array $request, tronSession $session ): array
+    {
+        $id = $request['id'] ?? null;
+        $method = (string)( $request['method'] ?? '' );
         try
         {
-            if ( $session->requireInitialize && !$session->protocolVersion && $method !== 'initialize' && $method !== 'ping' )
-                throw new tronRpcError( tronProtocol::INVALID_REQUEST, 'Server not initialized: send initialize first' );
-            $result = $this->dispatch( $method, $params, $session );
-            // the last line of the redaction: whatever a method answers passes the redactor (doc/redaction.md)
-            if ( $method !== 'tools/list' && $method !== 'ping' )
-                $result = $this->redactOut( $result );
-            return array( 'jsonrpc' => '2.0', 'id' => $id, 'result' => $result );
+            return array( 'jsonrpc' => '2.0', 'id' => $id, 'result' => $this->dispatch( $method, (array)( $request['params'] ?? array() ), $session ) );
         }
         catch ( tronRpcError $e )
         {
@@ -145,43 +134,26 @@ final class tronServer
         }
     }
 
-    private function notification( string $method, array $params, tronSession $session ): void
+    /** A notification from the client. tron's calls are synchronous and short, so only initialized changes anything. */
+    public function notification( string $method, array $params, tronSession $session ): void
     {
         if ( $method === 'notifications/initialized' )
             $session->initialized = true;
-        // notifications/cancelled, notifications/roots/list_changed and the rest need no action: tron's calls are
-        // synchronous and short.
     }
 
-    private function dispatch( string $method, array $params, tronSession $session )
+    /**
+     * The initialize answer for the version the protocol layer negotiated: records the version and the client on the
+     * session, opens the activity journal, and builds the instructions (with the agent rules layer).
+     */
+    public function initialize( array $params, tronSession $session, string $version ): array
     {
-        switch ( $method )
-        {
-            case 'initialize':               return $this->initialize( $params, $session );
-            case 'ping':                     return new stdClass();
-            case 'tools/list':               return $this->toolsList( $params, $session );
-            case 'tools/call':               return $this->toolsCall( $params, $session );
-            case 'resources/list':           return $this->resourcesList( $params, $session, false );
-            case 'resources/templates/list': return $this->resourcesList( $params, $session, true );
-            case 'resources/read':           return $this->resourcesRead( $params, $session );
-            case 'prompts/list':             return $this->promptsList( $params, $session );
-            case 'prompts/get':              return $this->promptsGet( $params, $session );
-        }
-        throw new tronRpcError( tronProtocol::METHOD_NOT_FOUND, "Method not found: $method" );
-    }
-
-    private function initialize( array $params, tronSession $session ): array
-    {
-        if ( !isset( $params['protocolVersion'] ) || !is_string( $params['protocolVersion'] ) )
-            throw new tronRpcError( tronProtocol::INVALID_PARAMS, 'Invalid params: initialize needs protocolVersion' );
-        $version = tronProtocol::negotiate( $params['protocolVersion'] );
         $session->protocolVersion = $version;
         $session->clientInfo = is_array( $params['clientInfo'] ?? null ) ? $params['clientInfo'] : array();
         tronJournalHandle::attach( $session, $this->env );     // the activity journal opens this session (doc/activity-journal.md)
         $serverInfo = array( 'name' => $this->options['name'], 'version' => $this->options['version'] );
         if ( strcmp( $version, '2025-06-18' ) >= 0 )
             $serverInfo['title'] = $this->options['title'];
-        return array(
+        return $this->redactOut( array(
             'protocolVersion' => $version,
             'capabilities' => array(
                 'tools' => array( 'listChanged' => false ),
@@ -190,7 +162,7 @@ final class tronServer
             ),
             'serverInfo' => $serverInfo,
             'instructions' => tronRules::appendToInstructions( $this->instructions( $session ), $params, $session, $this->env ),   // the agent rules layer (doc/agent-rules.md)
-        );
+        ) );
     }
 
     private function instructions( tronSession $session ): string
@@ -363,7 +335,8 @@ final class tronServer
         return tronRedactor::output( $value, $counts, $kinds );
     }
 
-    private function redactOut( $value )
+    /** Passes an answer through the redactor and logs what it masked. */
+    public function redactOut( $value )
     {
         $counts = array();
         $out = $this->redactValue( $value, $counts );
@@ -584,7 +557,7 @@ final class tronServer
         return $args;
     }
 
-    private function log( string $level, string $message ): void
+    public function log( string $level, string $message ): void
     {
         if ( $this->logger )
             call_user_func( $this->logger, $level, tronRedactor::maskTokens( $message ) );

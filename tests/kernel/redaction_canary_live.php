@@ -72,7 +72,7 @@ $check( $tid > 0, 'canaries planted in a ticket and a comment' );
 $answers = array();     // the planting calls echo what they were given; the search starts here
 
 // every tool, resource and prompt
-$send( 'initialize', array( 'protocolVersion' => '2025-11-25' ) );
+$send( 'initialize', array( 'protocolVersion' => '2025-11-25', 'capabilities' => new stdClass(), 'clientInfo' => array( 'name' => 'canary', 'version' => '1' ) ) );
 $fz = new TronFuzz( 20261125 );
 $hints = array( 'node_id' => array( $nodeId, 2, 43 ), 'id' => array( $tid ), 'board' => array( 'tronproof-redaction', 'main' ),
                 'tool' => array( 'content_node_update', 'centre_ticket_list', 'tron_whoami' ), 'user' => array( $admin['login'] ),

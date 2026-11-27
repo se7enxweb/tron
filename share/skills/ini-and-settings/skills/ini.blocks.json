@@ -1,0 +1,149 @@
+{
+    "name": "ini.blocks",
+    "title": "Blocks of an INI file",
+    "purpose": "Lists the blocks of an INI file as a siteaccess resolves it, with the number of settings in each.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "ini",
+        "inventory"
+    ],
+    "use_case": "Finding the right block to change",
+    "parameters": {
+        "file": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}\\.ini$",
+            "default": "site.ini",
+            "description": "The INI file, e.g. site.ini or content.ini.",
+            "examples": [
+                "site.ini",
+                "content.ini"
+            ],
+            "short": "-f"
+        },
+        "siteaccess": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "description": "The siteaccess whose settings count (default: the current one).",
+            "examples": [
+                "site",
+                "admin"
+            ],
+            "short": "-s",
+            "default": "site"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "ini_list"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "l",
+            "unit": "ini_list",
+            "args": {
+                "file": "$param.file",
+                "siteaccess": "$param.siteaccess"
+            }
+        },
+        {
+            "id": "names",
+            "op": "pluck",
+            "from": "$steps.l.items",
+            "field": "block"
+        }
+    ],
+    "output": {
+        "value": {
+            "file": "$param.file",
+            "siteaccess": "$steps.l.siteaccess",
+            "blocks": "$steps.l.total",
+            "names": "$steps.names"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "file",
+                "siteaccess",
+                "blocks",
+                "names"
+            ],
+            "properties": {
+                "file": {
+                    "type": "string"
+                },
+                "siteaccess": {
+                    "type": "string"
+                },
+                "blocks": {
+                    "type": "integer"
+                },
+                "names": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "Blocks of content.ini",
+            "params": {
+                "siteaccess": "site",
+                "file": "content.ini"
+            }
+        },
+        {
+            "title": "Blocks of design.ini",
+            "params": {
+                "siteaccess": "site",
+                "file": "design.ini"
+            }
+        },
+        {
+            "title": "Blocks of explayouts.ini",
+            "params": {
+                "siteaccess": "site",
+                "file": "explayouts.ini"
+            }
+        },
+        {
+            "title": "Blocks of image.ini",
+            "params": {
+                "siteaccess": "site",
+                "file": "image.ini"
+            }
+        },
+        {
+            "title": "Blocks of menu.ini",
+            "params": {
+                "siteaccess": "site",
+                "file": "menu.ini"
+            }
+        },
+        {
+            "title": "Blocks of override.ini",
+            "params": {
+                "siteaccess": "site",
+                "file": "override.ini"
+            }
+        },
+        {
+            "title": "Blocks of site.ini",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini"
+            }
+        },
+        {
+            "title": "Blocks of toolbar.ini",
+            "params": {
+                "siteaccess": "site",
+                "file": "toolbar.ini"
+            }
+        }
+    ]
+}

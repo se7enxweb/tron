@@ -1,7 +1,7 @@
 {
     "name": "web",
     "class": "tronWebProgram",
-    "version": "0.0.0.14",
+    "version": "0.0.0.15",
     "requires": "0.0.0.5",
     "title": "Web",
     "description": "Fetch public web addresses under a strict SSRF guard and robots.txt: HTML as text, links and metadata, JSON, XML, feeds; check an address; ask robots.txt; search through the configured provider."

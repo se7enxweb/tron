@@ -45,12 +45,12 @@ never the shared admin account. Then the site's front page and admin still answe
 
 | Task | Command |
 |---|---|
-| Hand a token to a session | `tron.php token:create --siteaccess=<sa> --user=<login> --name="claude@<node>" --days=90 [--scopes=centre] --out=/root/.config/tron/<name>.token` |
+| Hand a token to a session | `tron.php token:create --siteaccess=<sa> --token-file=<issuer token> --user=<login> --name="claude@<node>" --days=90 [--scopes=centre] --out=/root/.config/tron/<name>.token` |
 | List tokens | `tron.php token:list --siteaccess=<sa> [--user=<login>]` |
 | Revoke | `tron.php token:revoke --siteaccess=<sa> <id or prefix>` (immediate) |
 | Audit | `tron.php audit:tail --siteaccess=<sa> [--limit=100] [--user=<login>]`, or the file sink with `tail -f var/log/tron-audit.log` |
 | Status | `tron.php status --siteaccess=<sa>` (exit 1 when a table is missing or a program failed) |
-| Call one tool | `tron.php call <tool> --siteaccess=<sa> --user=<login> --json='{"limit":5}'` |
+| Call one tool | `tron.php call <tool> --siteaccess=<sa> --token-file=<token file> --json='{"limit":5}'` |
 | Leave a program out | `[ProgramSettings] Disabled[]=<name>`, clear the INI cache, redeploy |
 | Open HTTP | doc/hosting.md |
 

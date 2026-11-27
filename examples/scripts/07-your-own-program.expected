@@ -9,6 +9,7 @@ program katalyst from builtin: loaded
 program layout from builtin: loaded
 program node from builtin: loaded
 program role from builtin: loaded
+program search from builtin: loaded
 program skill from builtin: loaded
 program system from builtin: loaded
 program tpl from builtin: loaded

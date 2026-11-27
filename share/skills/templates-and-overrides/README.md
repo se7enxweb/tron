@@ -12,17 +12,8 @@ Template developers and anyone debugging how a page renders.
 
 | Skill | What it answers | Parameters | Units | Wave |
 |---|---|---|---|---|
-| `tpl.node.full` | Which template renders a node in the full view on a siteaccess, through which override rule, and which overrides were tried. | `--node-id` `--siteaccess` | tpl_resolve | A |
-| `tpl.node.line` | Which template renders a node in the line view on a siteaccess, through which override rule, and which overrides were tried. | `--node-id` `--siteaccess` | tpl_resolve | A |
-| `tpl.node.embed` | Which template renders a node in the embedded view on a siteaccess, through which override rule, and which overrides were tried. | `--node-id` `--siteaccess` | tpl_resolve | A |
-| `tpl.node.listitem` | Which template renders a node in the list item view on a siteaccess, through which override rule, and which overrides were tried. | `--node-id` `--siteaccess` | tpl_resolve | A |
-| `tpl.which.pagelayout` | Which file renders the page layout (pagelayout.tpl) on a siteaccess, by design order. | `--siteaccess` | tpl_resolve | A |
-| `tpl.which.node-view-full` | Which file renders the full view base (node/view/full.tpl) on a siteaccess, by design order. | `--siteaccess` | tpl_resolve | A |
-| `tpl.which.node-view-line` | Which file renders the line view base (node/view/line.tpl) on a siteaccess, by design order. | `--siteaccess` | tpl_resolve | A |
-| `tpl.which.content-edit` | Which file renders the edit form (content/edit.tpl) on a siteaccess, by design order. | `--siteaccess` | tpl_resolve | A |
-| `tpl.which.user-login` | Which file renders the login page (user/login.tpl) on a siteaccess, by design order. | `--siteaccess` | tpl_resolve | A |
-| `tpl.which.error-kernel-1` | Which file renders the access denied page (error/kernel/1.tpl) on a siteaccess, by design order. | `--siteaccess` | tpl_resolve | A |
-| `tpl.which.error-kernel-2` | Which file renders the not found page (error/kernel/2.tpl) on a siteaccess, by design order. | `--siteaccess` | tpl_resolve | A |
+| `tpl.node.view` | Which template renders a node in a view (full, line, embed, listitem ...) on a siteaccess, through which override rule, and which overrides were tried. | `--view` `--node-id` `--siteaccess` | tpl_resolve | A |
+| `tpl.which` | Which file renders a design template (pagelayout.tpl, node/view/full.tpl, user/login.tpl ...) on a siteaccess, by design order. | `--template` `--siteaccess` | tpl_resolve | A |
 | `tpl.lint` | Checks one template file: errors, warnings, the functions and operators it uses and any it uses that are unknown here. | `--path` | tpl_lint | A |
 | `tpl.node.lint` | Finds the template that renders a node in its full view and lints it in one go. | `--node-id` `--siteaccess` | tpl_resolve, tpl_lint | A |
 | `tpl.source` | Lines of a template file (the first 60 by default), with the total number of lines. | `--path` `--from-line` `--to-line` | tpl_source | A |
@@ -39,10 +30,10 @@ calling user, each unit checked against that user's policies and written to the 
 ## Running one
 
 ```
-xsh tron:skill:run tpl.node.full --node-id 2
+xsh tron:skill:run tpl.node.view --view full --node-id 2
 ```
 
-Over MCP a live skill is the tool `skill_tpl_node_full` and a prompt of the same name.
+Over MCP a live skill is the tool `skill_tpl_node_view` and a prompt of the same name.
 
 See tron's doc/skills.md and doc/extension-conventions.md.
 

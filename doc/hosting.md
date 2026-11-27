@@ -13,7 +13,7 @@ On the node, once per session user:
 
 ```bash
 mkdir -p /root/.config/tron && chmod 700 /root/.config/tron
-php extension/tron/bin/php/tron.php token:create --siteaccess=<sa> --user=<session login> \
+php extension/tron/bin/php/tron.php token:create --siteaccess=<sa> --token-file=<issuer token> --user=<session login> \
     --name="claude@<node>" --days=90 --scopes=centre --out=/root/.config/tron/claude-<node>.token
 ```
 
@@ -168,9 +168,9 @@ or the shared administrator), with exactly the roles its work needs; each token 
 file:
 
 ```bash
-php extension/tron/bin/php/tron.php token:create --siteaccess=admin --user=<session admin login> \
+php extension/tron/bin/php/tron.php token:create --siteaccess=admin --token-file=<issuer token> --user=<session admin login> \
     --name="claude@<node>" --days=90 --out=/root/.config/tron/<session admin login>.token --allow-root-user
-php extension/tron/bin/php/tron.php token:create --siteaccess=editor --user=<session editor login> \
+php extension/tron/bin/php/tron.php token:create --siteaccess=editor --token-file=<issuer token> --user=<session editor login> \
     --name="claude@<node> editor" --days=90 --out=/root/.config/tron/<session editor login>.token --allow-root-user
 ```
 

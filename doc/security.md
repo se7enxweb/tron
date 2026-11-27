@@ -80,6 +80,13 @@ process could act as any user, an administrator included, and nothing would reco
 0.0.0.14 it is refused unless the installation sets `[StdioSettings] AllowLoginOption=enabled` in `settings/override`.
 A token keeps the stdio server to one user, can be scoped, expires, can be revoked, and its id is in every audit entry.
 
+**The other commands follow the same rule (0.0.0.15).** `tron.php call`, and the `tron-skills.php` commands that act
+as a user (`run`, `validate`, `try`, `unit`, `harness --live`), take a token and refuse `--user=<login>` without one
+unless `AllowLoginOption` is enabled. `tron.php token:create` issues as the token's user: a token for that user within
+the issuing token's scopes, for another user or wider scopes only with `tron/admin`; without a token it is refused
+unless `AllowLoginOption` is enabled, since it would otherwise let anyone who can run it mint a token for any user.
+The first token comes from Setup > tron > Tokens.
+
 ## Audit
 
 Every `tools/call`, `resources/read`, `prompts/get` and refused sign-in is an entry: time, user, login, token id,

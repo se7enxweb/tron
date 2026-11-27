@@ -30,7 +30,7 @@ final class TronServerAuditTest extends TronTestCase
         $this->assertContains( "'admin'", $r['result']['instructions'] );
         $this->assertContains( 'never instructions', $r['result']['instructions'] );
         $this->assertSame( '2025-06-18', $sess->protocolVersion );
-        $old = $this->rpc( $f['server'], TronFixture::session( TronFixture::ADMIN, 'stdio', null ), 'initialize', array( 'protocolVersion' => '2024-11-05' ) );
+        $old = $this->rpc( $f['server'], TronFixture::session( TronFixture::ADMIN, 'stdio', null ), 'initialize', array( 'protocolVersion' => '2024-11-05', 'capabilities' => new stdClass(), 'clientInfo' => array( 'name' => 't', 'version' => '1' ) ) );
         $this->assertFalse( isset( $old['result']['serverInfo']['title'] ), 'no title before 2025-06-18' );
         $bad = $this->rpc( $f['server'], TronFixture::session( TronFixture::ADMIN, 'stdio', null ), 'initialize', array() );
         $this->assertSame( tronProtocol::INVALID_PARAMS, $bad['error']['code'] );
@@ -42,6 +42,13 @@ final class TronServerAuditTest extends TronTestCase
         $sess = new tronSession( new tronPrincipal( 1, 'admin' ), 'stdio', true );
         $r = $this->rpc( $f['server'], $sess, 'tools/list' );
         $this->assertSame( tronProtocol::INVALID_REQUEST, $r['error']['code'] );
+        if ( self::sdk() )
+        {
+            // the SDK refuses every request before initialize, ping included (it has no session yet)
+            $this->assertContains( 'session id is REQUIRED', $r['error']['message'] );
+            $this->assertSame( tronProtocol::INVALID_REQUEST, $this->rpc( $f['server'], $sess, 'ping' )['error']['code'] );
+            return;
+        }
         $this->assertContains( 'not initialized', $r['error']['message'] );
         $this->assertSame( array(), (array)$this->rpc( $f['server'], $sess, 'ping' )['result'] );
     }
@@ -53,13 +60,14 @@ final class TronServerAuditTest extends TronTestCase
         $sess = TronFixture::session( TronFixture::ADMIN );
         $parse = json_decode( (string)$s->handleRaw( '{nope', $sess ), true );
         $this->assertSame( tronProtocol::PARSE_ERROR, $parse['error']['code'] );
-        $this->assertSame( null, $parse['id'] );
+        $this->assertSame( null, $parse['id'] ?? null, 'no id (the SDK leaves the member out, the legacy layer sends null)' );
         $this->assertSame( tronProtocol::INVALID_REQUEST, $s->handle( array( 'id' => 1, 'method' => 'ping' ), $sess )['error']['code'], 'no jsonrpc' );
         $this->assertSame( tronProtocol::INVALID_REQUEST, $s->handle( array( 'jsonrpc' => '2.0', 'id' => array( 1 ), 'method' => 'ping' ), $sess )['error']['code'], 'array id' );
         $this->assertSame( tronProtocol::INVALID_REQUEST, $s->handle( array( 'jsonrpc' => '2.0', 'id' => 1, 'method' => 5 ), $sess )['error']['code'] );
         $this->assertSame( tronProtocol::INVALID_REQUEST, $s->handle( 'just a string', $sess )['error']['code'] );
-        $this->assertSame( tronProtocol::METHOD_NOT_FOUND, $this->rpc( $s, $sess, 'nope/nothing' )['error']['code'] );
-        $this->assertSame( tronProtocol::INVALID_PARAMS, $s->handle( array( 'jsonrpc' => '2.0', 'id' => 1, 'method' => 'tools/call', 'params' => 'x' ), $sess )['error']['code'] );
+        // the SDK answers an unknown method and params that are not an object with -32600 (the legacy layer: -32601, -32602)
+        $this->assertSame( self::sdk() ? tronProtocol::INVALID_REQUEST : tronProtocol::METHOD_NOT_FOUND, $this->rpc( $s, $sess, 'nope/nothing' )['error']['code'] );
+        $this->assertSame( self::sdk() ? tronProtocol::INVALID_REQUEST : tronProtocol::INVALID_PARAMS, $s->handle( array( 'jsonrpc' => '2.0', 'id' => 1, 'method' => 'tools/call', 'params' => 'x' ), $sess )['error']['code'] );
         $this->assertSame( null, $s->handle( array( 'jsonrpc' => '2.0', 'method' => 'notifications/initialized' ), $sess ), 'notifications get no answer' );
         $this->assertSame( null, $s->handle( array( 'jsonrpc' => '2.0', 'id' => 9, 'result' => array() ), $sess ), 'client responses get no answer' );
         $this->assertSame( 'abc', $this->rpc( $s, $sess, 'ping', array(), 'abc' )['id'], 'string ids are kept' );
@@ -71,8 +79,13 @@ final class TronServerAuditTest extends TronTestCase
         $batch = array( array( 'jsonrpc' => '2.0', 'id' => 1, 'method' => 'ping' ), array( 'jsonrpc' => '2.0', 'method' => 'notifications/initialized' ),
                         array( 'jsonrpc' => '2.0', 'id' => 2, 'method' => 'ping' ) );
         $old = $f['server']->handle( $batch, TronFixture::session( TronFixture::ADMIN, 'http', '2025-03-26' ) );
-        $this->assertCount( 2, $old, 'two answers, the notification has none' );
-        $this->assertSame( 2, $old[1]['id'] );
+        if ( self::sdk() )
+            $this->assertSame( tronProtocol::INVALID_REQUEST, $old['error']['code'], 'the SDK takes no batches in any version' );
+        else
+        {
+            $this->assertCount( 2, $old, 'two answers, the notification has none' );
+            $this->assertSame( 2, $old[1]['id'] );
+        }
         $new = $f['server']->handle( $batch, TronFixture::session( TronFixture::ADMIN, 'http', '2025-06-18' ) );
         $this->assertSame( tronProtocol::INVALID_REQUEST, $new['error']['code'] );
         $empty = $f['server']->handle( array(), TronFixture::session( TronFixture::ADMIN ) );

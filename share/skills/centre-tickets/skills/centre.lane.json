@@ -1,0 +1,172 @@
+{
+    "name": "centre.lane",
+    "title": "Open tickets in a lane",
+    "purpose": "Lists the open tickets of a board in one lane (inbox, next, doing, waiting, done), by priority and due date.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "tickets",
+        "lanes"
+    ],
+    "use_case": "Walking the board lane by lane",
+    "parameters": {
+        "lane": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,31}$",
+            "default": "inbox",
+            "description": "The lane, e.g. inbox, next, doing, waiting or done.",
+            "examples": [
+                "inbox",
+                "doing"
+            ],
+            "short": "-l"
+        },
+        "board": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
+            "default": "main",
+            "description": "The centre board, e.g. main or ops.",
+            "examples": [
+                "main",
+                "ops"
+            ],
+            "short": "-b"
+        },
+        "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20,
+            "description": "At most this many rows in the answer.",
+            "examples": [
+                5,
+                20
+            ],
+            "short": "-n"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "centre_ticket_list"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "list",
+            "unit": "centre_ticket_list",
+            "args": {
+                "lane": "$param.lane",
+                "board": "$param.board",
+                "status": "open",
+                "limit": 200
+            }
+        },
+        {
+            "id": "sorted",
+            "op": "sort",
+            "from": "$steps.list.items",
+            "by": "priority",
+            "order": "desc"
+        },
+        {
+            "id": "top",
+            "op": "limit",
+            "from": "$steps.sorted",
+            "count": "$param.limit"
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.top",
+            "fields": [
+                "id",
+                "title",
+                "lane",
+                "priority",
+                "assignee",
+                "due"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "board": "$param.board",
+            "count": "$steps.list.items|count",
+            "tickets": "$steps.rows",
+            "summary": "{{$steps.list.total}} open tickets on {{$param.board}} are in {{$param.lane}}."
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "board",
+                "count",
+                "tickets",
+                "summary"
+            ],
+            "properties": {
+                "board": {
+                    "type": "string"
+                },
+                "count": {
+                    "type": "integer",
+                    "description": "How many match (before the limit)"
+                },
+                "tickets": {
+                    "type": "array"
+                },
+                "summary": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "Lane doing",
+            "params": {
+                "board": "main",
+                "lane": "doing"
+            }
+        },
+        {
+            "title": "Lane done",
+            "params": {
+                "board": "main",
+                "lane": "done"
+            }
+        },
+        {
+            "title": "Lane inbox",
+            "params": {
+                "board": "main",
+                "lane": "inbox"
+            }
+        },
+        {
+            "title": "Lane next",
+            "params": {
+                "board": "main",
+                "lane": "next"
+            }
+        },
+        {
+            "title": "Lane waiting",
+            "params": {
+                "board": "main",
+                "lane": "waiting"
+            }
+        }
+    ]
+}

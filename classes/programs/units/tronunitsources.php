@@ -12,11 +12,12 @@
  */
 final class tronUnitSources
 {
-    const AREAS = array( 'ini', 'tpl', 'node', 'class', 'layout', 'role' );
+    const AREAS = array( 'ini', 'tpl', 'node', 'class', 'layout', 'role', 'search' );
 
     const KERNEL = array(
         'ini' => 'tronUnitIniKernelSource', 'tpl' => 'tronUnitTplKernelSource', 'node' => 'tronUnitNodeKernelSource',
         'class' => 'tronUnitClassKernelSource', 'layout' => 'tronUnitLayoutKernelSource', 'role' => 'tronUnitRoleKernelSource',
+        'search' => 'tronUnitSearchKernelSource',
     );
 
     /** @return tronUnitSource|null */

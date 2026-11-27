@@ -1,11 +1,11 @@
 {
     "name": "se7enxweb/tron",
-    "description": "tron, the open MCP server layer of Exponential: stdio and streamable HTTP transports, per-user tokens, Exponential roles and policies, an audit log, and programs (child extensions) found and loaded by convention",
+    "description": "tron, the open MCP server layer of Exponential, built on the official MCP PHP SDK: stdio and streamable HTTP transports, per-user tokens, Exponential roles and policies, an audit log, and programs (child extensions) found and loaded by convention",
     "type": "ezpublish-legacy-extension",
     "keywords": [ "Exponential", "Exponential 6", "legacy extension", "MCP", "Model Context Protocol", "AI agents", "tickets" ],
     "homepage": "https://github.com/se7enxweb/tron",
     "license": "GPL-2.0-or-later",
-    "version": "0.0.0.14",
+    "version": "0.0.0.15",
     "authors": [
         { "name": "7x", "homepage": "https://se7enx.com", "email": "info@se7enx.com", "role": "Maintainer" }
     ],
@@ -19,6 +19,8 @@
         "se7enxweb/exponential-legacy-installer": "*"
     },
     "suggest": {
+        "mcp/sdk": "^0.10: the official MCP PHP SDK as tron's protocol layer on PHP 8.2 and newer (Apache-2.0; see the README's licence section)",
+        "nyholm/psr7": "^1.8: the PSR-7 implementation the SDK's streamable HTTP transport needs",
         "ext-mbstring": "character counts and cuts by characters rather than bytes",
         "ext-pdo_sqlite": "the test suite's database"
     },

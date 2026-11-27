@@ -12,7 +12,9 @@ and `tron_status`, and those come from a program too (the built-in program `tron
    tronStdioTransport                           tronHttpTransport   (method, Origin, Host, type, size,
    (principal: a token)                                              version header, token, tron/use)
             \                                     /
-             +------------> tronServer <---------+      JSON-RPC 2.0 + MCP: initialize, ping, tools/*, resources/*, prompts/*
+             +-----------> protocol layer <------+      the official MCP PHP SDK (JSON-RPC, versions, lifecycle, ping),
+                               |                        or the frozen legacy layer on PHP 7.4 to 8.1 (protocol.md)
+                           tronServer                   what initialize, tools/*, resources/*, prompts/* answer
                                |
               +----------------+-----------------+--------------------+
               |                |                 |                    |
@@ -34,8 +36,9 @@ and `tron_status`, and those come from a program too (the built-in program `tron
 2. **Session.** A `tronSession` holds the principal (user id, login, token id, scopes), the transport and the
    protocol version. stdio sessions last for the process and must start with `initialize`; HTTP sessions are one
    request each (stateless), their version from the header (2025-03-26 when absent, as the specification says).
-3. **Dispatch.** `tronServer` validates the JSON-RPC envelope, answers notifications with nothing, refuses batches
-   from 2025-06-18 on, and routes the method.
+3. **Dispatch.** The protocol layer (the official MCP PHP SDK, see [protocol.md](protocol.md)) validates the JSON-RPC
+   envelope, negotiates the version, answers `ping` and notifications, and hands every other method to `tronServer`
+   through `tronSdkHandler`.
 4. **Visibility.** `tools/list`, `resources/list`, `resources/templates/list` and `prompts/list` show only what the
    token's scope covers and the user's policies allow, sorted by name, 100 per page (opaque cursor).
 5. **A call.** `tools/call` finds the tool (an unknown or out-of-scope tool is -32602), checks the policy (a refusal
@@ -88,11 +91,12 @@ connection (each value quoted by the engine's own escaping, exception error hand
 the installation runs; only the parts differ. `tests/kernel/kernel_probe.php` runs the kernel parts read-only in a
 real installation.
 
-## Why no SDK
+## Built on the official SDK
 
-tron implements JSON-RPC and MCP itself (`tronServer` and the two transports, a few hundred lines). The official PHP SDK
-needs PHP 8.1 or later and brings PSR, schema and UUID packages; tron must run on every PHP from 7.4 to 8.5 in a
-default Exponential installation without extra Composer packages. The conformance test pins the behavior.
+The protocol is the official MCP PHP SDK's (`mcp/sdk`): its message parsing, version negotiation, lifecycle and
+transports. tron's own code starts at the method: what `tools/list` shows a user, what `tools/call` checks, audits and
+runs. On PHP 7.4 to 8.1, where the SDK cannot run, the frozen `tronLegacyProtocol` takes its place; both layers pass the
+same suite and the official conformance suite's generic scenarios. [protocol.md](protocol.md).
 
 ---
 

@@ -1,8 +1,8 @@
 {
     "pack": "i18n",
     "pack_version": "0.0.0.1",
-    "tron": "0.0.0.7",
-    "at": "2026-11-25T06:53:00Z",
+    "tron": "0.0.0.13",
+    "at": "2026-11-26T18:36:58Z",
     "skills": {
         "i18n.compare-siteaccesses": {
             "version": "0.0.0.1",
@@ -40,99 +40,9 @@
                 "redaction": "pass"
             }
         },
-        "i18n.siteaccess.admin": {
+        "i18n.siteaccess": {
             "version": "0.0.0.1",
-            "hash": "d193f21c299770654655e06ed0bd0149120ea169209a9797d3bb160fbcbdb81b",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "i18n.siteaccess.bold": {
-            "version": "0.0.0.1",
-            "hash": "273a21078c3a05c9d68bf4d2580c11d2ceb4e88c34f4d4b5d4bf07196b93e831",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "i18n.siteaccess.bold-ger": {
-            "version": "0.0.0.1",
-            "hash": "99b2393557bc8b9d43ef614680e93671d0551a3bae4738fdb85c8fc54479c455",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "i18n.siteaccess.site": {
-            "version": "0.0.0.1",
-            "hash": "9a9f00ea6ccef879e9f838ea23ee5149f35304c6a0acd18ce3012ee61144cded",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "i18n.siteaccess.starter": {
-            "version": "0.0.0.1",
-            "hash": "a07d4f547999eb13872fcbc112049911ebe375bb2a108a63bd48c2447f899fb1",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "i18n.siteaccess.starter-ger": {
-            "version": "0.0.0.1",
-            "hash": "cc0310b957ea08b4f4f778d973c2ea07ca1cbfa4c5fa5e5f718f057b84767068",
+            "hash": "93dfc0a6605f2804607c847aa4f4ce0ddddf18ee363d2e14c2b39861efc78dc0",
             "result": "pass",
             "runs": {
                 "fixtures": "parked",

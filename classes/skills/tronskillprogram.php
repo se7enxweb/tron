@@ -52,7 +52,7 @@ final class tronSkillProgram implements tronProgram
                 return array( 'ok' => false, 'error' => (string)$o['error'] );
             return array( 'ok' => true, 'value' => json_decode( tronServer::encode( $o['value'] ), true ) );
         }
-        $r = $server->handle( array( 'jsonrpc' => '2.0', 'id' => 'skill', 'method' => 'tools/call',
+        $r = $server->call( array( 'jsonrpc' => '2.0', 'id' => 'skill', 'method' => 'tools/call',
                                      'params' => array( 'name' => $tool->name, 'arguments' => $args ) ), $session );
         if ( isset( $r['error'] ) )
             return array( 'ok' => false, 'error' => (string)( $r['error']['message'] ?? 'error' ) );

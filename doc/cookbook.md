@@ -122,6 +122,7 @@ program katalyst from builtin: loaded
 program layout from builtin: loaded
 program node from builtin: loaded
 program role from builtin: loaded
+program search from builtin: loaded
 program tpl from builtin: loaded
 program tron from builtin: loaded
 program hello from hello: loaded
@@ -147,7 +148,7 @@ Code does.
 ```
 initialize -> tron, protocol 2025-06-18
 tools/call -> ticket #1 "Made over stdio"
-unknown method -> -32601 Method not found: nope/nothing
+unknown tool -> -32602 Unknown tool: nope_nothing
 server exit code: 0
 ```
 

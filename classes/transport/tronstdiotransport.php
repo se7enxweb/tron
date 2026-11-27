@@ -30,32 +30,6 @@ final class tronStdioTransport
     /** @return int the process exit code */
     public function run(): int
     {
-        while ( true )
-        {
-            $line = fgets( $this->in, $this->maxLine + 2 );
-            if ( $line === false )
-                return 0;
-            if ( strlen( $line ) > $this->maxLine && substr( $line, -1 ) !== "\n" )
-            {
-                // Skip the rest of the oversized line, then answer once.
-                while ( ( $rest = fgets( $this->in, 65536 ) ) !== false && substr( $rest, -1 ) !== "\n" )
-                {
-                }
-                $this->write( tronServer::encode( tronServer::errorResponse( null, tronProtocol::PARSE_ERROR, "Parse error: the message is longer than {$this->maxLine} bytes" ) ) );
-                continue;
-            }
-            $line = trim( $line );
-            if ( $line === '' )
-                continue;
-            $answer = $this->server->handleRaw( $line, $this->session );
-            if ( $answer !== null )
-                $this->write( $answer );
-        }
-    }
-
-    private function write( string $s ): void
-    {
-        fwrite( $this->out, $s . "\n" );
-        fflush( $this->out );
+        return $this->server->protocol()->serveStdio( $this->session, $this->in, $this->out, $this->maxLine );
     }
 }

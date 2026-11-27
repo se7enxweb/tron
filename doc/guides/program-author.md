@@ -111,7 +111,7 @@ $r = TronFixture::call( $f['server'], TronFixture::session( TronFixture::ADMIN )
 ```
 
 The fixture's role table (`TronFixture::access()`) is where you add your functions for a permission test. Then in the
-installation: `tron.php status` shows `myext ... loaded`, and `tron.php call myext_orders_open --user=<login>`.
+installation: `tron.php status` shows `myext ... loaded`, and `tron.php call myext_orders_open --token-file=<token file>`.
 
 ## Rules worth repeating
 

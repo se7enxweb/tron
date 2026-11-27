@@ -83,6 +83,16 @@ abstract class TronTestCase
     }
 
     /** The names of tron's own programs (programs/<name>/program.json), in name order: what the loader finds first. */
+    /**
+     * Whether the suite runs on the official MCP SDK's protocol layer (TRON_PROTOCOL=sdk, or auto where it can run).
+     * The framing tests expect the SDK's own answers there and the legacy layer's otherwise; everything above the
+     * wire (results, audit, policies, redaction) is expected to be the same on both.
+     */
+    protected static function sdk(): bool
+    {
+        return tronProtocolLayers::resolve( 'auto' ) === 'sdk';
+    }
+
     protected static function builtinPrograms(): array
     {
         $names = array_map( function ( $p ) { return basename( dirname( $p ) ); }, glob( dirname( __DIR__, 2 ) . '/programs/*/program.json' ) ?: array() );

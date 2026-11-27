@@ -515,13 +515,22 @@ final class TronFuzz
             if ( isset( $result['structuredContent'] ) && is_array( $data ) )
             {
                 $sc = json_decode( (string)json_encode( $result['structuredContent'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE | JSON_PRESERVE_ZERO_FRACTION ), true );
-                if ( $sc !== $data )
-                    $p[] = 'structuredContent differs from the text: ' . self::firstDifference( $data, $sc );
+                // JSON has one number type: 100 and 100.0 are the same value (the SDK's encoder writes 100)
+                if ( self::numbers( $sc ) !== self::numbers( $data ) )
+                    $p[] = 'structuredContent differs from the text: ' . self::firstDifference( self::numbers( $data ), self::numbers( $sc ) );
             }
             if ( $tool->name === 'tron_whoami' && is_array( $data ) && (int)( $data['user_id'] ?? 0 ) !== $userId )
                 $p[] = "tron_whoami answered for another user ({$data['user_id']})";
         }
         return array_values( array_unique( $p ) );
+    }
+
+    /** A decoded JSON value with every whole float as an integer. */
+    private static function numbers( $v )
+    {
+        if ( is_array( $v ) )
+            return array_map( array( self::class, 'numbers' ), $v );
+        return is_float( $v ) && floor( $v ) === $v && abs( $v ) < PHP_INT_MAX ? (int)$v : $v;
     }
 
     private static function firstDifference( $a, $b, string $path = '' ): string

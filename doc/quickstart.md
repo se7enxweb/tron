@@ -49,9 +49,12 @@ granted ([permissions.md](permissions.md)).
 
 ```bash
 mkdir -p ~/.config/tron && chmod 700 ~/.config/tron
-<php> extension/tron/bin/php/tron.php token:create --siteaccess=<sa> --user=agent-claude \
-      --name="claude@laptop" --days=30 --scopes=centre --out=$HOME/.config/tron/agent-claude.token
+<php> extension/tron/bin/php/tron.php token:create --siteaccess=<sa> --token-file=<your administrator token file> \
+      --user=agent-claude --name="claude@laptop" --days=30 --scopes=centre --out=$HOME/.config/tron/agent-claude.token
 ```
+
+The first token, your own, comes from Setup > tron > Tokens; the command line issues further ones with a token of a
+user who holds `tron/admin` (a token for yourself needs only your own).
 
 The token is written with mode 0600 and never printed. Only its SHA-256 hash is kept in the database.
 [tokens.md](tokens.md) covers rotation, revocation and expiry.

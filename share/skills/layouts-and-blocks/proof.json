@@ -1,8 +1,8 @@
 {
     "pack": "layouts-and-blocks",
     "pack_version": "0.0.0.1",
-    "tron": "0.0.0.7",
-    "at": "2026-11-25T06:53:36Z",
+    "tron": "0.0.0.13",
+    "at": "2026-11-26T18:38:18Z",
     "skills": {
         "layout.block-categories": {
             "version": "0.0.0.1",
@@ -76,99 +76,9 @@
                 "redaction": "pass"
             }
         },
-        "layout.blocks.container": {
+        "layout.blocks.category": {
             "version": "0.0.0.1",
-            "hash": "b8861ac2896b1b62b9dcc5c6079b234e379463fab678c30211f4c49757dc701f",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "layout.blocks.form": {
-            "version": "0.0.0.1",
-            "hash": "e7b844b182b0733801aff1f4209910a937a00646fcae8e3f165e64df3055d395",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "layout.blocks.listing": {
-            "version": "0.0.0.1",
-            "hash": "a6dcf8a5a0cdda44198b5f88f3351343cf480136278bca02f10cc6598cf2204d",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "layout.blocks.media": {
-            "version": "0.0.0.1",
-            "hash": "bb3224b63c1212808db111b1e96746d4d0e06f7f83ee4d50da27b68396334b90",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "layout.blocks.navigation": {
-            "version": "0.0.0.1",
-            "hash": "ad0d9e95771c347b46372d1e2dc58019ce7a963a49bb5f2b353c3ea813aeafa1",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "layout.blocks.text": {
-            "version": "0.0.0.1",
-            "hash": "72684d88b3e151af506dc48ba962072ed9105e524a9a78bada9839dfd8f23094",
+            "hash": "aca9cefccde1ec3bf8f2f47a110a62de1769c38d13f6b82434ae4e3d976fb336",
             "result": "pass",
             "runs": {
                 "fixtures": "parked",

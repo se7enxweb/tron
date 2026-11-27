@@ -1,0 +1,132 @@
+{
+    "name": "tpl.which",
+    "title": "Which file is a template",
+    "purpose": "Which file renders a design template (pagelayout.tpl, node/view/full.tpl, user/login.tpl ...) on a siteaccess, by design order.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "templates",
+        "overrides"
+    ],
+    "use_case": "Finding the file to edit",
+    "parameters": {
+        "template": {
+            "type": "string",
+            "pattern": "^[a-z0-9_][a-z0-9_/.-]{0,200}\\.tpl$",
+            "default": "pagelayout.tpl",
+            "description": "The template, e.g. pagelayout.tpl or node/view/full.tpl.",
+            "examples": [
+                "pagelayout.tpl",
+                "node/view/full.tpl"
+            ],
+            "short": "-t"
+        },
+        "siteaccess": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "description": "The siteaccess whose settings count (default: the current one).",
+            "examples": [
+                "site",
+                "admin"
+            ],
+            "short": "-s",
+            "default": "site"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "tpl_resolve"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "r",
+            "unit": "tpl_resolve",
+            "args": {
+                "template": "$param.template",
+                "siteaccess": "$param.siteaccess"
+            }
+        }
+    ],
+    "output": {
+        "value": {
+            "template": "$param.template",
+            "siteaccess": "$steps.r.siteaccess",
+            "winner": "$steps.r.winner",
+            "designs": "$steps.r.designs"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "template",
+                "siteaccess",
+                "winner",
+                "designs"
+            ],
+            "properties": {
+                "template": {
+                    "type": "string"
+                },
+                "siteaccess": {
+                    "type": "string"
+                },
+                "winner": [],
+                "designs": []
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "Which edit form",
+            "params": {
+                "siteaccess": "site",
+                "template": "content/edit.tpl"
+            }
+        },
+        {
+            "title": "Which access denied page",
+            "params": {
+                "siteaccess": "site",
+                "template": "error/kernel/1.tpl"
+            }
+        },
+        {
+            "title": "Which not found page",
+            "params": {
+                "siteaccess": "site",
+                "template": "error/kernel/2.tpl"
+            }
+        },
+        {
+            "title": "Which full view base",
+            "params": {
+                "siteaccess": "site",
+                "template": "node/view/full.tpl"
+            }
+        },
+        {
+            "title": "Which line view base",
+            "params": {
+                "siteaccess": "site",
+                "template": "node/view/line.tpl"
+            }
+        },
+        {
+            "title": "Which page layout",
+            "params": {
+                "siteaccess": "site",
+                "template": "pagelayout.tpl"
+            }
+        },
+        {
+            "title": "Which login page",
+            "params": {
+                "siteaccess": "site",
+                "template": "user/login.tpl"
+            }
+        }
+    ]
+}

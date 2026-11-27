@@ -1,7 +1,7 @@
 # The HTTP transport
 
 tron serves MCP's **streamable HTTP** transport at the module view `tron/mcp`, in its **stateless** form: every
-request is a POST carrying one JSON-RPC message (or, for old protocol versions, a batch), every answer is a single
+request is a POST carrying one JSON-RPC message, every answer is a single
 JSON body. No session id, no event stream, nothing kept between requests. Any serving node can answer any request,
 so a cluster behind a load balancer needs no stickiness.
 
@@ -86,8 +86,9 @@ or disabled) goes to the audit, never to the caller.
 | any request with `MCP-Protocol-Version: <v>` | `<v>` (400 when tron does not speak it) |
 
 Send the header on every request after `initialize`, as current clients do. It decides two things: from 2025-06-18 on,
-tool results carry `structuredContent` next to the JSON text, and batches are refused; under 2025-03-26 and older a
-JSON array of requests is answered as a batch.
+tool results carry `structuredContent` next to the JSON text. Batches are refused (the legacy layer on PHP 7.4 to 8.1
+still answers them under 2025-03-26 and older). The message itself is handled by the official MCP PHP SDK's streamable
+HTTP transport, without sessions ([protocol.md](protocol.md)).
 
 ## A session with curl
 
@@ -170,13 +171,13 @@ Once a request is past the checks, problems are JSON-RPC errors or tool results,
 
 | What | Comes back as |
 |---|---|
-| malformed JSON | error -32700, `id: null` |
+| malformed JSON | error -32700 without an id |
 | not a JSON-RPC request | error -32600 |
-| unknown method | error -32601 |
+| unknown method | error -32600 (the legacy layer: -32601) |
 | unknown tool, tool outside the token's scope, bad params | error -32602 |
 | unknown resource | error -32002 with `data.uri` |
 | missing policy, invalid arguments, the tool's own refusal, internal failure | a result with `isError: true` and a readable message (invalid arguments carry the input schema) |
-| a batch under 2025-06-18 or newer | error -32600 |
+| a batch | error -32600 (the legacy layer answers one under 2025-03-26 and older) |
 
 ## Browsers
 

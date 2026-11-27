@@ -31,7 +31,8 @@ stdio (locally, or over SSH on a private network) when you can: nothing listens 
 HTTP for agents elsewhere.
 
 **Why does tron refuse batches?**
-MCP removed JSON-RPC batches in 2025-06-18; tron answers them only for clients that speak 2025-03-26 or older.
+MCP removed JSON-RPC batches in 2025-06-18, and the official MCP PHP SDK that does tron's protocol takes none. The
+legacy layer on PHP 7.4 to 8.1 still answers them for clients that speak 2025-03-26 or older.
 
 **Can I switch a tool off without touching settings?**
 Yes: Setup > tron > Programs and tools. It takes effect on the next request; the core tools stay on.

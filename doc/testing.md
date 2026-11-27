@@ -6,7 +6,12 @@
 php tests/run.php [filter]
 ```
 
-No installation, no Composer, no network: SQLite in memory, a fixed clock (2026-11-24 12:00 UTC), ten users with the
+`TRON_PROTOCOL=sdk` or `legacy` runs the suite on one protocol layer ([protocol.md](protocol.md)); `auto` (the
+default) takes the SDK where it can run. Run it on both before a release; `TRON_SDK_AUTOLOAD` names the SDK's
+Composer autoload.php when the checkout has none. The official MCP conformance suite runs with
+`tests/conformance/official_run.php` (see protocol.md, "Conformance").
+
+No installation, no network: SQLite in memory, a fixed clock (2026-11-24 12:00 UTC), ten users with the
 roles below and made-up Katalyst rows (example.* domains). Scratch files go to `$TRON_TEST_TMP`, by default
 `var/tmp/tron-tests` in the checkout (inside an installation set `TRON_TEST_TMP` to a directory outside the
 extension). `TRON_TEST_LOG=1` prints the server log.
@@ -16,7 +21,7 @@ extension). `TRON_TEST_LOG=1` prints the server log.
 | `tests/unit/CoreUnitsTest.php` | versions (four positions, numeric), files agree (VERSION, ezinfo.php, extension.xml, composer.json, manifests), protocol negotiation, the schema validator, tool/resource/prompt declarations, registry naming and staging, the redactor, eZDB parameter interpolation, schema install (idempotent) and the generated SQL files, PDO round trips |
 | `tests/unit/ProgramLoaderTest.php` | the built-in programs; both extension layouts; ten kinds of broken program each failing alone (throwing register, parse error, no interface, no class, file outside, bad JSON, bad name, too new, name clash, foreign prefix) with a healthy one after them; Disabled[]; the core cannot be disabled; ExtensionScan; discovery of 300 extensions with 50 programs under 250 ms (about 3 ms measured) |
 | `tests/unit/TokenServiceTest.php` | token form, hash-only storage, scopes, expiry, revocation, disabled users, throttled last_used, listing without hashes |
-| `tests/unit/ServerAuditTest.php` | initialize, stdio initialize rule, every JSON-RPC error, batches per version, pagination, results and structuredContent per version, cut answers, internal errors not leaked, every call audited with outcome, write tools refused without audit, database and file sinks |
+| `tests/unit/ServerAuditTest.php` | initialize, stdio initialize rule, every JSON-RPC error (each layer's own), batches per layer and version, pagination, results and structuredContent per version, cut answers, internal errors not leaked, every call audited with outcome, write tools refused without audit, database and file sinks |
 | `tests/unit/CentreToolsTest.php` | every centre tool, resource and prompt on tron's tables, with their validation errors |
 | `tests/unit/CentreBridgeTest.php` | the 29 contract tools in front of a stand-in expCentreApi: pass-through as the session user, error mapping, tron's gate before centre, the Backend setting |
 | `tests/unit/KatalystCoreToolsTest.php` | the three Katalyst tools: column allowlist, masking, detail policy, filters; left out without a source; tron_whoami, tron_status and their resources |
@@ -31,8 +36,25 @@ php tests/matrix.php                                  # every PHP 7.4+ under /op
 php tests/matrix.php /opt/plesk/php/7.4/bin/php ...   # or the ones given
 ```
 
-Lints every PHP file and runs the suite with each binary. Result of 2026-11-24: PASS on 7.4.33, 8.0.30, 8.1.34,
-8.2.36, 8.3.37, 8.4.28, 8.5.13 and 8.6.0-dev.
+Lints every PHP file and runs the suite with each binary, on the protocol layer each one picks (the SDK where PHP is
+8.2 or newer and `mcp/sdk` is installed or named by `TRON_SDK_AUTOLOAD`). Result of 2026-11-26 for 0.0.0.15: the legacy
+layer PASS on 7.4.33, 8.0.30, 8.1.34, 8.2.36, 8.3.37, 8.4.28, 8.5.13 and 8.6.0-dev (`TRON_PROTOCOL=legacy` from 8.2
+on); the SDK layer (mcp/sdk 0.10.0) PASS on 8.2.36, 8.3.37, 8.4.28, 8.5.13 and 8.6.0-dev; 244 tests and the contract
+fuzzer (24,200 inputs) each time. The official conformance runner passes its generic scenarios on both layers.
+
+## The protocol layer on an installation
+
+```bash
+php <tron>/tests/kernel/protocol_live.php --deny=<write tool the user lacks> -- \
+    <php> extension/tron/bin/php/tron.php serve --siteaccess=<sa> --token-file=<0600 file>
+php <tron>/tests/kernel/protocol_live.php --deny=<write tool the user lacks> --url=https://<host>/tron/mcp --token-file=<0600 file>
+```
+
+initialize, every tools/list page, a read tool, a write tool the user's policies refuse (audited `denied`) and a write
+tool they allow (`skill_draft` with a manifest the skill standard refuses: audited `started`, then `error`, nothing
+stored), and the protocol layer the server reports. Use a short-lived token and revoke it afterwards. Result of
+2026-11-26 on the development installation (an editor's token, `--deny=centre_decision_record`): PASS over stdio and over HTTP on the SDK
+layer, PASS over stdio on the legacy layer.
 
 ## In an installation (read only)
 
@@ -48,6 +70,8 @@ extensions) on 2026-11-24: PASS, server built in 43 ms.
 After installation, `tests/kernel/stdio_smoke.php` speaks MCP to the real `tron.php serve`,
 `tests/kernel/http_smoke.php` to the real HTTP endpoint (statuses, token, write), and
 `tests/kernel/kernel_tools_run.php` runs every tool as users with real roles (doc/runbook.md).
+`tests/kernel/search_live_run.php` proves the search units with a short-lived token for an editor-level and one for
+an anonymous-level user (scope `search`, revoked at the end).
 
 ## Proving run on a real installation: alpha, 2026-11-24
 
@@ -164,6 +188,41 @@ Defects the fuzzer found and that were fixed in the wave:
 
 Found in other programs' tools and handed to their authors: integer ids above 2^31-1 and invalid UTF-8 on
 PostgreSQL in the skill tools, and tools without an output schema or a write without a dry run.
+
+## Search units: proof, 2026-11-26
+
+On the development installation (built-in search engine, immediate indexing), with two throwaway users made for the run and removed
+afterwards: an editor-level user (role Editor assigned without a subtree limit, plus tron/use) and an
+anonymous-level user (role Anonymous plus a role with tron/use only). `tests/kernel/search_live_run.php` issued each a
+token for one day with the scope `search` and revoked both at the end.
+
+| Check | Result |
+|---|---|
+| `php tests/run.php` | all PASS (SearchUnitsTest 14 tests: restricted content, filters, sort, paging, facets with and without engine support, redaction of excerpts, private engine names, token scopes, audit, a pipe) |
+| `search_live_run.php` | **29 of 29 PASS** in 42 s |
+| "archives" as each user | editor 1 hit (the folder of the section Restricted), anonymous-level 4 hits (public help pages the editor role may not read); the folder never reaches the anonymous-level user, neither in the items nor in the total, also not with `section` + `class` filters; `search_index` on it answers "not found" for that user |
+| every hit of both users | passes the kernel's own `checkAccess( 'read' )` for that user; the totals equal the hits paged through |
+| "exponential" (8 hits) | offset/limit pages, sort modified desc, sort name asc equal to name desc reversed, language eng-GB, subtree |
+| facets on the built-in engine | `facets_supported` false and a note; no invented counts |
+| token scope | tools/list of a `search` token shows the two search tools and not `node_read`; a `node_read` call is refused |
+| audit | 15 rows under the two tokens |
+
+
+## Skills dedupe: proof, 2026-11-26
+
+202 skills that differed from another only by a built-in value (a label, lane, kind, day window, priority, class,
+siteaccess, INI file or setting, template, view, module) were replaced by 27 parameterised skills (358 skills before,
+183 after; 26 new names, `class.containers` kept its name and took `class.leaves` in). Field and sort-key parameters
+(`centre.count.by --by lane`) use the new `$param` support of the ops `field` and `by`.
+
+| Check | Result |
+|---|---|
+| structural | for every old skill, its value put into the new manifest's parameters gives exactly the old steps, output, guards and requires (202 of 202) |
+| runtime, fixtures | every example of every old skill run with the old manifest and with the new one plus the old value: 365 of 365 runs equal (268 answered, 97 the same error where the test world lacks the data) |
+| runtime, the development installation (read only, throwaway administrator, removed afterwards) | 365 of 365 runs equal, all 365 answered |
+| harness | the 12 changed packs proven on the fixtures and live: 151 skills pass, none failed or parked |
+| `php tests/run.php` (a test node, PHP 8.5) | 237 tests PASS |
+
 
 ---
 

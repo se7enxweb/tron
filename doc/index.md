@@ -70,6 +70,7 @@ documentation. Every page lives in this directory; the README at the top of the 
 | [extension-conventions.md](extension-conventions.md) | The standard for skill packs and programs shipped from extensions: layout, settings, naming, manifests, versions, testing, security, remix; a worked example |
 | [skill-packs/](skill-packs/) | The starter skill packs, one page each |
 | [architecture.md](architecture.md) | Core, programs, transports, the request path, data, kernel binding |
+| [protocol.md](protocol.md) | The protocol layer: the official MCP PHP SDK, the frozen legacy layer, the official conformance suite |
 | [theory.md](theory.md) | What tron guarantees, each claim tied to the test that proves it |
 | [testing.md](testing.md) | The suite, the PHP matrix, kernel probe and smoke tests, proving runs, defects found and fixed |
 | [cookbook.md](cookbook.md) | Eight runnable examples whose output the suite checks byte for byte |
@@ -84,6 +85,7 @@ documentation. Every page lives in this directory; the README at the top of the 
 | [changelog/0.0.0.1.md](changelog/0.0.0.1.md) | The first version |
 | [changelog/0.0.0.12.md](changelog/0.0.0.12.md) | The first public release |
 | [changelog/0.0.0.13.md](changelog/0.0.0.13.md) | Private names end where a word ends |
+| [changelog/0.0.0.15.md](changelog/0.0.0.15.md) | the official MCP PHP SDK, the search program, 202 skills parameterised, command lines need a token |
 | [changelog/0.0.0.14.md](changelog/0.0.0.14.md) | `serve --user` disabled by default; stdio needs a token |
 
 ## Files that are not pages

@@ -293,7 +293,7 @@ final class tronUnitPipe
             $v = json_decode( tronServer::encode( $v ), true );
             return is_array( $v ) ? array( 'ok' => true, 'value' => $v ) : array( 'ok' => false, 'error' => "$toolName: the answer is not an object" );
         }
-        $r = $server->handle( array( 'jsonrpc' => '2.0', 'id' => 'pipe', 'method' => 'tools/call',
+        $r = $server->call( array( 'jsonrpc' => '2.0', 'id' => 'pipe', 'method' => 'tools/call',
                                      'params' => array( 'name' => $toolName, 'arguments' => $args ) ), $session );
         if ( isset( $r['error'] ) )
             return array( 'ok' => false, 'error' => "$toolName: " . ( $r['error']['message'] ?? 'error' ) );

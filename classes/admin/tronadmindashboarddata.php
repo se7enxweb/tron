@@ -51,7 +51,8 @@ final class tronAdminDashboardData
         $h = (array)( $settings['HTTPSettings'] ?? array() );
         return array(
             'version' => tronVersion::VERSION,
-            'protocols' => tronProtocol::VERSIONS,
+            'protocol' => $server->protocol()->name(),
+            'protocols' => $server->protocol()->versions(),
             'missing' => $missing,
             'programs' => $programs,
             'programs_loaded' => count( array_filter( $programs, function ( $p ) { return $p['state'] === 'loaded'; } ) ),

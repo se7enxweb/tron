@@ -1,27 +1,9 @@
 {
     "pack": "site-audit",
     "pack_version": "0.0.0.1",
-    "tron": "0.0.0.7",
-    "at": "2026-11-25T06:54:59Z",
+    "tron": "0.0.0.13",
+    "at": "2026-11-26T18:39:15Z",
     "skills": {
-        "audit.ini.admin-email-set": {
-            "version": "0.0.0.1",
-            "hash": "557256efff3cbb4416710ccbff60c2c7956806d5481d8e2a72a388cd96a85616",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
         "audit.ini.database-charset-utf8": {
             "version": "0.0.0.1",
             "hash": "e1fe9048d729d22fa359b94c87c799e25e81ecf8aa3b581a997227c2e5474570",
@@ -148,24 +130,6 @@
                 "redaction": "pass"
             }
         },
-        "audit.ini.mail-transport-set": {
-            "version": "0.0.0.1",
-            "hash": "e9d966fcb4160ff5deb8783a33352a0898d4d0de819413f9cca2dd96be3271ad",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
         "audit.ini.require-user-login-admin": {
             "version": "0.0.0.1",
             "hash": "60132d134fcd5912151b006dc0a97e9f3bb6fe30613ca238815cbf516c57dbf3",
@@ -184,27 +148,9 @@
                 "redaction": "pass"
             }
         },
-        "audit.ini.search-engine-set": {
+        "audit.ini.set": {
             "version": "0.0.0.1",
-            "hash": "e56f4680f5869ac5f7382eb402e9db31fe233b0e4540a460a8eeff2b7103b4bf",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "audit.ini.session-timeout-set": {
-            "version": "0.0.0.1",
-            "hash": "0af6a6dc424752ab42fa612ac67fd8d90a6366f1a4f7b7a786d4d54df9801b53",
+            "hash": "cd741128f6a92f80735436481386247a31dc83e87c4792c1d7c10ae23f6299db",
             "result": "pass",
             "runs": {
                 "fixtures": "parked",
@@ -241,42 +187,6 @@
         "audit.ini.show-xhtml-off": {
             "version": "0.0.0.1",
             "hash": "f49df8ec72f5add245730e795ce52fd1b92e08b67070265f8962f43bdf1857f4",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "audit.ini.site-name-set": {
-            "version": "0.0.0.1",
-            "hash": "d458e815a7586ffb2eddc43dfdb49538b752d7e23417c840b0d0e3cc24240e45",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "audit.ini.site-url-set": {
-            "version": "0.0.0.1",
-            "hash": "4f4eab0bec630c99642948d8f8b10c1fcf36a8a20b99a40545197d8fca96ba58",
             "result": "pass",
             "runs": {
                 "fixtures": "parked",
@@ -385,24 +295,6 @@
         "audit.ini.text-translation-on": {
             "version": "0.0.0.1",
             "hash": "347daa831790d0755c7dbf0c661bc460ce197be1df05f89ac29dbbb98c560b6d",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "audit.ini.versions-limit-set": {
-            "version": "0.0.0.1",
-            "hash": "cd616c9eb3a23bfb662cb22a8f785b07b22e25cee859418629e43d07bbdb1f1f",
             "result": "pass",
             "runs": {
                 "fixtures": "parked",

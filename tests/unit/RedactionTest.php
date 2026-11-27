@@ -75,7 +75,7 @@ final class TronRedactionTest extends TronTestCase
             $w = TronFuzzWorld::build( $kind );
             $s = TronFixture::session( TronFixture::ADMIN );
             $answers = array( $w->server->handle( array( 'jsonrpc' => '2.0', 'id' => 1, 'method' => 'initialize',
-                                                         'params' => array( 'protocolVersion' => '2025-11-25' ) ), $s ) );
+                                                         'params' => array( 'protocolVersion' => '2025-11-25', 'capabilities' => new stdClass(), 'clientInfo' => array( 'name' => 't', 'version' => '1' ) ) ), $s ) );
             $hints = $w->hints();
             $fz = new TronFuzz( 7 );
             $calls = 0;

@@ -1,45 +1,9 @@
 {
     "pack": "media",
     "pack_version": "0.0.0.1",
-    "tron": "0.0.0.7",
-    "at": "2026-11-25T06:54:09Z",
+    "tron": "0.0.0.13",
+    "at": "2026-11-26T18:38:29Z",
     "skills": {
-        "media.file.oldest": {
-            "version": "0.0.0.1",
-            "hash": "092c58af9c0439c34484a5db9826e7821539e9a1d200e5dd215f3d6b0d3078a1",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "media.file.where": {
-            "version": "0.0.0.1",
-            "hash": "b931f5d19800f6b80c47c2dbd750d171f438d674e6e0426d2ec3480578e6ea92",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
         "media.image-aliases": {
             "version": "0.0.0.1",
             "hash": "ea826d996d8bf239f8bd93058fca615f7aa875f6901778e2d1ec4b95bbd2d72f",
@@ -76,9 +40,9 @@
                 "redaction": "pass"
             }
         },
-        "media.image.oldest": {
+        "media.oldest": {
             "version": "0.0.0.1",
-            "hash": "b7315a4c923d07806c96a5cfdf52b352603c70be3ddf4d961e8fc077100c4611",
+            "hash": "7ba36536ff790c104330948145cf39ffd568c6f0003922ad584928bcdaed5eec",
             "result": "pass",
             "runs": {
                 "fixtures": "parked",
@@ -94,189 +58,9 @@
                 "redaction": "pass"
             }
         },
-        "media.image.where": {
+        "media.where": {
             "version": "0.0.0.1",
-            "hash": "d33246062ecff6bbbaac6251c71de42a7c4ab8ede48d67dbf1996ba4f5cc7a56",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "media.ng-audio.oldest": {
-            "version": "0.0.0.1",
-            "hash": "61c5dffae1ef24353d1f6d1af96b981d08d7361e3a4d6198c6abf452c66c9ed5",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "media.ng-audio.where": {
-            "version": "0.0.0.1",
-            "hash": "5a053fa57f5a2adbdee078fc321a50f615f117d39a544c2d15cf98ccceadb36e",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "media.ng-banner.oldest": {
-            "version": "0.0.0.1",
-            "hash": "78c6a9cbe8ba5927219304b4af0040b400ec91c216a115448b62c0b509821083",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "media.ng-banner.where": {
-            "version": "0.0.0.1",
-            "hash": "ac69f6f683c17d06b075ff3a3a6b22569818b6f22f1e4d075e3a98a2fb64d193",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "media.ng-gallery.oldest": {
-            "version": "0.0.0.1",
-            "hash": "8b0b34f76bd6ecb79b0adf7eaa2851f47fc6f5bdfdad7d0201f4d7f342c7a08a",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "media.ng-gallery.where": {
-            "version": "0.0.0.1",
-            "hash": "ce78ad14e4b219e89bd80cdf632daaa04b2cf18779db96d84c937ce281bcc4d0",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "media.ng-logo.oldest": {
-            "version": "0.0.0.1",
-            "hash": "babd133c311a6f5f550abe54ec8fefad8646c50571e2efdd18b0a7b1a034b88e",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "media.ng-logo.where": {
-            "version": "0.0.0.1",
-            "hash": "551ce5c4772aeaa713662cbdd1af06ca3955c4a2261bd9735d9258b3d0f2e355",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "media.ng-video.oldest": {
-            "version": "0.0.0.1",
-            "hash": "b5282dfae22e290b3f5a7a99cdaf27d104792c16db4b65deb70a291823803ea0",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "media.ng-video.where": {
-            "version": "0.0.0.1",
-            "hash": "5f2197fd50dacf550489806f5a317311c86ededd366345a153117c6118811de3",
+            "hash": "95e0e1ae3dd721d2b033f482b7a05f0e741b3ccc53d4b1eefc365a335e942993",
             "result": "pass",
             "runs": {
                 "fixtures": "parked",

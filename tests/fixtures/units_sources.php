@@ -36,6 +36,7 @@ final class TronUnitFixture
         return array(
             'units.ini' => new TronUnitFixtureIni(), 'units.tpl' => new TronUnitFixtureTpl(), 'units.node' => new TronUnitFixtureNode(),
             'units.class' => new TronUnitFixtureClass(), 'units.layout' => new TronUnitFixtureLayout(), 'units.role' => new TronUnitFixtureRole(),
+            'units.search' => new TronUnitFixtureSearch(),
         );
     }
 
@@ -475,5 +476,129 @@ final class TronUnitFixtureRole implements tronUnitRoleSource
         );
         $hits = array_values( array_filter( $all, function ( $u ) use ( $text ) { return stripos( $u['login'], $text ) !== false || stripos( $u['name'], $text ) !== false; } ) );
         return array( 'total' => count( $hits ), 'items' => array_slice( $hits, $offset, $limit ) );
+    }
+}
+
+/**
+ * The search of the fixture world: every word of the text must be in a node's name or in one of its text attributes
+ * (case-insensitive), what the user may not read is left out (as the node fixture does), and the engine can be made
+ * one that counts facets. Node 102's text holds an e-mail address for the redaction checks.
+ */
+final class TronUnitFixtureSearch implements tronUnitSearchSource
+{
+    /** @var bool */ public $facets;
+    /** @var string */ public $name;
+    /** @var array the last criteria a search got */ public $last = array();
+
+    public function __construct( bool $facets = false, string $name = 'ezsearch' )
+    {
+        $this->facets = $facets;
+        $this->name = $name;
+    }
+
+    public function available(): bool
+    {
+        return true;
+    }
+
+    public function reason(): string
+    {
+        return '';
+    }
+
+    public function engine(): array
+    {
+        return array( 'name' => $this->name, 'class' => $this->facets ? 'eZSolr' : 'eZSearchEngine', 'facets' => $this->facets,
+                      'delayed_indexing' => 'disabled' );
+    }
+
+    private static function readable( int $id, int $userId ): bool
+    {
+        return !( $userId === TronUnitFixture::PARTIAL && $id === TronUnitFixture::MEMBERS_NODE );
+    }
+
+    private static function text( array $n ): string
+    {
+        $parts = array( $n['name'] );
+        foreach ( $n['attributes'] as $a )
+            if ( is_string( $a['value'] ) )
+                $parts[] = $a['value'];
+        if ( $n['node_id'] === 102 )
+            $parts[] = 'A green breakfast bowl; ask chef.two@example.org for the recipe.';
+        return implode( ' ', $parts );
+    }
+
+    public function search( array $c, int $limit, int $offset, int $userId ): array
+    {
+        $this->last = $c;
+        $all = TronUnitFixture::nodes();
+        $words = array_values( array_filter( preg_split( '/\s+/', strtolower( $c['text'] ) ), 'strlen' ) );
+        $hits = array();
+        foreach ( $all as $id => $n )
+        {
+            if ( !self::readable( $id, $userId ) )
+                continue;
+            $text = strtolower( self::text( $n ) );
+            foreach ( $words as $w )
+                if ( strpos( $text, $w ) === false )
+                    continue 2;
+            if ( !empty( $c['subtree'] ) )
+            {
+                $below = false;
+                for ( $p = $id; $p; $p = $all[$p]['parent_node_id'] ?? 0 )
+                    if ( in_array( $p, $c['subtree'], true ) )
+                        $below = true;
+                if ( !$below )
+                    continue;
+            }
+            if ( isset( $c['classes'] ) && !in_array( $n['class_identifier'], $c['classes'], true ) )
+                continue;
+            if ( isset( $c['section'] ) && $n['section_id'] !== $c['section'] )
+                continue;
+            if ( isset( $c['language'] ) && $n['language'] !== $c['language'] )
+                continue;
+            $cut = tronUnitsSearchProgram::excerptOf( self::text( $n ), $words, 80 );
+            $hits[] = $n + array( 'excerpt' => $cut['text'] );
+        }
+        $sort = $c['sort'] ?? 'relevance';
+        if ( $sort !== 'relevance' )
+        {
+            $key = array( 'published' => 'published', 'modified' => 'modified', 'name' => 'name', 'path' => 'url_alias',
+                          'class_identifier' => 'class_identifier', 'section' => 'section_id' )[$sort];
+            usort( $hits, function ( $a, $b ) use ( $key ) { return $a[$key] <=> $b[$key]; } );
+            if ( ( $c['order'] ?? 'desc' ) === 'desc' )
+                $hits = array_reverse( $hits );
+        }
+        $facets = array();
+        if ( $this->facets && !empty( $c['facets'] ) )
+            foreach ( $c['facets'] as $f )
+            {
+                $field = array( 'class' => 'class_identifier', 'section' => 'section_id', 'language' => 'language' )[$f];
+                $counts = array_count_values( array_map( 'strval', array_column( $hits, $field ) ) );
+                ksort( $counts );
+                $facets[$f] = array();
+                foreach ( $counts as $v => $n )
+                    $facets[$f][] = array( 'value' => (string)$v, 'name' => (string)$v, 'count' => $n );
+            }
+        return array( 'total' => count( $hits ), 'items' => array_slice( $hits, $offset, $limit ),
+                      'sort' => $sort === 'relevance' && !$this->facets ? 'published asc (the engine eZSearchEngine does not rank by relevance)' : $sort . ' ' . ( $c['order'] ?? 'desc' ),
+                      'facets' => $facets, 'stop_words' => array() );
+    }
+
+    public function index( int $nodeId, int $objectId, int $userId ): ?array
+    {
+        $out = array( 'pending' => 2, 'object' => null );
+        if ( $nodeId <= 0 && $objectId <= 0 )
+            return $out;
+        foreach ( TronUnitFixture::nodes() as $id => $n )
+            if ( ( $nodeId > 0 && $id === $nodeId ) || ( $nodeId <= 0 && $n['object_id'] === $objectId ) )
+            {
+                if ( !self::readable( $id, $userId ) )
+                    return null;
+                $out['object'] = array( 'object_id' => $n['object_id'], 'node_id' => $id, 'name' => $n['name'],
+                                        'indexed' => $id !== 103, 'queued' => $id === 103 );
+                return $out;
+            }
+        return null;
     }
 }

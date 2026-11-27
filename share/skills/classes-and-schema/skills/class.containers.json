@@ -1,17 +1,27 @@
 {
     "name": "class.containers",
-    "title": "Container classes",
-    "purpose": "The content classes that can hold children.",
+    "title": "Container or leaf classes",
+    "purpose": "The content classes that can hold children, or with containers false those that cannot, with their object counts.",
     "version": "0.0.0.1",
     "author": "7x",
     "license": "GPL-2.0-or-later",
     "tags": [
         "classes",
-        "schema",
+        "inventory",
         "structure"
     ],
-    "use_case": "Planning the site structure",
-    "parameters": {},
+    "use_case": "Understanding the content tree model",
+    "parameters": {
+        "containers": {
+            "type": "boolean",
+            "default": true,
+            "description": "true: the container classes; false: the leaf classes.",
+            "examples": [
+                true,
+                false
+            ]
+        }
+    },
     "requires": {
         "tron": "0.0.0.7",
         "units": [
@@ -33,7 +43,7 @@
             "from": "$steps.l.items",
             "field": "is_container",
             "cmp": "eq",
-            "value": true
+            "value": "$param.containers"
         },
         {
             "id": "rows",
@@ -75,8 +85,16 @@
     },
     "examples": [
         {
-            "title": "With the defaults",
-            "params": {}
+            "title": "Container classes",
+            "params": {
+                "containers": true
+            }
+        },
+        {
+            "title": "Leaf classes",
+            "params": {
+                "containers": false
+            }
         }
     ]
 }

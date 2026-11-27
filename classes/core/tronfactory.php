@@ -104,6 +104,7 @@ final class tronFactory
             'responseMaxBytes' => (int)( $s['ResponseMaxBytes'] ?? 200000 ),
             'programs' => $status,
             'engines' => $engineLabels,
+            'protocol' => (string)( $s['Protocol'] ?? 'auto' ),
         ), $logger );
     }
 }

@@ -37,7 +37,7 @@ final class tronSkillManifest
     const NAME_PATTERN = '/^[a-z][a-z0-9]*(\.[a-z][a-z0-9-]*){1,5}$/';
     const NAME_MAX = 57;
     /** Options of the skill command line; no parameter may take these names */
-    const RESERVED_OPTIONS = array( 'user', 'json', 'use-siteaccess', 'fixtures', 'args', 'write-proof' );
+    const RESERVED_OPTIONS = array( 'user', 'token-file', 'json', 'use-siteaccess', 'fixtures', 'args', 'write-proof' );
     const TAG_PATTERN = '/^[a-z][a-z0-9-]{1,31}$/';
     const PARAM_PATTERN = '/^[a-z][a-z0-9_]{0,31}$/';
     const STEP_PATTERN = '/^[a-z][a-z0-9_]{0,31}$/';
@@ -366,6 +366,16 @@ final class tronSkillManifest
                 $used[$s['unit']] = true;
             if ( ( $s['op'] ?? '' ) === 'each' && isset( $s['each_unit'] ) && is_string( $s['each_unit'] ) )
                 $used[$s['each_unit']] = true;
+            foreach ( array( 'field', 'by' ) as $k )
+            {
+                $v = $s[$k] ?? null;
+                if ( !is_string( $v ) || $v === '' || $v[0] !== '$' )
+                    continue;
+                $pn = strpos( $v, '$param.' ) === 0 ? substr( $v, 7 ) : '';
+                $p = $params[$pn] ?? null;
+                if ( !is_array( $p ) || ( $p['type'] ?? '' ) !== 'string' || empty( $p['enum'] ) || !is_array( $p['enum'] ) )
+                    $e[] = "$w.$k: a field name, or \$param.<name> of a string parameter with an enum (the fields it may name)";
+            }
         }
         foreach ( self::refsIn( $s ) as $ref )
             $e = array_merge( $e, self::refErrors( $w, $ref, $ids, $params, ( $s['op'] ?? '' ) === 'each' ) );

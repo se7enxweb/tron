@@ -2,7 +2,7 @@
 
 Counts and reports over the centre boards: work per lane, priority, person and label, board snapshot and health, work-in-progress check, ticket digest, history and links, the weekly report.
 
-Pack `centre-planning` 0.0.0.1, GPL-2.0-or-later, by 7x. Skill names start with `centre.`.
+Pack `centre-planning` 0.0.0.2, GPL-2.0-or-later, by 7x. Skill names start with `centre.`.
 It works on the data of the extension `expcentre`.
 
 ## Who it is for
@@ -13,22 +13,14 @@ Team leads and project managers who plan and report from the centre.
 
 | Skill | What it answers | Parameters | Units | Wave |
 |---|---|---|---|---|
-| `centre.count.by-lane` | Counts the open tickets of a board per lane, to see where work piles up. | `--board` | centre_ticket_list | A |
-| `centre.count.by-priority` | Counts the open tickets of a board per priority. | `--board` | centre_ticket_list | A |
-| `centre.count.by-assignee` | Counts the open tickets of a board per assignee (empty: unassigned), most loaded first. | `--board` | centre_ticket_list | A |
-| `centre.count.by-label` | Counts the open tickets of a board per label, most used first. | `--board` | centre_ticket_list | A |
-| `centre.count.by-kind` | Counts the open tickets, cards and decisions of a board. | `--board` | centre_ticket_list | A |
-| `centre.count.overdue-by-assignee` | Counts the overdue open tickets of a board per assignee. | `--board` | centre_ticket_list | A |
-| `centre.count.overdue-by-lane` | Counts the overdue open tickets of a board per lane, to see where late work is stuck. | `--board` | centre_ticket_list | A |
+| `centre.count.by` | Counts the open or closed tickets of a board per assignee, kind, label, lane, priority or close reason, largest first. | `--by` `--status` `--board` | centre_ticket_list | A |
+| `centre.count.overdue-by` | Counts the overdue open tickets of a board per assignee or per lane, largest first. | `--by` `--board` | centre_ticket_list | A |
 | `centre.count.urgent-by-lane` | Counts the urgent and high priority open tickets of a board per lane. | `--board` | centre_ticket_list | A |
-| `centre.count.closed-by-reason` | Counts the closed tickets of a board per closing reason (done, duplicate, wontfix ...). | `--board` | centre_ticket_list | A |
-| `centre.count.closed-by-person` | Counts the closed tickets of a board per assignee. | `--board` | centre_ticket_list | A |
 | `centre.count.labels-unassigned` | Counts the unassigned open tickets of a board per label, to see which areas lack an owner. | `--board` | centre_ticket_list | A |
 | `centre.count.decisions-by-week` | Counts the open decisions of a board per decision week (empty: not planned). | `--board` | centre_ticket_list | A |
 | `centre.board.snapshot` | The open tickets of a board lane by lane with the count per lane and the first items of each, in board order. | `--board` `--per-lane` | centre_board_view | A |
 | `centre.board.wip-check` | Counts the tickets in the doing lane of a board and says whether that is within a work-in-progress limit. | `--board` `--wip-limit` | centre_ticket_list | A |
-| `centre.board.health-main` | Five numbers about the main board: open tickets, overdue, unassigned, urgent, and waiting. | (none) | centre_ticket_list | A |
-| `centre.board.health-ops` | Five numbers about the ops board: open tickets, overdue, unassigned, urgent, and waiting. | (none) | centre_ticket_list | A |
+| `centre.board.health` | Five numbers about a board: open tickets, overdue, unassigned, urgent, and waiting. | `--board` | centre_ticket_list | A |
 | `centre.ticket.digest` | One ticket in short: its fields, the number of comments and links, the last comment and the last change. | `--id` | centre_ticket_get | A |
 | `centre.ticket.history` | The change history of one ticket, newest first, with who changed which field from what to what. | `--id` | centre_ticket_get | A |
 | `centre.ticket.links` | The links of one ticket (commits, URLs, gnubus messages, to-dos, other tickets), grouped by kind. | `--id` | centre_ticket_get | A |
@@ -46,10 +38,10 @@ calling user, each unit checked against that user's policies and written to the 
 ## Running one
 
 ```
-xsh tron:skill:run centre.count.by-lane --board main
+xsh tron:skill:run centre.count.by --by lane --status open --board main
 ```
 
-Over MCP a live skill is the tool `skill_centre_count_by_lane` and a prompt of the same name.
+Over MCP a live skill is the tool `skill_centre_count_by` and a prompt of the same name.
 
 See tron's doc/skills.md and doc/extension-conventions.md.
 

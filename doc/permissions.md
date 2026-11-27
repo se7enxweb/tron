@@ -147,7 +147,7 @@ An administrator's token scoped to `centre` sees 14 tools: the two core tools an
 
 | Question | How |
 |---|---|
-| What can this user's agent call? | sign in with a token of that user and call `tools/list`; or `tron.php call tron_status --user=<login>` |
+| What can this user's agent call? | sign in with a token of that user and call `tools/list`; or `tron.php call tron_status --token-file=<a token of that user>` |
 | Which roles grant a tool? | Setup > tron > Programs and tools lists, for every tool, its policy and the roles that grant it, with links |
 | What was refused? | `audit:tail`, or Setup > tron > Audit filtered by outcome `denied` |
 | Did a role change take effect? | HTTP: from the next request. stdio: after the client restarts the server |

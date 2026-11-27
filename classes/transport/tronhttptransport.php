@@ -6,9 +6,10 @@
  */
 
 /**
- * The streamable HTTP transport, stateless: one endpoint, a POST carries a JSON-RPC message (or a batch where the
- * protocol version allows one) and gets the answer as application/json; a POST of only notifications or responses
- * gets 202 without a body. tron opens no server-sent event stream (GET answers 405) and issues no Mcp-Session-Id,
+ * The streamable HTTP transport, stateless: one endpoint, a POST carries a JSON-RPC message and gets the answer as
+ * application/json; a POST of only notifications or responses gets 202 without a body. This class is tron's edge
+ * (who may speak); the message itself goes to the server's protocol layer (the official MCP SDK's
+ * StreamableHttpTransport without sessions, or the legacy layer). tron opens no server-sent event stream (GET answers 405) and issues no Mcp-Session-Id,
  * so every request stands alone and any node of the cluster can serve it.
  *
  * Checks, in this order, each with its own status:
@@ -69,9 +70,10 @@ final class tronHttpTransport
         if ( strlen( $req->body ) > (int)$this->options['maxBodyBytes'] )
             return self::rpcError( 413, tronProtocol::INVALID_REQUEST, 'Payload too large: the limit is ' . (int)$this->options['maxBodyBytes'] . ' bytes' );
 
+        $layer = $this->server->protocol();
         $version = $req->header( 'mcp-protocol-version' );
-        if ( $version !== null && !tronProtocol::isSupported( $version ) )
-            return self::rpcError( 400, tronProtocol::INVALID_REQUEST, "Bad request: unsupported MCP-Protocol-Version $version (supported: " . implode( ', ', tronProtocol::VERSIONS ) . ')' );
+        if ( $version !== null && !in_array( $version, $layer->versions(), true ) )
+            return self::rpcError( 400, tronProtocol::INVALID_REQUEST, "Bad request: unsupported MCP-Protocol-Version $version (supported: " . implode( ', ', $layer->versions() ) . ')' );
 
         $auth = (string)$req->header( 'authorization' );
         $token = preg_match( '/^Bearer\s+(\S+)$/i', trim( $auth ), $m ) ? $m[1] : '';
@@ -90,19 +92,7 @@ final class tronHttpTransport
         }
 
         // Messages before initialize are fine over HTTP: there is no session to initialize.
-        $session = new tronSession( $principal, 'http', false, $version ?? null, $req->remote );
-        if ( $version === null )
-            $session->protocolVersion = self::isInitialize( $req->body ) ? null : tronProtocol::HTTP_DEFAULT;
-        $answer = $this->server->handleRaw( $req->body, $session );
-        if ( $answer === null )
-            return new tronHttpResponse( 202 );
-        return new tronHttpResponse( 200, array( 'Content-Type' => 'application/json; charset=utf-8' ), $answer );
-    }
-
-    private static function isInitialize( string $body ): bool
-    {
-        $d = json_decode( $body, true );
-        return is_array( $d ) && ( $d['method'] ?? null ) === 'initialize';
+        return $layer->serveHttp( $req, new tronSession( $principal, 'http', false, $version ?? null, $req->remote ) );
     }
 
     private function auditAuth( tronHttpRequest $req, string $reason, ?tronPrincipal $p = null ): void

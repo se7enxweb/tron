@@ -43,7 +43,7 @@ server after rotation; the administration views' data tested on SQLite.
 | `template` | resolve which template renders a node, inspect a template |
 | `classes` | list and describe content classes |
 | `users` | get a user, describe a role, check access ("may this user do that?") |
-| `search` | search, index check (and the search engine's own query where present) |
+| `search` | search, index check (and the search engine's own query where present): **landed** as the units `search.query` and `search.index` ([units.md](units.md#search)) |
 | `commerce` | orders and inventory |
 | `jobs` | content jobs (read) |
 | `services` | a tool per service of the installation's service layer |

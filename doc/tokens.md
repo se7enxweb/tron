@@ -52,9 +52,14 @@ stateDiagram-v2
 Command line:
 
 ```bash
-php extension/tron/bin/php/tron.php token:create --siteaccess=<sa> --user=<login> \
+php extension/tron/bin/php/tron.php token:create --siteaccess=<sa> --token-file=<issuer token> --user=<login> \
     --name="claude@laptop" --days=30 --scopes=centre --out=/root/.config/tron/<login>-laptop.token
 ```
+
+The command line issues a token as the user of the token it is given (`--token-file` or `TRON_TOKEN`): for that user
+within the issuing token's scopes, and for another user or wider scopes only when the issuer holds `tron/admin`. Without
+a token it is refused unless an override sets `[StdioSettings] AllowLoginOption=enabled`; an installation's first token
+therefore comes from the administration.
 
 Administration: **Setup > tron > Tokens**, the form at the top (user, name, days, scopes). The token is shown once,
 on the answer page, and never again. Making a token asks "Verify it's you" first (reauth group `tron`).
@@ -104,7 +109,7 @@ in place, and the audit shows the exact moment each was used.
 
 ```bash
 # 1. a new token next to the old one
-tron.php token:create --siteaccess=<sa> --user=<login> --name="claude@laptop (2026-12)" --days=30 \
+tron.php token:create --siteaccess=<sa> --token-file=<issuer token> --user=<login> --name="claude@laptop (2026-12)" --days=30 \
     --scopes=centre --out=/root/.config/tron/<login>-laptop.token.new
 # 2. switch the client (or move the file over the old one)
 mv /root/.config/tron/<login>-laptop.token.new /root/.config/tron/<login>-laptop.token

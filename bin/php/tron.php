@@ -6,14 +6,16 @@
  *   TRON_TOKEN=<token> php extension/tron/bin/php/tron.php serve --siteaccess=<sa>   (or --token-file=<f>)
  *   php extension/tron/bin/php/tron.php install     --siteaccess=<sa> [--dry-run]     create the missing tables
  *   php extension/tron/bin/php/tron.php status      --siteaccess=<sa>                 programs, tools, tables
- *   php extension/tron/bin/php/tron.php token:create --siteaccess=<sa> --user=<login> --name=<what for> [--days=90] [--scopes=centre,katalyst] [--out=<file>]
+ *   TRON_TOKEN=<token> php extension/tron/bin/php/tron.php token:create --siteaccess=<sa> --user=<login> --name=<what for> [--days=90] [--scopes=centre,katalyst] [--out=<file>]
  *   php extension/tron/bin/php/tron.php token:list  --siteaccess=<sa> [--user=<login>]
  *   php extension/tron/bin/php/tron.php token:revoke --siteaccess=<sa> <id|prefix>
  *   php extension/tron/bin/php/tron.php audit:tail  --siteaccess=<sa> [--limit=50] [--user=<login>]
- *   php extension/tron/bin/php/tron.php call <tool> --siteaccess=<sa> --user=<login> [--json='{"a":1}']
+ *   TRON_TOKEN=<token> php extension/tron/bin/php/tron.php call <tool> --siteaccess=<sa> [--json='{"a":1}']
  *
- * serve acts as the token's user. serve --user=<login> (no token) is refused unless an override sets
- * [StdioSettings] AllowLoginOption=enabled (see doc/security.md).
+ * serve and call act as the token's user (TRON_TOKEN or --token-file). token:create issues as the token's user: a
+ * token for themselves within their own scopes, for another user with tron/admin; the first token of an installation
+ * comes from Setup > tron > Tokens. Without a token, --user=<login> (serve, call) and token:create are refused unless
+ * an override sets [StdioSettings] AllowLoginOption=enabled (see doc/security.md).
  *
  * Exit codes: 0 PASS, 1 FAIL, 2 usage.
  *
@@ -58,6 +60,13 @@ $finish = function ( int $code, string $line = '' ) use ( $script, $say ) {
 $command = (string)( $options['arguments'][0] ?? '' );
 $argument = (string)( $options['arguments'][1] ?? '' );
 $settings = tronKernel::settings();
+// the token a command acts with: TRON_TOKEN, else the content of --token-file
+$commandToken = function () use ( $options ): string {
+    $token = getenv( 'TRON_TOKEN' ) ?: '';
+    if ( $token === '' && $options['token-file'] )
+        $token = trim( (string)@file_get_contents( $options['token-file'] ) );
+    return $token;
+};
 
 try
 {
@@ -66,9 +75,7 @@ try
         case 'serve':
             while ( ob_get_level() > 0 )
                 ob_end_clean();
-            $token = getenv( 'TRON_TOKEN' ) ?: '';
-            if ( $token === '' && $options['token-file'] )
-                $token = trim( (string)@file_get_contents( $options['token-file'] ) );
+            $token = $commandToken();
             // a token decides; --user only where an override enables [StdioSettings] AllowLoginOption
             list( $principal, $code, $line ) = tronStdioIdentity::resolve( $settings, $token, (string)$options['user'],
                                                                            tronKernel::tokens(), new tronKernelUserDirectory() );
@@ -108,7 +115,7 @@ try
 
         case 'status':
             $server = tronKernel::server( null, new tronRoleAccessChecker( array( 'all' => array( '*' . '/*' ) ), array( 0 => array( 'all' ) ) ) );
-            $out( 'tron ' . tronVersion::VERSION . ', protocol ' . implode( ' ', tronProtocol::VERSIONS ) );
+            $out( 'tron ' . tronVersion::VERSION . ', protocol layer ' . $server->protocol()->name() . ' (' . implode( ' ', $server->protocol()->versions() ) . ')' );
             foreach ( $server->option( 'programs' ) as $row )
                 $out( sprintf( '  %-10s %-12s %-8s %-10s %6.2f ms %s', $row['name'], $row['origin'], $row['version'], $row['state'], $row['ms'], $row['reason'] ) );
             $out( '  tools: ' . count( $server->registry()->tools() ) . ', resources: ' . count( $server->registry()->resources() ) . ', prompts: ' . count( $server->registry()->prompts() ) );
@@ -126,13 +133,31 @@ try
             $u = ( new tronKernelUserDirectory() )->byLogin( (string)$options['user'] );
             if ( !$u )
                 $finish( 1, "FAIL: no user '{$options['user']}'" );
+            // Who issues it: the token given (TRON_TOKEN, --token-file); without one only where an override enables
+            // [StdioSettings] AllowLoginOption, since then anyone who runs this could mint a token for any user.
+            $issuer = null;
+            $token = $commandToken();
+            if ( $token !== '' || !tronStdioIdentity::loginAllowed( $settings ) )
+            {
+                if ( $token === '' )
+                    $finish( 1, 'FAIL: tron: token:create without a token is disabled ([StdioSettings] AllowLoginOption=disabled, the default); '
+                              . 'create the first token in Setup > tron > Tokens, then give it: TRON_TOKEN=<token> or --token-file=<file> '
+                              . '(another user\'s token needs tron/admin)' );
+                $reason = null;
+                $issuer = tronKernel::tokens()->authenticate( $token, $reason );
+                if ( !$issuer )
+                    $finish( 1, "FAIL: tron: the token was refused ($reason)" );
+            }
             $t = $settings['TokenSettings'] ?? array();
             $days = $options['days'] ? (int)$options['days'] : (int)( $t['DefaultLifetimeDays'] ?? 90 );
             $max = (int)( $t['MaxLifetimeDays'] ?? 365 );
             if ( $days > $max )
                 $finish( 1, "FAIL: at most $max days ([TokenSettings] MaxLifetimeDays)" );
-            $scopes = $options['scopes'] ? explode( ',', (string)$options['scopes'] ) : array( '*' );
-            $r = tronKernel::tokens()->create( $u['id'], (string)$options['name'], $days, $scopes );
+            $scopes = $options['scopes'] ? explode( ',', (string)$options['scopes'] ) : ( $issuer ? $issuer->scopes : array( '*' ) );
+            $why = tronStdioIdentity::mayIssue( $issuer, (int)$u['id'], $scopes, new tronKernelAccessChecker() );
+            if ( $why !== '' )
+                $finish( 1, "FAIL: tron: $why" );
+            $r = tronKernel::tokens()->create( $u['id'], (string)$options['name'], $days, $scopes, $issuer ? $issuer->userId : 0 );
             if ( $options['out'] )
             {
                 $old = umask( 0077 );
@@ -188,17 +213,22 @@ try
             break;
 
         case 'call':
-            if ( $argument === '' || !$options['user'] )
-                $finish( 2, 'call needs a tool name and --user=<login>' );
-            $u = ( new tronKernelUserDirectory() )->byLogin( (string)$options['user'] );
-            if ( !$u || !$u['enabled'] )
-                $finish( 1, "FAIL: no enabled user '{$options['user']}'" );
+            if ( $argument === '' )
+                $finish( 2, 'call needs a tool name and a token (TRON_TOKEN or --token-file)' );
+            // the same identity rule as serve: a token; --user only where an override enables AllowLoginOption
+            list( $principal, $code, $line ) = tronStdioIdentity::resolve( $settings, $commandToken(), (string)$options['user'],
+                                                                           tronKernel::tokens(), new tronKernelUserDirectory(), 'call' );
+            if ( !$principal )
+                $finish( $code, $line );
+            $access = new tronKernelAccessChecker();
+            if ( $access->check( $principal, 'tron', 'use' ) !== tronAccessChecker::YES )
+                $finish( 1, "FAIL: tron: the user {$principal->login} does not hold the policy tron/use" );
             $args = $options['json'] ? json_decode( (string)$options['json'], true ) : array();
             if ( !is_array( $args ) )
                 $finish( 2, '--json must be a JSON object' );
-            $server = tronKernel::server( function ( $level, $message ) use ( $say ) { $say( "tron $level: $message" ); } );
-            $session = new tronSession( new tronPrincipal( $u['id'], $u['login'] ), 'cli', false, tronProtocol::LATEST, 'cli' );
-            $answer = $server->handle( array( 'jsonrpc' => '2.0', 'id' => 1, 'method' => 'tools/call', 'params' => array( 'name' => $argument, 'arguments' => $args ) ), $session );
+            $server = tronKernel::server( function ( $level, $message ) use ( $say ) { $say( "tron $level: $message" ); }, $access );
+            $session = new tronSession( $principal, 'cli', false, tronProtocol::LATEST, 'cli' );
+            $answer = $server->call( array( 'jsonrpc' => '2.0', 'id' => 1, 'method' => 'tools/call', 'params' => array( 'name' => $argument, 'arguments' => $args ) ), $session );
             if ( $session->journal instanceof tronJournalHandle )
                 $session->journal->end( 'one call from the command line' );
             $out( tronServer::encode( $answer ) );

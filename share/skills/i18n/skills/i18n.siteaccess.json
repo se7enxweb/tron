@@ -1,0 +1,132 @@
+{
+    "name": "i18n.siteaccess",
+    "title": "Languages of a siteaccess",
+    "purpose": "The locale, content language and site languages of a siteaccess, with the files that set them.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "i18n",
+        "languages",
+        "siteaccess"
+    ],
+    "use_case": "Checking a siteaccess before a language launch",
+    "parameters": {
+        "siteaccess": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "default": "site",
+            "description": "The siteaccess, e.g. site or admin.",
+            "examples": [
+                "site",
+                "admin"
+            ],
+            "short": "-s"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "ini_resolve"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "loc",
+            "unit": "ini_resolve",
+            "args": {
+                "file": "site.ini",
+                "block": "RegionalSettings",
+                "setting": "Locale",
+                "siteaccess": "$param.siteaccess"
+            }
+        },
+        {
+            "id": "col",
+            "unit": "ini_resolve",
+            "args": {
+                "file": "site.ini",
+                "block": "RegionalSettings",
+                "setting": "ContentObjectLocale",
+                "siteaccess": "$param.siteaccess"
+            }
+        },
+        {
+            "id": "sll",
+            "unit": "ini_resolve",
+            "args": {
+                "file": "site.ini",
+                "block": "RegionalSettings",
+                "setting": "SiteLanguageList",
+                "siteaccess": "$param.siteaccess"
+            }
+        }
+    ],
+    "output": {
+        "value": {
+            "siteaccess": "$param.siteaccess",
+            "locale": "$steps.loc.value",
+            "content_language": "$steps.col.value",
+            "site_languages": "$steps.sll.value",
+            "set_in": "$steps.sll.winner"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "siteaccess",
+                "locale",
+                "content_language",
+                "site_languages",
+                "set_in"
+            ],
+            "properties": {
+                "siteaccess": {
+                    "type": "string"
+                },
+                "locale": [],
+                "content_language": [],
+                "site_languages": [],
+                "set_in": []
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "Languages of admin",
+            "params": {
+                "siteaccess": "admin"
+            }
+        },
+        {
+            "title": "Languages of bold",
+            "params": {
+                "siteaccess": "bold"
+            }
+        },
+        {
+            "title": "Languages of bold_ger",
+            "params": {
+                "siteaccess": "bold_ger"
+            }
+        },
+        {
+            "title": "Languages of site",
+            "params": {
+                "siteaccess": "site"
+            }
+        },
+        {
+            "title": "Languages of starter",
+            "params": {
+                "siteaccess": "starter"
+            }
+        },
+        {
+            "title": "Languages of starter_ger",
+            "params": {
+                "siteaccess": "starter_ger"
+            }
+        }
+    ]
+}

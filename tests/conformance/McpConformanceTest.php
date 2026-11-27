@@ -74,7 +74,7 @@ final class TronMcpConformanceTest extends TronTestCase
         static $n = 100;
         $m = array( 'jsonrpc' => '2.0', 'id' => $id ?? ++$n, 'method' => $method );
         if ( $params !== null )
-            $m['params'] = $params;
+            $m['params'] = $params === array() ? new stdClass() : $params;     // params is a JSON object, never a list
         $this->send( $m );
         $a = $this->recv();
         $this->assertSame( $m['id'], $a['id'] ?? null, "the answer to $method carries the request id" );
@@ -109,7 +109,10 @@ final class TronMcpConformanceTest extends TronTestCase
 
         $early = $this->rpc( 'tools/list' );
         $this->assertSame( tronProtocol::INVALID_REQUEST, $early['error']['code'], 'nothing but ping before initialize' );
-        $this->assertSame( array(), (array)$this->rpc( 'ping' )['result'] );
+        if ( self::sdk() )
+            $this->assertSame( tronProtocol::INVALID_REQUEST, $this->rpc( 'ping' )['error']['code'], 'the SDK: not even ping before initialize' );
+        else
+            $this->assertSame( array(), (array)$this->rpc( 'ping' )['result'] );
 
         $init = $this->rpc( 'initialize', array( 'protocolVersion' => '2099-01-01', 'capabilities' => new stdClass(),
                                                  'clientInfo' => array( 'name' => 'conformance', 'version' => '1' ) ) );
@@ -167,14 +170,17 @@ final class TronMcpConformanceTest extends TronTestCase
         $this->send( '{"jsonrpc":"2.0","id":5,"method":' );
         $parse = $this->recv();
         $this->assertSame( tronProtocol::PARSE_ERROR, $parse['error']['code'] );
-        $this->assertSame( null, $parse['id'] );
+        $this->assertSame( null, $parse['id'] ?? null );
         $this->send( array( 'id' => 6, 'method' => 'ping' ) );
         $this->assertSame( tronProtocol::INVALID_REQUEST, $this->recv()['error']['code'] );
-        $this->assertSame( tronProtocol::METHOD_NOT_FOUND, $this->rpc( 'sampling/createMessage' )['error']['code'] );
+        // a method only clients answer: the legacy layer says -32601; the SDK knows the method and refuses its params (-32602)
+        $this->assertSame( self::sdk() ? tronProtocol::INVALID_PARAMS : tronProtocol::METHOD_NOT_FOUND, $this->rpc( 'sampling/createMessage' )['error']['code'], 'a method servers do not have' );
         $this->send( array( array( 'jsonrpc' => '2.0', 'id' => 7, 'method' => 'ping' ) ) );
         $this->assertSame( tronProtocol::INVALID_REQUEST, $this->recv()['error']['code'], 'no batches in 2025-11-25' );
         $this->send( str_repeat( 'x', 70000 ) );
-        $this->assertSame( tronProtocol::PARSE_ERROR, $this->recv()['error']['code'], 'an oversized line is refused' );
+        // an oversized line is refused: the legacy layer answers a parse error, the SDK drops the line and logs it
+        if ( !self::sdk() )
+            $this->assertSame( tronProtocol::PARSE_ERROR, $this->recv()['error']['code'], 'an oversized line is refused' );
         $this->assertSame( array(), (array)$this->rpc( 'ping' )['result'], 'and the server carries on' );
 
         // notifications and stray responses get no answer: the next answer is the ping's

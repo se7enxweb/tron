@@ -28,6 +28,10 @@
  *   test      value, cmp, compare           true or false: whether the comparison holds (a check's verdict)
  *   assert    value, cmp, compare, message  stops the run with message when the comparison fails
  *   each      from, unit, args, max         calls unit once per item ($item in args), at most max (<= 50) times
+ *
+ * "field" and "by" name a field of the items. Either one may also be a parameter, "$param.<name>", when that
+ * parameter is a string with an enum: one skill then counts or filters by any of the fields the enum lists (the
+ * manifest check refuses a parameter without one, so the fields a skill can touch stay readable in its manifest).
  */
 final class tronSkillOps
 {
@@ -114,6 +118,9 @@ final class tronSkillOps
     public static function run( array $s, tronSkillExpr $x, callable $call )
     {
         $op = $s['op'];
+        foreach ( array( 'field', 'by' ) as $k )
+            if ( isset( $s[$k] ) )
+                $s[$k] = self::name( $s[$k], $x );
         $from = isset( $s['from'] ) ? $x->resolve( $s['from'] ) : null;
         $list = is_array( $from ) ? ( tronSchemaValidator::isList( $from ) ? $from : array( $from ) ) : array();
         switch ( $op )
@@ -252,6 +259,14 @@ final class tronSkillOps
     }
 
     /** Compares two values; when both read as dates (YYYY-MM-DD..., or unix times against a date) as times. */
+    /** A field name of an op: as written, or the value of the parameter "$param.<name>" it names. */
+    public static function name( $v, tronSkillExpr $x ): string
+    {
+        if ( is_string( $v ) && strpos( $v, '$param.' ) === 0 )
+            return (string)$x->ref( $v );
+        return (string)$v;
+    }
+
     public static function compare( $a, string $cmp, $b ): bool
     {
         switch ( $cmp )

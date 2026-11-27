@@ -1,0 +1,159 @@
+{
+    "name": "media.oldest",
+    "title": "Oldest media of a class",
+    "purpose": "The media objects of one class (image, file, ng_video ...) changed longest ago, oldest first, with their age in days: candidates for clean-up.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "media",
+        "inventory",
+        "cleanup"
+    ],
+    "use_case": "Cleaning up the media library",
+    "parameters": {
+        "class": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_]{1,100}$",
+            "default": "image",
+            "description": "The media class, e.g. image, file or ng_video.",
+            "examples": [
+                "image",
+                "file"
+            ],
+            "short": "-c"
+        },
+        "node_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 1,
+            "description": "The node to start from.",
+            "examples": [
+                1
+            ]
+        },
+        "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 20,
+            "description": "At most this many rows in the answer.",
+            "examples": [
+                5,
+                20
+            ],
+            "short": "-n"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "node_find"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "find",
+            "unit": "node_find",
+            "args": {
+                "node_id": "$param.node_id",
+                "class": "$param.class",
+                "limit": "$param.limit",
+                "sort": "modified",
+                "order": "asc"
+            }
+        },
+        {
+            "id": "o0",
+            "op": "age",
+            "from": "$steps.find.items",
+            "field": "modified",
+            "as": "days_unchanged"
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.o0",
+            "fields": [
+                "node_id",
+                "name",
+                "url_alias",
+                "modified",
+                "days_unchanged"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "total": "$steps.find.total",
+            "shown": "$steps.rows|count",
+            "nodes": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "total",
+                "shown",
+                "nodes"
+            ],
+            "properties": {
+                "total": {
+                    "type": "integer",
+                    "description": "How many match in all"
+                },
+                "shown": {
+                    "type": "integer"
+                },
+                "nodes": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "Oldest files",
+            "params": {
+                "class": "file"
+            }
+        },
+        {
+            "title": "Oldest images",
+            "params": {
+                "class": "image"
+            }
+        },
+        {
+            "title": "Oldest audio items",
+            "params": {
+                "class": "ng_audio"
+            }
+        },
+        {
+            "title": "Oldest banners",
+            "params": {
+                "class": "ng_banner"
+            }
+        },
+        {
+            "title": "Oldest galleries",
+            "params": {
+                "class": "ng_gallery"
+            }
+        },
+        {
+            "title": "Oldest logos",
+            "params": {
+                "class": "ng_logo"
+            }
+        },
+        {
+            "title": "Oldest videos",
+            "params": {
+                "class": "ng_video"
+            }
+        }
+    ]
+}

@@ -42,7 +42,7 @@
         <div><dt>stdio</dt><dd><code class="a4-code">php extension/tron/bin/php/tron.php serve --siteaccess=&lt;sa&gt;</code></dd></div>
         <div><dt>HTTP</dt><dd>{if $data.http.enabled}<span class="a4-badge a4-tron-outcome is-ok">{'On'|i18n( 'extension/tron' )}</span> {'siteaccess %sa, hosts %hosts'|i18n( 'extension/tron',, hash( '%sa', $data.http.siteaccesses|implode( ', ' ), '%hosts', cond( $data.http.hosts, $data.http.hosts|implode( ', ' ), '*' ) ) )|wash}{else}<span class="a4-badge">{'Off'|i18n( 'extension/tron' )}</span>{/if}</dd></div>
         <div><dt>{'Audit'|i18n( 'extension/tron' )}</dt><dd>{$data.sinks|implode( ', ' )|wash}</dd></div>
-        <div><dt>{'Protocol'|i18n( 'extension/tron' )}</dt><dd>{$data.protocols|implode( ', ' )|wash}</dd></div>
+        <div><dt>{'Protocol'|i18n( 'extension/tron' )}</dt><dd>{$data.protocol|wash}: {$data.protocols|implode( ', ' )|wash}</dd></div>
         <div><dt>{'Admin actions, last 24 h'|i18n( 'extension/tron' )}</dt><dd><a href={'/tron/audit/(transport)/admin'|ezurl}>{$data.admin_actions}</a></dd></div>
         <div><dt>{'Tokens'|i18n( 'extension/tron' )}</dt><dd>{'%active active, %expired expired, %revoked revoked'|i18n( 'extension/tron',, hash( '%active', $data.tokens.active, '%expired', $data.tokens.expired, '%revoked', $data.tokens.revoked ) )|wash}</dd></div>
     </dl>

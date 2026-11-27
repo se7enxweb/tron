@@ -76,7 +76,7 @@ Desktop, Cursor and VS Code are in [clients.md](clients.md).
 |---|---|
 | tools, resources, resource templates, prompts, pagination | yes |
 | `structuredContent` | from 2025-06-18 on |
-| JSON-RPC batches | under 2025-03-26 and older only, as the specification says |
+| JSON-RPC batches | no (the legacy layer on PHP 7.4 to 8.1: under 2025-03-26 and older) |
 | HTTP+SSE (2024-11-05 HTTP transport) | no; use streamable HTTP |
 | server-sent streams, progress, cancellation, subscriptions, `listChanged` | not yet (planned) |
 | sampling, elicitation, completion, logging/setLevel | not yet (some planned) |

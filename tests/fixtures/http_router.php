@@ -21,6 +21,10 @@ if ( parse_url( (string)( $_SERVER['REQUEST_URI'] ?? '/' ), PHP_URL_PATH ) !== '
     return true;
 }
 
+// the official conformance suite sends no credentials: tests/conformance/official_run.php hands the router a token
+if ( getenv( 'TRON_FIXTURE_TOKEN' ) && !isset( $_SERVER['HTTP_AUTHORIZATION'] ) )
+    $_SERVER['HTTP_AUTHORIZATION'] = 'Bearer ' . getenv( 'TRON_FIXTURE_TOKEN' );
+
 $db = new tronDbPdo( new PDO( 'sqlite:' . getenv( 'TRON_FIXTURE_DB' ) ) );
 tronSchema::install( $db );
 $audit = new tronAuditDb( $db );
@@ -28,6 +32,7 @@ $f = TronFixture::build( array( 'db' => $db, 'audit' => $audit ) );
 $tokens = $f['tokens'];
 $http = new tronHttpTransport( $f['server'], function ( string $t, ?string &$reason = null ) use ( $tokens ) {
     return $tokens->authenticate( $t, $reason );
-}, TronFixture::access(), $audit, array( 'allowedHosts' => array( '127.0.0.1' ) ) );
+}, TronFixture::access(), $audit, array( 'allowedHosts' => array( '127.0.0.1' ),
+    'allowedOrigins' => array_values( array_filter( explode( ',', (string)getenv( 'TRON_FIXTURE_ORIGINS' ) ), 'strlen' ) ) ) );
 $http->handle( tronHttpRequest::fromGlobals( 1048576 ) )->emit();
 return true;

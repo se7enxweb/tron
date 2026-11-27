@@ -4,7 +4,7 @@ Exponential Layouts: layout inventory, shared layouts, drafts, zones and their l
 
 - Pack: `layouts-and-blocks` 0.0.0.1 in `share/skills/layouts-and-blocks/` (tron's own packs)
 - Prefix: `layout.`
-- Skills: 24
+- Skills: 19
 - Works on: `explayouts`
 - Audience: Site builders and editors who work with Exponential Layouts.
 
@@ -30,12 +30,7 @@ Exponential Layouts: layout inventory, shared layouts, drafts, zones and their l
 | `layout.block-definitions` | Every block definition editors can place, with its category and view types. | (none) | layout_block_definitions | A |
 | `layout.block-definitions-collections` | The block definitions that hold a collection of content (lists, grids, sliders). | (none) | layout_block_definitions | A |
 | `layout.block-categories` | How many block definitions each category has. | (none) | layout_block_definitions | A |
-| `layout.blocks.listing` | The block definitions of the category listing. | (none) | layout_block_definitions | A |
-| `layout.blocks.text` | The block definitions of the category text. | (none) | layout_block_definitions | A |
-| `layout.blocks.media` | The block definitions of the category media. | (none) | layout_block_definitions | A |
-| `layout.blocks.container` | The block definitions of the category container. | (none) | layout_block_definitions | A |
-| `layout.blocks.navigation` | The block definitions of the category navigation. | (none) | layout_block_definitions | A |
-| `layout.blocks.form` | The block definitions of the category form. | (none) | layout_block_definitions | A |
+| `layout.blocks.category` | The block definitions of one category (text, media, listing, navigation, form, container). | `--category` | layout_block_definitions | A |
 
 ## Examples
 

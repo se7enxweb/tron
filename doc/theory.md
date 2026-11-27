@@ -9,7 +9,8 @@ Notation: **C** is a claim, **P** its proof.
 
 ## 1. The protocol
 
-tron speaks JSON-RPC 2.0 with the MCP methods `initialize`, `ping`, `tools/list`, `tools/call`, `resources/list`,
+The protocol is the official MCP PHP SDK's on PHP 8.2 and newer and the frozen legacy layer's before (protocol.md);
+the claims below hold on both unless they name a layer. tron speaks JSON-RPC 2.0 with the MCP methods `initialize`, `ping`, `tools/list`, `tools/call`, `resources/list`,
 `resources/templates/list`, `resources/read`, `prompts/list`, `prompts/get`, in the versions 2025-11-25,
 2025-06-18, 2025-03-26 and 2024-11-05.
 
@@ -22,20 +23,23 @@ same id (string or integer); notifications and client responses get none. *P:*
 `TronServerAuditTest::testJsonRpcErrors`, `TronMcpConformanceTest::testStdioLifecycleAndErrors` (stray
 notifications and responses, then the next answer belongs to the next request).
 
-**C1.3 Errors are JSON-RPC errors.** Malformed JSON is -32700 with id null; a malformed message -32600; an unknown
-method -32601; bad params, an unknown tool or prompt -32602; an unknown resource -32002 with the URI.
+**C1.3 Errors are JSON-RPC errors.** Malformed JSON is -32700 without an id; a malformed message -32600; an unknown
+method -32601 on the legacy layer and -32600 on the SDK's; bad params, an unknown tool or prompt -32602; an unknown
+resource -32002 with the URI.
 *P:* `TronServerAuditTest::testJsonRpcErrors`, `TronMcpConformanceTest::testStdioLifecycleAndErrors`.
 
 **C1.4 Tool failures are results, not protocol errors.** A refused permission, invalid arguments, a tool's own
 refusal and an internal failure come back as a `tools/call` result with `isError: true`, so the model can read them;
 invalid arguments carry the schema. *P:* `TronServerAuditTest::testToolCallResults`.
 
-**C1.5 Batches follow the version.** A batch is answered under 2025-03-26 and before, refused from 2025-06-18 on.
+**C1.5 Batches follow the version.** The legacy layer answers a batch under 2025-03-26 and before and refuses it from
+2025-06-18 on; the SDK refuses batches in every version.
 *P:* `TronServerAuditTest::testBatchesFollowTheVersion`, `TronHttpTransportTest::testNoHeaderMeansTheDefaultVersion`.
 
 **C1.6 stdio carries only the protocol.** Every line tron writes to stdout is a JSON-RPC message; the session must
-begin with `initialize` (ping excepted); end of input ends the process with exit code 0; an oversized line is refused
-and the server carries on. *P:* `TronServerAuditTest::testRequireInitializeOnStdio`,
+begin with `initialize` (the legacy layer also answers ping before it); end of input ends the process with exit code
+0; an oversized line is refused (the legacy layer answers it with a parse error, the SDK drops it) and the server
+carries on. *P:* `TronServerAuditTest::testRequireInitializeOnStdio`,
 `TronMcpConformanceTest::testStdioLifecycleAndErrors`.
 
 **C1.7 HTTP is stateless.** No session id, no event stream: POST answers JSON, a notification 202 without body, GET

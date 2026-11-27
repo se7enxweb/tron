@@ -1,0 +1,175 @@
+{
+    "name": "centre.count.by",
+    "title": "Tickets counted by a field",
+    "purpose": "Counts the open or closed tickets of a board per assignee, kind, label, lane, priority or close reason, largest first.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "report",
+        "counts"
+    ],
+    "use_case": "Where does the work sit, and who finished what",
+    "parameters": {
+        "by": {
+            "type": "string",
+            "enum": [
+                "assignee",
+                "kind",
+                "labels",
+                "lane",
+                "priority",
+                "closed_reason"
+            ],
+            "default": "lane",
+            "description": "Count per this field: assignee, kind, labels, lane, priority or closed_reason.",
+            "examples": [
+                "lane",
+                "assignee"
+            ],
+            "short": "-y"
+        },
+        "status": {
+            "type": "string",
+            "enum": [
+                "open",
+                "closed"
+            ],
+            "default": "open",
+            "description": "Count the open or the closed tickets.",
+            "examples": [
+                "open",
+                "closed"
+            ]
+        },
+        "board": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
+            "default": "main",
+            "description": "The centre board, e.g. main or ops.",
+            "examples": [
+                "main",
+                "ops"
+            ],
+            "short": "-b"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.15",
+        "units": [
+            "centre_ticket_list"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "list",
+            "unit": "centre_ticket_list",
+            "args": {
+                "board": "$param.board",
+                "status": "$param.status",
+                "limit": 200
+            }
+        },
+        {
+            "id": "groups",
+            "op": "group",
+            "from": "$steps.list.items",
+            "by": "$param.by"
+        }
+    ],
+    "output": {
+        "value": {
+            "board": "$param.board",
+            "total": "$steps.list.items|count",
+            "groups": "$steps.groups"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "board",
+                "total",
+                "groups"
+            ],
+            "properties": {
+                "board": {
+                    "type": "string"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "groups": {
+                    "type": "array",
+                    "description": "key and count, largest first"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "Workload per person",
+            "params": {
+                "board": "main",
+                "by": "assignee",
+                "status": "open"
+            }
+        },
+        {
+            "title": "Tickets, cards and decisions",
+            "params": {
+                "board": "main",
+                "by": "kind",
+                "status": "open"
+            }
+        },
+        {
+            "title": "Tickets per label",
+            "params": {
+                "board": "main",
+                "by": "labels",
+                "status": "open"
+            }
+        },
+        {
+            "title": "Tickets per lane",
+            "params": {
+                "board": "main",
+                "by": "lane",
+                "status": "open"
+            }
+        },
+        {
+            "title": "Tickets per priority",
+            "params": {
+                "board": "main",
+                "by": "priority",
+                "status": "open"
+            }
+        },
+        {
+            "title": "Closed per assignee",
+            "params": {
+                "board": "main",
+                "by": "assignee",
+                "status": "closed"
+            }
+        },
+        {
+            "title": "Closed per reason",
+            "params": {
+                "board": "main",
+                "by": "closed_reason",
+                "status": "closed"
+            }
+        }
+    ]
+}

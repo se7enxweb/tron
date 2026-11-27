@@ -68,7 +68,7 @@ final class tronMcpTronEngine implements tronMcpEngine
     public function callTool( string $name, array $arguments, tronPrincipal $principal )
     {
         $session = $this->session( $principal );
-        $r = $this->server->handle( array( 'jsonrpc' => '2.0', 'id' => 1, 'method' => 'tools/call',
+        $r = $this->server->call( array( 'jsonrpc' => '2.0', 'id' => 1, 'method' => 'tools/call',
                                            'params' => array( 'name' => $name, 'arguments' => $arguments ) ), $session );
         if ( isset( $r['error'] ) )
         {

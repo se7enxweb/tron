@@ -5,9 +5,10 @@ it makes, what comes back, and how you check the result. The answers shown are r
 (`tests/fixtures/stdio_server.php`, fixed clock 2026-11-24 12:00 UTC, example data); on your installation the values
 differ, the shapes do not.
 
-The first part covers what tron 0.0.0.1 does today (programs `tron`, `centre`, `katalyst`). The second part covers
-content editing, search, class inspection, settings and user audits: their programs are planned for the next wave,
-and the section says what to do until then, including writing the program yourself.
+The first part covers what tron 0.0.0.1 does today (programs `tron`, `centre`, `katalyst`); search has its own program
+since then (`search`, below). The second part covers content editing, class inspection, settings and user audits:
+their programs are planned for the next wave, and the section says what to do until then, including writing the
+program yourself.
 
 ## Today
 
@@ -137,7 +138,22 @@ Any extension can bring tools by adding `tron/program.json` and a class. The coo
 program with a read tool, a write tool, a resource template and a prompt, tested on every run.
 [guides/program-author.md](guides/program-author.md) builds one step by step.
 
-## Planned: content, search, classes, settings, users
+## Search
+
+**Who:** any agent that has to find content. **Role:** the user's own content/read (an editor, or an
+anonymous-level account for "what does the public see"), plus tron/use. **Token:** `--scopes=search`.
+
+**Ask:** "Find the pages about breakfast below Fit & Healthy, newest first."
+
+**Calls:** `search_query` with `{"text": "breakfast", "node_id": 60, "sort": "modified", "order": "desc"}`; then
+`node_read` on a hit (with a token that also has the scope `node`), or `search_index` with its `node_id` when a page
+the agent expected is missing ("is it indexed, or still in the queue?").
+
+**Check:** the hits are what the same user finds on the site's search page; an anonymous-level user's token finds
+nothing of a restricted section, and its `total` does not count it. Programs and arguments:
+[tools.md](tools.md#program-search).
+
+## Planned: content, classes, settings, users
 
 The next wave adds programs for the installation's core (see [roadmap.md](roadmap.md); tool names below are the
 planned ones and may still change):
@@ -146,7 +162,6 @@ planned ones and may still change):
 |---|---|---|
 | Find and read content as an editor | `content`: query, get, versions, relations, fetch, render, url | the kernel's own REST or admin search; or a program of your own |
 | Write an article from Markdown, preview, publish | `content`: a write tool with a preview step | the administration |
-| Search | `search`: search, index check | a program of your own over the kernel's search |
 | Inspect a content class | `classes`: list, describe | Setup > Classes |
 | Resolve a setting across siteaccesses and overrides | `system`: ini resolve, siteaccess, extension, cache info, system check | Setup > tron > Settings shows tron.ini; the kernel's INI editor for the rest |
 | Who may do what (user and role audit) | `users`: get, role describe, access check | Setup > tron > Programs and tools (roles per tool policy), the kernel's role views, and tron's audit |

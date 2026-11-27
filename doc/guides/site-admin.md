@@ -58,7 +58,7 @@ plus one class per page), which the test suite checks on SQLite (`tests/unit/Adm
 
 | Task | Command |
 |---|---|
-| make | `tron.php token:create --siteaccess=<sa> --user=<login> --name=<what for> --days=<n> [--scopes=a,b] --out=<file>` |
+| make | `tron.php token:create --siteaccess=<sa> --token-file=<issuer token> --user=<login> --name=<what for> --days=<n> [--scopes=a,b] --out=<file>` |
 | list | `tron.php token:list --siteaccess=<sa> [--user=<login>]` |
 | revoke | `tron.php token:revoke --siteaccess=<sa> <id or prefix>` |
 

@@ -263,6 +263,34 @@ final class TronSkillsTest extends TronTestCase
         }, 'tronToolError', 'too many: 3' );
     }
 
+    public function testAFieldOrSortKeyCanBeAnEnumParameter(): void
+    {
+        $x = new tronSkillExpr( array( 'param' => array( 'by' => 'lane', 'field' => 'priority', 'want' => 'high' ), 'now' => TronFixture::NOW ) );
+        $x->setStep( 'list', array( 'items' => array(
+            array( 'id' => 1, 'lane' => 'next', 'priority' => 'high' ),
+            array( 'id' => 2, 'lane' => 'doing', 'priority' => 'low' ),
+            array( 'id' => 3, 'lane' => 'next', 'priority' => 'high' ) ) ) );
+        $call = function () { return array(); };
+        // as a parameter it does exactly what the literal name does
+        foreach ( array( array( 'op' => 'group', 'from' => '$steps.list.items' ), array( 'op' => 'sort', 'from' => '$steps.list.items', 'order' => 'desc' ) ) as $s )
+            $this->assertSame( tronSkillOps::run( $s + array( 'by' => 'lane' ), $x, $call ), tronSkillOps::run( $s + array( 'by' => '$param.by' ), $x, $call ), $s['op'] );
+        $w = array( 'op' => 'where', 'from' => '$steps.list.items', 'cmp' => 'eq', 'value' => '$param.want' );
+        $this->assertSame( array( 1, 3 ), array_column( tronSkillOps::run( $w + array( 'field' => '$param.field' ), $x, $call ), 'id' ) );
+        $this->assertSame( tronSkillOps::run( $w + array( 'field' => 'priority' ), $x, $call ), tronSkillOps::run( $w + array( 'field' => '$param.field' ), $x, $call ) );
+        $this->assertSame( array( 'high', 'low' ), tronSkillOps::run( array( 'op' => 'distinct', 'from' => '$steps.list.items', 'field' => '$param.field' ), $x, $call ) );
+
+        // the manifest check: only a string parameter with an enum may name a field
+        $d = self::manifest();
+        $d['parameters']['by'] = array( 'type' => 'string', 'enum' => array( 'lane', 'priority' ), 'default' => 'lane', 'description' => 'Count by this field.', 'examples' => array( 'lane' ) );
+        $d['steps'][] = array( 'id' => 'g', 'op' => 'group', 'from' => '$steps.list.items', 'by' => '$param.by' );
+        $this->assertSame( array(), tronSkillManifest::errors( $d ) );
+        $d['parameters']['by'] = array( 'type' => 'string', 'pattern' => '^[a-z]+$', 'default' => 'lane', 'description' => 'Count by this field.', 'examples' => array( 'lane' ) );
+        $this->assertContains( 'of a string parameter with an enum', implode( "\n", tronSkillManifest::errors( $d ) ) );
+        $d = self::manifest();
+        $d['steps'][] = array( 'id' => 'w', 'op' => 'where', 'from' => '$steps.list.items', 'field' => '$steps.list.total', 'cmp' => 'notempty' );
+        $this->assertContains( 'steps[' . ( count( $d['steps'] ) - 1 ) . '].field: a field name, or $param.<name>', implode( "\n", tronSkillManifest::errors( $d ) ) );
+    }
+
     public function testDraftValidateApproveAndFork(): void
     {
         $w = $this->world( true );

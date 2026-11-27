@@ -4,27 +4,16 @@ URL aliases per content type, content buried deep in the tree, site description,
 
 - Pack: `seo` 0.0.0.1 in `share/skills/seo/` (tron's own packs)
 - Prefix: `seo.`
-- Skills: 15
+- Skills: 4
 - Audience: Whoever looks after search engine visibility.
 
 ## Skills
 
 | Skill | What it answers | Parameters | Units | Wave |
 |---|---|---|---|---|
-| `seo.ng-article.urls` | The URL aliases of the articles below a node, to check them for readable, stable addresses. | `--node-id` `--limit` | node_find | A |
-| `seo.ng-article.deep` | The articles that sit deepest in the tree (more clicks from the front page), deepest first. | `--node-id` | node_find | A |
-| `seo.ng-news.urls` | The URL aliases of the news below a node, to check them for readable, stable addresses. | `--node-id` `--limit` | node_find | A |
-| `seo.ng-news.deep` | The news that sit deepest in the tree (more clicks from the front page), deepest first. | `--node-id` | node_find | A |
-| `seo.ng-blog-post.urls` | The URL aliases of the blog posts below a node, to check them for readable, stable addresses. | `--node-id` `--limit` | node_find | A |
-| `seo.ng-blog-post.deep` | The blog posts that sit deepest in the tree (more clicks from the front page), deepest first. | `--node-id` | node_find | A |
-| `seo.ng-landing-page.urls` | The URL aliases of the landing pages below a node, to check them for readable, stable addresses. | `--node-id` `--limit` | node_find | A |
-| `seo.ng-landing-page.deep` | The landing pages that sit deepest in the tree (more clicks from the front page), deepest first. | `--node-id` | node_find | A |
-| `seo.ng-recipe.urls` | The URL aliases of the recipes below a node, to check them for readable, stable addresses. | `--node-id` `--limit` | node_find | A |
-| `seo.ng-recipe.deep` | The recipes that sit deepest in the tree (more clicks from the front page), deepest first. | `--node-id` | node_find | A |
-| `seo.folder.urls` | The URL aliases of the folders below a node, to check them for readable, stable addresses. | `--node-id` `--limit` | node_find | A |
-| `seo.folder.deep` | The folders that sit deepest in the tree (more clicks from the front page), deepest first. | `--node-id` | node_find | A |
-| `seo.site-description` | The description a siteaccess gives search engines, and where it is set. | `--siteaccess` | ini_resolve | A |
-| `seo.meta-data` | The meta tags (author, keywords, description) a siteaccess writes into every page. | `--siteaccess` | ini_resolve | A |
+| `seo.urls` | The URL aliases of the nodes of one class below a node, to check them for readable, stable addresses. | `--class` `--node-id` `--limit` | node_find | A |
+| `seo.deep` | The nodes of one class that sit deepest in the tree (more clicks from the front page), deepest first. | `--class` `--node-id` | node_find | A |
+| `seo.site-setting` | The site description or the meta tags (author, keywords, description) a siteaccess writes into every page, and the files that set them. | `--setting` `--siteaccess` | ini_resolve | A |
 | `seo.site-url-https` | Checks that a siteaccess has a canonical site URL for links in feeds, sitemaps and mails. | `--siteaccess` | ini_resolve | A |
 
 ## Examples
@@ -34,7 +23,7 @@ URL aliases per content type, content buried deep in the tree, site description,
 The URL aliases of the articles below a node, to check them for readable, stable addresses.
 
 ```
-xsh tron:skill:run seo.ng-article.urls
+xsh tron:skill:run seo.urls --class ng_article
 ```
 
 ### Deep articles
@@ -42,7 +31,7 @@ xsh tron:skill:run seo.ng-article.urls
 The articles that sit deepest in the tree (more clicks from the front page), deepest first.
 
 ```
-xsh tron:skill:run seo.ng-article.deep
+xsh tron:skill:run seo.deep --class ng_article
 ```
 
 ### URLs of news
@@ -50,7 +39,7 @@ xsh tron:skill:run seo.ng-article.deep
 The URL aliases of the news below a node, to check them for readable, stable addresses.
 
 ```
-xsh tron:skill:run seo.ng-news.urls
+xsh tron:skill:run seo.urls --class ng_news
 ```
 
 ### Deep news
@@ -58,7 +47,7 @@ xsh tron:skill:run seo.ng-news.urls
 The news that sit deepest in the tree (more clicks from the front page), deepest first.
 
 ```
-xsh tron:skill:run seo.ng-news.deep
+xsh tron:skill:run seo.deep --class ng_news
 ```
 
 ### URLs of blog posts
@@ -66,7 +55,7 @@ xsh tron:skill:run seo.ng-news.deep
 The URL aliases of the blog posts below a node, to check them for readable, stable addresses.
 
 ```
-xsh tron:skill:run seo.ng-blog-post.urls
+xsh tron:skill:run seo.urls --class ng_blog_post
 ```
 
 Back to [skills.md](../skills.md) and the [conventions](../extension-conventions.md).

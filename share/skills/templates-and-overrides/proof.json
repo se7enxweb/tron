@@ -1,66 +1,12 @@
 {
     "pack": "templates-and-overrides",
     "pack_version": "0.0.0.1",
-    "tron": "0.0.0.7",
-    "at": "2026-11-25T06:55:17Z",
+    "tron": "0.0.0.13",
+    "at": "2026-11-26T18:39:32Z",
     "skills": {
         "tpl.lint": {
             "version": "0.0.0.1",
             "hash": "8f9ab64b5e99ddfeb54cb0e8cb26b7a73afaa90bcea856a9bdcfe7dbab8cd68e",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "tpl.node.embed": {
-            "version": "0.0.0.1",
-            "hash": "03c1bdbe1e295ab6df0b3feacb71eb6c9eb38edc291a5ae440d37f72fdbd3c4a",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "tpl.node.full": {
-            "version": "0.0.0.1",
-            "hash": "3b5dcfee361849dd515ffe1de55644efb3f0b96fc437f439f0922834235b32de",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "tpl.node.line": {
-            "version": "0.0.0.1",
-            "hash": "c150d1f05ecfc8394ae3f313e3e49fa00108a280318a94633695b5769ecdabc4",
             "result": "pass",
             "runs": {
                 "fixtures": "parked",
@@ -94,9 +40,9 @@
                 "redaction": "pass"
             }
         },
-        "tpl.node.listitem": {
+        "tpl.node.source": {
             "version": "0.0.0.1",
-            "hash": "0ab562209796e300ba634e0ed364e02fb037e4e44045c9a47885b3280f6db337",
+            "hash": "9a50214878a60ac17479d649943b19fb32da7cd7f212696c3a94a077a4895f2c",
             "result": "pass",
             "runs": {
                 "fixtures": "parked",
@@ -112,9 +58,9 @@
                 "redaction": "pass"
             }
         },
-        "tpl.node.source": {
+        "tpl.node.view": {
             "version": "0.0.0.1",
-            "hash": "9a50214878a60ac17479d649943b19fb32da7cd7f212696c3a94a077a4895f2c",
+            "hash": "4cc53b29cb37527f2206f149f47b0964e0d387926de412a4277a9ef98c49bbfd",
             "result": "pass",
             "runs": {
                 "fixtures": "parked",
@@ -166,117 +112,9 @@
                 "redaction": "pass"
             }
         },
-        "tpl.which.content-edit": {
+        "tpl.which": {
             "version": "0.0.0.1",
-            "hash": "ad6f46185467336a3ffd54cb731b110292a22fd9f53632f9a232f1a6e9b08f8c",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "tpl.which.error-kernel-1": {
-            "version": "0.0.0.1",
-            "hash": "cdeb84292a02f167c5311652e11b1152b4eb528f47bd8ebb0035c80a5c8a6930",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "tpl.which.error-kernel-2": {
-            "version": "0.0.0.1",
-            "hash": "a71c7c3e9ce323cd630bd1adcf98a6512d10e6c305174a898a834726fd66c999",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "tpl.which.node-view-full": {
-            "version": "0.0.0.1",
-            "hash": "28eaee15d22c8ab8b1d5f2d5c2406273cea30b499aef7fd4b06be784a90723bd",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "tpl.which.node-view-line": {
-            "version": "0.0.0.1",
-            "hash": "00fb88dca9ac88249ff6907cce08858efb85e65c5550386735f9b7d11cf54122",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "tpl.which.pagelayout": {
-            "version": "0.0.0.1",
-            "hash": "9aabf861a747a53b20301e24803e177b144635ca01f6527e85785aeefe92feff",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "tpl.which.user-login": {
-            "version": "0.0.0.1",
-            "hash": "29fe85695d29634b0f41ee213a0e844348e2addd6251cb3b6443eadda5142609",
+            "hash": "3f02bb83ba1b933301e317f5fb8de7b99ed1966564e2fbba54ffa4555ef6d776",
             "result": "pass",
             "runs": {
                 "fixtures": "parked",

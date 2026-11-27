@@ -15,22 +15,11 @@ Anyone who works from the centre boards: team leads at the stand-up, people plan
 |---|---|---|---|---|
 | `centre.tickets.overdue` | Lists the open tickets of a board whose due date has passed, most overdue first, with how many days late each one is. | `--board` `--limit` | centre_ticket_list | A |
 | `centre.tickets.due-today` | Lists the open tickets of a board that are due today, highest priority first. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.tickets.due-7d` | Lists the open tickets of a board that fall due from today through the next 7 days, soonest first. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.tickets.due-14d` | Lists the open tickets of a board that fall due from today through the next 14 days, soonest first. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.tickets.due-30d` | Lists the open tickets of a board that fall due from today through the next 30 days, soonest first. | `--board` `--limit` | centre_ticket_list | A |
+| `centre.tickets.due-within` | Lists the open tickets of a board that fall due from today through the next given number of days, soonest first. | `--days` `--board` `--limit` | centre_ticket_list | A |
 | `centre.tickets.no-due-date` | Lists the open tickets of a board that have no due date, oldest change first, so they can be dated or dropped. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.tickets.priority-urgent` | Lists the open tickets of a board with the priority urgent, the ones due first at the top. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.tickets.priority-high` | Lists the open tickets of a board with the priority high, the ones due first at the top. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.tickets.priority-normal` | Lists the open tickets of a board with the priority normal, the ones due first at the top. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.tickets.priority-low` | Lists the open tickets of a board with the priority low, the ones due first at the top. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.lane.inbox` | Lists the open tickets of a board in the lane inbox (not looked at yet), by priority and due date. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.lane.next` | Lists the open tickets of a board in the lane next (planned next), by priority and due date. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.lane.doing` | Lists the open tickets of a board in the lane doing (in progress), by priority and due date. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.lane.waiting` | Lists the open tickets of a board in the lane waiting (waiting on someone), by priority and due date. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.lane.done` | Lists the open tickets of a board in the lane done (done but still open), by priority and due date. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.kind.ticket` | Lists the open tickets of a board, newest change first. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.kind.card` | Lists the open cards of a board, newest change first. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.kind.decision` | Lists the open decisions of a board, newest change first. | `--board` `--limit` | centre_ticket_list | A |
+| `centre.tickets.priority` | Lists the open tickets of a board with one priority (low, normal, high, urgent), soonest due first. | `--priority` `--board` `--limit` | centre_ticket_list | A |
+| `centre.lane` | Lists the open tickets of a board in one lane (inbox, next, doing, waiting, done), by priority and due date. | `--lane` `--board` `--limit` | centre_ticket_list | A |
+| `centre.kind` | Lists the open tickets of a board of one kind (ticket, card or decision), newest change first. | `--kind` `--board` `--limit` | centre_ticket_list | A |
 | `centre.tickets.unassigned` | Lists the open tickets of a board that nobody is assigned to, highest priority first. | `--board` `--limit` | centre_ticket_list | A |
 | `centre.tickets.mine` | Lists the open tickets of a board assigned to you (the user the skill runs as), soonest due first. | `--board` `--limit` | centre_ticket_list | A |
 | `centre.tickets.mine-overdue` | Lists the open tickets of a board assigned to you whose due date has passed, most overdue first. | `--board` `--limit` | centre_ticket_list | A |
@@ -43,20 +32,7 @@ Anyone who works from the centre boards: team leads at the stand-up, people plan
 | `centre.tickets.waiting-long` | Lists the tickets in the waiting lane of a board, the longest untouched first, to chase whoever they wait for. | `--board` `--limit` | centre_ticket_list | A |
 | `centre.tickets.search` | Finds the open tickets of a board whose title holds the given words. | `--board` `--limit` `--query` | centre_ticket_list | A |
 | `centre.tickets.closed-recent` | Lists the tickets of a board closed most recently, with the reason they were closed. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.label.security` | Lists the open tickets of a board labelled security (security work), highest priority first. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.label.perf` | Lists the open tickets of a board labelled perf (performance work), highest priority first. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.label.seo` | Lists the open tickets of a board labelled seo (search engine work), highest priority first. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.label.i18n` | Lists the open tickets of a board labelled i18n (translation work), highest priority first. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.label.docs` | Lists the open tickets of a board labelled docs (documentation work), highest priority first. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.label.ops` | Lists the open tickets of a board labelled ops (operations work), highest priority first. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.label.site` | Lists the open tickets of a board labelled site (public site work), highest priority first. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.label.layouts` | Lists the open tickets of a board labelled layouts (Exponential Layouts work), highest priority first. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.label.media` | Lists the open tickets of a board labelled media (media and images work), highest priority first. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.label.db` | Lists the open tickets of a board labelled db (database work), highest priority first. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.label.backup` | Lists the open tickets of a board labelled backup (backup work), highest priority first. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.label.admin` | Lists the open tickets of a board labelled admin (administration work), highest priority first. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.label.php` | Lists the open tickets of a board labelled php (PHP work), highest priority first. | `--board` `--limit` | centre_ticket_list | A |
-| `centre.label.search` | Lists the open tickets of a board labelled search (search work), highest priority first. | `--board` `--limit` | centre_ticket_list | A |
+| `centre.label` | Lists the open tickets of a board that carry a label (admin, backup, db, docs, ops, security ...), highest priority first. | `--label` `--board` `--limit` | centre_ticket_list | A |
 
 ## Units it needs
 

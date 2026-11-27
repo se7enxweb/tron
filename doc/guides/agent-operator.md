@@ -18,7 +18,7 @@ stdio over SSH needs nothing open on the network and keeps the token on the serv
 Ask the site administrator, or as root on the server:
 
 ```bash
-php extension/tron/bin/php/tron.php token:create --siteaccess=<sa> --user=<agent login> \
+php extension/tron/bin/php/tron.php token:create --siteaccess=<sa> --token-file=<issuer token> --user=<agent login> \
     --name="claude@<where it runs>" --days=30 --scopes=centre --out=/root/.config/tron/<name>.token --allow-root-user
 ```
 

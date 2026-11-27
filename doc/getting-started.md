@@ -58,7 +58,7 @@ assigned to the user the agent will act as. [guides/site-admin.md](guides/site-a
 Make a token for the user the agent acts as, written to a file only that account can read:
 
 ```bash
-php extension/tron/bin/php/tron.php token:create --siteaccess=<sa> --user=<login> --name="agent on this node" --out=<token file>
+php extension/tron/bin/php/tron.php token:create --siteaccess=<sa> --token-file=<issuer token> --user=<login> --name="agent on this node" --out=<token file>
 ```
 
 On the server, Claude Code's `.mcp.json`:

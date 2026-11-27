@@ -13,6 +13,9 @@ Instructions=
 PageSize=100
 # Answers above this size are cut, with a note to page with limit/offset
 ResponseMaxBytes=200000
+# The protocol layer (doc/protocol.md): auto (the official MCP PHP SDK where PHP is 8.2 or newer and the package
+# mcp/sdk is installed, else the legacy layer), sdk (refuse to start without it) or legacy
+Protocol=auto
 
 [ProgramSettings]
 # enabled: look for tron/program.json in every active extension; disabled: tron's own programs only
@@ -57,11 +60,12 @@ DefaultLifetimeDays=90
 MaxLifetimeDays=365
 
 [StdioSettings]
-# disabled (the default): tron.php serve needs a token on stdio too, TRON_TOKEN=<token> or --token-file=<file>
-# (tron.php token:create makes one), and serve --user=<login> is refused. Without a token, --user would let whoever
-# can start the process act as any user, an administrator included.
-# enabled: serve --user=<login> is allowed without a token. Set it only in settings/override, only where every
-# account that can run tron.php may act as every user anyway.
+# disabled (the default): the command line needs a token, TRON_TOKEN=<token> or --token-file=<file> (Setup > tron >
+# Tokens makes the first one): tron.php serve and call, the tron-skills.php commands that act as a user, and
+# tron.php token:create, which issues as the token's user (another user needs tron/admin). --user=<login> without a
+# token is refused: it would let whoever can start the process act as, or mint a token for, any user.
+# enabled: --user=<login> is allowed without a token, and token:create without one. Set it only in settings/override,
+# only where every account that can run tron.php may act as every user anyway.
 AllowLoginOption=disabled
 
 [HTTPSettings]

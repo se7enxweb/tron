@@ -68,6 +68,10 @@ until when, and what it did.
 - **Real users, real policies.** tron has no permission system of its own. Every tool names an Exponential policy
   (`tron/centre_write`, ...); the kernel's `eZUser::hasAccessTo` decides on every call, and `tools/list` shows exactly
   what the user may call.
+- **Search as the user.** `search_query` runs the installation's own search engine (the built-in engine or eZ Find)
+  with subtree, class, section and language filters, sort, paging and facets where the engine counts them; the
+  user's content/read policies are the search's limitation, so nothing the user may not read is found or counted.
+  `search_index` shows the engine, the indexing queue and whether an object is indexed.
 - **Per-agent tokens.** `tron_<prefix>_<secret>`: 256 random bits, stored only as a SHA-256 hash, shown once, with an
   expiry (90 days by default, at most 365), program scopes, one-step rotation and immediate revocation. Disabling a
   user stops all of that user's tokens.
@@ -82,9 +86,15 @@ until when, and what it did.
 - **Administration views.** Dashboard, tokens, programs and tools (with the roles that grant each policy), audit with
   filters and live tail, settings; "Verify it's you" before sensitive actions; light and dark mode; English and German.
 - **Settings in the INI system.** `tron.ini` with per-siteaccess overrides, edited through the kernel's INI editor.
+- **Built on the official MCP PHP SDK.** On PHP 8.2 and newer, with the package `mcp/sdk` installed, the
+  [official SDK](https://github.com/modelcontextprotocol/php-sdk) does the protocol: JSON-RPC, the version
+  negotiation, the lifecycle, stdio and streamable HTTP. tron supplies the tools, resources and prompts, the tokens,
+  the policies and the audit. On PHP 7.4 to 8.1, where the SDK cannot run, a frozen legacy layer speaks the same
+  versions. [doc/protocol.md](doc/protocol.md).
 - **MCP 2025-11-25**, plus 2025-06-18, 2025-03-26 and 2024-11-05: tools, resources, resource templates, prompts,
-  pagination, `structuredContent`, batches where the version has them.
-- **No dependencies.** PHP 7.4 to 8.5, nothing beyond the kernel; MySQL/MariaDB, PostgreSQL and SQLite.
+  pagination, `structuredContent`.
+- **Few dependencies.** PHP 7.4 to 8.5; MySQL/MariaDB, PostgreSQL and SQLite. The SDK (`mcp/sdk` and a PSR-7
+  implementation such as `nyholm/psr7`) is suggested, not required, so an installation on PHP 7.4 to 8.1 still installs.
 - **Proven.** A test suite with a per-role permission matrix, MCP conformance over real stdio and HTTP, a cookbook whose
   output is checked byte for byte, and a theory page whose every claim names its test.
 
@@ -119,9 +129,12 @@ policies `tron/use`, `tron/centre_read` and `tron/centre_write`, without limitat
 **3. Make a token.**
 
 ```bash
-<php> extension/tron/bin/php/tron.php token:create --siteaccess=<sa> --user=agent-claude \
-      --name="claude@laptop" --days=30 --scopes=centre --out=$HOME/.config/tron/agent-claude.token
+<php> extension/tron/bin/php/tron.php token:create --siteaccess=<sa> --token-file=<your administrator token file> \
+      --user=agent-claude --name="claude@laptop" --days=30 --scopes=centre --out=$HOME/.config/tron/agent-claude.token
 ```
+
+The first token, your own, comes from Setup > tron > Tokens; the command line issues further ones with a token of a
+user who holds `tron/admin` (a token for yourself needs only your own).
 
 Written with mode 0600, never printed.
 
@@ -268,6 +281,16 @@ Only where the Katalyst extension is active. Column allowlists; never names, add
 | `katalyst_services_list` | tron/katalyst_read (`katalyst_detail` for full domains and domain search) | services: states, plans, servers, sizes, due dates; domains masked |
 | `katalyst_orders_list` | tron/katalyst_read | orders: states, amounts, item counts, newest first |
 
+### `search`: the installation's search, as the user
+
+Wherever tron runs inside an installation. Read only; the units `search.query` and `search.index`
+([doc/units.md](doc/units.md#search)).
+
+| Tool | Policy | Does |
+|---|---|---|
+| `search_query` | content/read | full text with subtree, class, section and language filters, sort, offset/limit and facets (where the engine has them); hits with node and object id, name, class, URL alias, dates and an excerpt; only what the user may read |
+| `search_index` | content/read | the engine and its indexing mode, the objects waiting to be indexed, and whether one node's object is indexed or queued |
+
 ## Use cases
 
 What works today, end to end, with real requests and answers ([doc/use-cases.md](doc/use-cases.md)):
@@ -281,8 +304,9 @@ What works today, end to end, with real requests and answers ([doc/use-cases.md]
 7. **Reviewing an agent's session** from the audit and the ticket history.
 8. **Your own data as tools**, through a program in your extension.
 
-Content editing, search, class inspection, settings resolution and user and role audits come with the next wave's
-programs (`content`, `search`, `classes`, `system`, `users`); the use-case page says what to do until then.
+Search runs through the program `search` (below). Content editing, class inspection, settings resolution and user
+and role audits come with the next wave's programs (`content`, `classes`, `system`, `users`); the use-case page says
+what to do until then.
 Ready-made prompts for all of it: [doc/prompt-cookbook.md](doc/prompt-cookbook.md).
 
 ## Security model
@@ -352,11 +376,11 @@ php extension/tron/bin/php/tron.php <command> --siteaccess=<sa> [options]
 | `serve --token-file=<f>` | the stdio MCP server (`TRON_TOKEN` also works; `--user=<login>` only where `[StdioSettings] AllowLoginOption=enabled`) |
 | `install [--dry-run]` | create the missing tables (idempotent) |
 | `status` | programs, tools, tables; exit 1 when something is wrong |
-| `token:create --user=<login> --name=<what for> [--days=<n>] [--scopes=a,b] [--out=<file>]` | a token, shown once or written 0600 |
+| `token:create --token-file=<issuer> --user=<login> --name=<what for> [--days=<n>] [--scopes=a,b] [--out=<file>]` | a token, shown once or written 0600; the issuer's token needs `tron/admin` for another user |
 | `token:list [--user=<login>]` | tokens with state, expiry, last use; never the secret |
 | `token:revoke <id or prefix>` | revoke now |
 | `audit:tail [--limit=50] [--user=<login>]` | the newest audit entries |
-| `call <tool> --user=<login> [--json='{...}']` | one tool call through the full permission, schema and audit path |
+| `call <tool> --token-file=<f> [--json='{...}']` | one tool call as the token's user through the full permission, schema and audit path |
 
 Exit codes 0 PASS, 1 FAIL, 2 usage. Plus `bin/php/tron-schema.php` for the SQL per engine. Every option:
 [doc/cli.md](doc/cli.md).
@@ -411,7 +435,7 @@ local pack, keeping a "derived from" link and the license).
 ```
 php extension/tron/bin/php/tron-skills.php lint
 php extension/tron/bin/php/tron-skills.php try centre.tickets.overdue --fixtures --board ops
-php extension/tron/bin/php/tron-skills.php run audit.site.production-ready --user=<login> --siteaccess site
+TRON_TOKEN=$(cat <token file>) php extension/tron/bin/php/tron-skills.php run audit.site.production-ready --siteaccess site
 ```
 
 The concept: [doc/skills.md](doc/skills.md); the standard for packs and programs shipped from extensions:
@@ -424,8 +448,9 @@ flowchart TB
     CC[MCP client<br/>Claude Code, Claude Desktop, Cursor, any client]
     CC -- "stdio: one JSON-RPC message per line<br/>(local or over SSH)" --> STDIO[tron.php serve<br/>tronStdioTransport]
     CC -- "HTTPS POST /tron/mcp<br/>Bearer token" --> HTTP[modules/tron/mcp.php<br/>tronHttpTransport]
-    STDIO --> SERVER[tronServer<br/>JSON-RPC 2.0 + MCP]
-    HTTP --> SERVER
+    STDIO --> LAYER[protocol layer<br/>official MCP PHP SDK, or legacy on PHP before 8.2]
+    HTTP --> LAYER
+    LAYER --> SERVER[tronServer<br/>what each MCP method answers]
     TOK[tronTokenService<br/>tron_token] --> STDIO
     TOK --> HTTP
     SERVER --> REG[tronRegistry<br/>tools, resources, prompts]
@@ -441,8 +466,9 @@ flowchart TB
     ADMIN --> AUD
 ```
 
-A request: the transport authenticates (a token; on stdio `--user` where an override allows it) and checks `tron/use`; the server routes the JSON-RPC
-method; for a call it finds the tool (scope and switches), checks the policy, validates the arguments against the
+A request: the transport authenticates (a token; on stdio `--user` where an override allows it) and checks `tron/use`;
+the protocol layer (the official SDK) parses the JSON-RPC message and hands the method to the server; for a call it
+finds the tool (scope and switches), checks the policy, validates the arguments against the
 schema, writes the `started` entry for a write tool, runs the handler, and audits the outcome. Details:
 [doc/architecture.md](doc/architecture.md); the guarantees and their proofs: [doc/theory.md](doc/theory.md).
 
@@ -474,7 +500,8 @@ session and is the fastest way for long sessions. Numbers, causes and tuning:
 | Databases | MySQL/MariaDB, PostgreSQL, SQLite; Oracle and MongoDB planned |
 | Runtimes | Apache + PHP-FPM and Velocity proven; nginx + PHP-FPM expected |
 | MCP | 2025-11-25, 2025-06-18, 2025-03-26, 2024-11-05 |
-| Dependencies | none beyond the kernel and `ext-json` |
+| Protocol layer | the official MCP PHP SDK (`mcp/sdk` 0.10, PHP 8.2 and newer); the frozen legacy layer on PHP 7.4 to 8.1 |
+| Dependencies | the kernel and `ext-json`; suggested: `mcp/sdk` and `nyholm/psr7` |
 
 [doc/compatibility.md](doc/compatibility.md).
 
@@ -594,6 +621,7 @@ The full map is [doc/index.md](doc/index.md). Every page:
 | [doc/extension-conventions.md](doc/extension-conventions.md) | The standard for skill packs and programs shipped from extensions, with a worked example |
 | [doc/skill-packs/](doc/skill-packs/) | One page per starter skill pack |
 | [doc/architecture.md](doc/architecture.md) | Core, programs, transports, request path, data |
+| [doc/protocol.md](doc/protocol.md) | The protocol layer: the official MCP PHP SDK, the legacy layer, conformance |
 | [doc/theory.md](doc/theory.md) | The guarantees, each tied to its test |
 | [doc/testing.md](doc/testing.md) | The suite, the PHP matrix, kernel probe, proving runs, defects fixed |
 | [doc/cookbook.md](doc/cookbook.md) | Eight runnable examples checked by the suite |
@@ -606,5 +634,10 @@ The full map is [doc/index.md](doc/index.md). Every page:
 ## License
 
 GNU General Public License v2.0 or later. See [LICENSE](LICENSE).
+
+The official MCP PHP SDK (`mcp/sdk`) is licensed under the Apache License 2.0. Apache 2.0 code can be combined with
+code under the GPL version 3, not version 2. tron's "or later" lets the two run together: an installation that
+installs the SDK next to tron runs and distributes the combination under the terms of the GPL version 3. Without the
+SDK (PHP 7.4 to 8.1, or the package not installed) tron is GPL version 2 or later as before.
 
 Copyright (C) 1998 - 2026 Exponential Foundation and 7x; All rights reserved.

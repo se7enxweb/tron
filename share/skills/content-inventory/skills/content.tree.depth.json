@@ -1,0 +1,142 @@
+{
+    "name": "content.tree.depth",
+    "title": "Subtree to a depth",
+    "purpose": "The subtree of a node some levels deep, with the number of nodes per class and per depth.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "content",
+        "tree",
+        "structure"
+    ],
+    "use_case": "Mapping a section of the site",
+    "parameters": {
+        "depth": {
+            "type": "integer",
+            "minimum": 2,
+            "maximum": 5,
+            "default": 2,
+            "description": "How many levels below the node.",
+            "examples": [
+                2,
+                3
+            ],
+            "short": "-d"
+        },
+        "node_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 2,
+            "description": "The node to start from.",
+            "examples": [
+                2
+            ]
+        },
+        "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 50,
+            "description": "At most this many rows in the answer.",
+            "examples": [
+                5,
+                50
+            ],
+            "short": "-n"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "node_tree"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "t",
+            "unit": "node_tree",
+            "args": {
+                "node_id": "$param.node_id",
+                "depth": "$param.depth",
+                "limit": "$param.limit"
+            }
+        },
+        {
+            "id": "classes",
+            "op": "group",
+            "from": "$steps.t.items",
+            "by": "class_identifier"
+        },
+        {
+            "id": "levels",
+            "op": "group",
+            "from": "$steps.t.items",
+            "by": "depth"
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.t.items",
+            "fields": [
+                "node_id",
+                "name",
+                "class_identifier",
+                "depth",
+                "parent_node_id"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "node_id": "$param.node_id",
+            "nodes": "$steps.t.total",
+            "per_class": "$steps.classes",
+            "per_depth": "$steps.levels",
+            "items": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "node_id",
+                "nodes",
+                "per_class",
+                "per_depth",
+                "items"
+            ],
+            "properties": {
+                "node_id": {
+                    "type": "integer"
+                },
+                "nodes": {
+                    "type": "integer"
+                },
+                "per_class": {
+                    "type": "array"
+                },
+                "per_depth": {
+                    "type": "array"
+                },
+                "items": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "Two levels of a subtree",
+            "params": {
+                "depth": 2
+            }
+        },
+        {
+            "title": "Three levels of a subtree",
+            "params": {
+                "depth": 3
+            }
+        }
+    ]
+}

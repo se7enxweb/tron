@@ -47,6 +47,13 @@ deploy. The tables can stay; they hold the audit and tokens.
 
 ## Notes per version
 
+### 0.0.0.15
+
+No schema change. `tron.php call`, `token:create` and the `tron-skills.php` commands that act as a user need a token,
+like `serve` (or `[StdioSettings] AllowLoginOption=enabled`); 202 skills were replaced by parameterised ones, so their
+`skill_<old name>` tools are gone; with `mcp/sdk` and `nyholm/psr7` installed on PHP 8.2 or newer the official MCP SDK
+runs the protocol. Switch every caller to a token before the upgrade ([changelog/0.0.0.15.md](changelog/0.0.0.15.md)).
+
 ### 0.0.0.14
 
 No schema change. `serve --user=<login>` is disabled by default: stdio needs a token. Anything that starts

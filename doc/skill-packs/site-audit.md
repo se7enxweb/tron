@@ -4,7 +4,7 @@ Settings checks with a verdict: debug and SQL output off, caches on, development
 
 - Pack: `site-audit` 0.0.0.1 in `share/skills/site-audit/` (tron's own packs)
 - Prefix: `audit.`
-- Skills: 25
+- Skills: 19
 - Audience: Whoever signs off a launch or a deploy, and periodic audits.
 
 ## Skills
@@ -21,18 +21,12 @@ Settings checks with a verdict: debug and SQL output off, caches on, development
 | `audit.ini.show-xhtml-off` | Checks that template debug markup is not written into pages. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
 | `audit.ini.sql-debug-off` | Checks that SQL statements are not written to the debug output. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
 | `audit.ini.debug-by-ip-off` | Checks that debug output is not limited to (and opened for) a list of IPs. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
-| `audit.ini.site-name-set` | Checks that a siteaccess has a site name. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
-| `audit.ini.site-url-set` | Checks that a siteaccess has a site URL for links in mails and feeds. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
-| `audit.ini.admin-email-set` | Checks that the installation has an address for its own notices. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
-| `audit.ini.mail-transport-set` | Checks that the installation knows how to send mail. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
+| `audit.ini.set` | Checks that a setting (file, block, setting) has a value for a siteaccess. Answers the value, where it is set and ok true or false. | `--file` `--block` `--setting` `--siteaccess` | ini_resolve | A |
 | `audit.ini.text-translation-on` | Checks that interface texts are translated on a siteaccess. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
 | `audit.ini.require-user-login-admin` | Checks that the administration siteaccess asks every visitor to sign in. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
 | `audit.ini.show-hidden-off` | Checks that a public siteaccess does not show hidden nodes. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
 | `audit.ini.static-cache-state` | Says whether static cache is used on a siteaccess (both are valid; it must be one of them). Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
-| `audit.ini.session-timeout-set` | Checks that sessions expire. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
 | `audit.ini.image-magick-state` | Says whether ImageMagick is enabled for image aliases. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
-| `audit.ini.versions-limit-set` | Checks that old versions are cleaned up at a limit. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
-| `audit.ini.search-engine-set` | Checks that a search engine is configured. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
 | `audit.ini.debug-timing-off` | Checks that debug timing is not written inline into pages. Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
 | `audit.ini.database-charset-utf8` | Checks that the database connection uses UTF-8 (or the driver default). Answers the value, where it is set and ok true or false. | `--siteaccess` | ini_resolve | A |
 | `audit.site.production-ready` | Six settings a public siteaccess must have in production (debug off, template cache on, view caching on, development mode off, no SQL output, no template list), each ok or not, with the number that failed. | `--siteaccess` | ini_resolve | A |

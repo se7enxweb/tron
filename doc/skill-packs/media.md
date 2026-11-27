@@ -4,27 +4,15 @@ Images, files, videos, galleries, audio, logos and banners: the oldest items, wh
 
 - Pack: `media` 0.0.0.1 in `share/skills/media/` (tron's own packs)
 - Prefix: `media.`
-- Skills: 16
+- Skills: 4
 - Audience: Editors who keep the media library tidy, and developers who change image sizes.
 
 ## Skills
 
 | Skill | What it answers | Parameters | Units | Wave |
 |---|---|---|---|---|
-| `media.image.oldest` | The images changed longest ago, oldest first, with their age in days: candidates for clean-up. | `--node-id` `--limit` | node_find | A |
-| `media.image.where` | In which parent nodes the images sit, with how many in each (from the first 50). | `--node-id` | node_find | A |
-| `media.file.oldest` | The files changed longest ago, oldest first, with their age in days: candidates for clean-up. | `--node-id` `--limit` | node_find | A |
-| `media.file.where` | In which parent nodes the files sit, with how many in each (from the first 50). | `--node-id` | node_find | A |
-| `media.ng-video.oldest` | The videos changed longest ago, oldest first, with their age in days: candidates for clean-up. | `--node-id` `--limit` | node_find | A |
-| `media.ng-video.where` | In which parent nodes the videos sit, with how many in each (from the first 50). | `--node-id` | node_find | A |
-| `media.ng-gallery.oldest` | The galleries changed longest ago, oldest first, with their age in days: candidates for clean-up. | `--node-id` `--limit` | node_find | A |
-| `media.ng-gallery.where` | In which parent nodes the galleries sit, with how many in each (from the first 50). | `--node-id` | node_find | A |
-| `media.ng-audio.oldest` | The audio items changed longest ago, oldest first, with their age in days: candidates for clean-up. | `--node-id` `--limit` | node_find | A |
-| `media.ng-audio.where` | In which parent nodes the audio items sit, with how many in each (from the first 50). | `--node-id` | node_find | A |
-| `media.ng-logo.oldest` | The logos changed longest ago, oldest first, with their age in days: candidates for clean-up. | `--node-id` `--limit` | node_find | A |
-| `media.ng-logo.where` | In which parent nodes the logos sit, with how many in each (from the first 50). | `--node-id` | node_find | A |
-| `media.ng-banner.oldest` | The banners changed longest ago, oldest first, with their age in days: candidates for clean-up. | `--node-id` `--limit` | node_find | A |
-| `media.ng-banner.where` | In which parent nodes the banners sit, with how many in each (from the first 50). | `--node-id` | node_find | A |
+| `media.oldest` | The media objects of one class (image, file, ng_video ...) changed longest ago, oldest first, with their age in days: candidates for clean-up. | `--class` `--node-id` `--limit` | node_find | A |
+| `media.where` | In which parent nodes the media objects of one class (image, file, ng_video ...) sit, with how many in each (from the first 50). | `--class` `--node-id` | node_find | A |
 | `media.image-aliases` | The image aliases this installation renders, from image.ini, with the file that sets the list. | `--siteaccess` | ini_resolve | A |
 | `media.image-ini-blocks` | The blocks of image.ini (one per alias, plus the converters), as a siteaccess resolves them. | `--siteaccess` | ini_list | A |
 
@@ -35,7 +23,7 @@ Images, files, videos, galleries, audio, logos and banners: the oldest items, wh
 The images changed longest ago, oldest first, with their age in days: candidates for clean-up.
 
 ```
-xsh tron:skill:run media.image.oldest
+xsh tron:skill:run media.oldest --class image
 ```
 
 ### Images per folder
@@ -43,7 +31,7 @@ xsh tron:skill:run media.image.oldest
 In which parent nodes the images sit, with how many in each (from the first 50).
 
 ```
-xsh tron:skill:run media.image.where
+xsh tron:skill:run media.where --class image
 ```
 
 ### Oldest files
@@ -51,7 +39,7 @@ xsh tron:skill:run media.image.where
 The files changed longest ago, oldest first, with their age in days: candidates for clean-up.
 
 ```
-xsh tron:skill:run media.file.oldest
+xsh tron:skill:run media.oldest --class file
 ```
 
 ### Files per folder
@@ -59,7 +47,7 @@ xsh tron:skill:run media.file.oldest
 In which parent nodes the files sit, with how many in each (from the first 50).
 
 ```
-xsh tron:skill:run media.file.where
+xsh tron:skill:run media.where --class file
 ```
 
 ### Oldest videos
@@ -67,7 +55,7 @@ xsh tron:skill:run media.file.where
 The videos changed longest ago, oldest first, with their age in days: candidates for clean-up.
 
 ```
-xsh tron:skill:run media.ng-video.oldest
+xsh tron:skill:run media.oldest --class ng_video
 ```
 
 Back to [skills.md](../skills.md) and the [conventions](../extension-conventions.md).

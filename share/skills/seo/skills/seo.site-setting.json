@@ -1,0 +1,123 @@
+{
+    "name": "seo.site-setting",
+    "title": "Site description and meta data",
+    "purpose": "The site description or the meta tags (author, keywords, description) a siteaccess writes into every page, and the files that set them.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "seo",
+        "settings",
+        "meta"
+    ],
+    "use_case": "Checking what search engines are told",
+    "parameters": {
+        "setting": {
+            "type": "string",
+            "enum": [
+                "MetaDataArray",
+                "SiteDescription"
+            ],
+            "default": "SiteDescription",
+            "description": "SiteDescription or MetaDataArray.",
+            "examples": [
+                "SiteDescription",
+                "MetaDataArray"
+            ]
+        },
+        "siteaccess": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "description": "The siteaccess whose settings count (default: the current one).",
+            "examples": [
+                "site",
+                "admin"
+            ],
+            "short": "-s",
+            "default": "site"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "ini_resolve"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "r",
+            "unit": "ini_resolve",
+            "args": {
+                "file": "site.ini",
+                "block": "SiteSettings",
+                "setting": "$param.setting",
+                "siteaccess": "$param.siteaccess"
+            }
+        },
+        {
+            "id": "chain",
+            "op": "pick",
+            "from": "$steps.r.files",
+            "fields": [
+                "path",
+                "scope",
+                "value"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "setting": "site.ini [SiteSettings] {{$param.setting}}",
+            "siteaccess": "$steps.r.siteaccess",
+            "found": "$steps.r.found",
+            "value": "$steps.r.value",
+            "winner": "$steps.r.winner",
+            "files": "$steps.chain"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "setting",
+                "siteaccess",
+                "found",
+                "value",
+                "winner",
+                "files"
+            ],
+            "properties": {
+                "setting": {
+                    "type": "string"
+                },
+                "siteaccess": {
+                    "type": "string"
+                },
+                "found": {
+                    "type": "boolean"
+                },
+                "value": [],
+                "winner": [],
+                "files": {
+                    "type": "array",
+                    "description": "Every file that sets it, lowest first"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "Meta data",
+            "params": {
+                "siteaccess": "site",
+                "setting": "MetaDataArray"
+            }
+        },
+        {
+            "title": "Site description",
+            "params": {
+                "siteaccess": "site",
+                "setting": "SiteDescription"
+            }
+        }
+    ]
+}

@@ -1,0 +1,441 @@
+{
+    "name": "ini.setting",
+    "title": "One setting and where it is set",
+    "purpose": "The value of one setting (file, block, setting) as a siteaccess resolves it, and every file that sets it.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "ini",
+        "settings"
+    ],
+    "use_case": "Answering \"where is this set?\"",
+    "parameters": {
+        "file": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}\\.ini$",
+            "default": "site.ini",
+            "description": "The INI file, e.g. site.ini.",
+            "examples": [
+                "site.ini",
+                "image.ini"
+            ],
+            "short": "-f"
+        },
+        "block": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$",
+            "default": "SiteSettings",
+            "description": "The block, e.g. SiteSettings.",
+            "examples": [
+                "SiteSettings",
+                "DatabaseSettings"
+            ]
+        },
+        "setting": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$",
+            "default": "SiteName",
+            "description": "The setting, e.g. SiteName.",
+            "examples": [
+                "SiteName",
+                "SiteURL"
+            ]
+        },
+        "siteaccess": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "description": "The siteaccess whose settings count (default: the current one).",
+            "examples": [
+                "site",
+                "admin"
+            ],
+            "short": "-s",
+            "default": "site"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "ini_resolve"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "r",
+            "unit": "ini_resolve",
+            "args": {
+                "file": "$param.file",
+                "block": "$param.block",
+                "setting": "$param.setting",
+                "siteaccess": "$param.siteaccess"
+            }
+        },
+        {
+            "id": "chain",
+            "op": "pick",
+            "from": "$steps.r.files",
+            "fields": [
+                "path",
+                "scope",
+                "value"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "setting": "{{$param.file}} [{{$param.block}}] {{$param.setting}}",
+            "siteaccess": "$steps.r.siteaccess",
+            "found": "$steps.r.found",
+            "value": "$steps.r.value",
+            "winner": "$steps.r.winner",
+            "files": "$steps.chain"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "setting",
+                "siteaccess",
+                "found",
+                "value",
+                "winner",
+                "files"
+            ],
+            "properties": {
+                "setting": {
+                    "type": "string"
+                },
+                "siteaccess": {
+                    "type": "string"
+                },
+                "found": {
+                    "type": "boolean"
+                },
+                "value": [],
+                "winner": [],
+                "files": {
+                    "type": "array",
+                    "description": "Every file that sets it, lowest first"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "Siteaccess extensions",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "ExtensionSettings",
+                "setting": "ActiveAccessExtensions"
+            }
+        },
+        {
+            "title": "Active extensions",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "ExtensionSettings",
+                "setting": "ActiveExtensions"
+            }
+        },
+        {
+            "title": "Additional designs",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "DesignSettings",
+                "setting": "AdditionalSiteDesignList"
+            }
+        },
+        {
+            "title": "Administrator address",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "MailSettings",
+                "setting": "AdminEmail"
+            }
+        },
+        {
+            "title": "Anonymous user",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "UserSettings",
+                "setting": "AnonymousUserID"
+            }
+        },
+        {
+            "title": "Cache directory",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "FileSettings",
+                "setting": "CacheDir"
+            }
+        },
+        {
+            "title": "File cluster handler",
+            "params": {
+                "siteaccess": "site",
+                "file": "file.ini",
+                "block": "ClusteringSettings",
+                "setting": "FileHandler"
+            }
+        },
+        {
+            "title": "Content language",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "RegionalSettings",
+                "setting": "ContentObjectLocale"
+            }
+        },
+        {
+            "title": "Database driver",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "DatabaseSettings",
+                "setting": "DatabaseImplementation"
+            }
+        },
+        {
+            "title": "Database server",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "DatabaseSettings",
+                "setting": "Server"
+            }
+        },
+        {
+            "title": "Default siteaccess",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "SiteSettings",
+                "setting": "DefaultAccess"
+            }
+        },
+        {
+            "title": "Default user group",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "UserSettings",
+                "setting": "DefaultUserPlacement"
+            }
+        },
+        {
+            "title": "Image aliases",
+            "params": {
+                "siteaccess": "site",
+                "file": "image.ini",
+                "block": "AliasSettings",
+                "setting": "AliasList"
+            }
+        },
+        {
+            "title": "Image converters",
+            "params": {
+                "siteaccess": "site",
+                "file": "image.ini",
+                "block": "ImageMagick",
+                "setting": "IsEnabled"
+            }
+        },
+        {
+            "title": "Index page",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "SiteSettings",
+                "setting": "IndexPage"
+            }
+        },
+        {
+            "title": "Locale",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "RegionalSettings",
+                "setting": "Locale"
+            }
+        },
+        {
+            "title": "Login handlers",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "UserSettings",
+                "setting": "LoginHandler"
+            }
+        },
+        {
+            "title": "Mail transport",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "MailSettings",
+                "setting": "Transport"
+            }
+        },
+        {
+            "title": "Siteaccess match order",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "SiteAccessSettings",
+                "setting": "MatchOrder"
+            }
+        },
+        {
+            "title": "Related siteaccesses",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "SiteAccessSettings",
+                "setting": "RelatedSiteAccessList"
+            }
+        },
+        {
+            "title": "Search engine",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "SearchSettings",
+                "setting": "SearchEngine"
+            }
+        },
+        {
+            "title": "Session handler",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "Session",
+                "setting": "Handler"
+            }
+        },
+        {
+            "title": "Session timeout",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "Session",
+                "setting": "SessionTimeout"
+            }
+        },
+        {
+            "title": "Site design",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "DesignSettings",
+                "setting": "SiteDesign"
+            }
+        },
+        {
+            "title": "Site languages",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "RegionalSettings",
+                "setting": "SiteLanguageList"
+            }
+        },
+        {
+            "title": "Site name",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "SiteSettings",
+                "setting": "SiteName"
+            }
+        },
+        {
+            "title": "Site URL",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "SiteSettings",
+                "setting": "SiteURL"
+            }
+        },
+        {
+            "title": "Available siteaccesses",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "SiteAccessSettings",
+                "setting": "AvailableSiteAccessList"
+            }
+        },
+        {
+            "title": "Static cache",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "ContentSettings",
+                "setting": "StaticCache"
+            }
+        },
+        {
+            "title": "Text translation",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "RegionalSettings",
+                "setting": "TextTranslation"
+            }
+        },
+        {
+            "title": "Admin tree menu",
+            "params": {
+                "siteaccess": "site",
+                "file": "contentstructuremenu.ini",
+                "block": "TreeMenu",
+                "setting": "ShowClasses"
+            }
+        },
+        {
+            "title": "User class",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "UserSettings",
+                "setting": "UserClassID"
+            }
+        },
+        {
+            "title": "Var directory",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "FileSettings",
+                "setting": "VarDir"
+            }
+        },
+        {
+            "title": "Versions kept",
+            "params": {
+                "siteaccess": "site",
+                "file": "content.ini",
+                "block": "VersionManagement",
+                "setting": "DefaultVersionHistoryLimit"
+            }
+        },
+        {
+            "title": "View cache",
+            "params": {
+                "siteaccess": "site",
+                "file": "site.ini",
+                "block": "ContentSettings",
+                "setting": "ViewCaching"
+            }
+        }
+    ]
+}

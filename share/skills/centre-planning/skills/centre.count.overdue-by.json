@@ -1,0 +1,132 @@
+{
+    "name": "centre.count.overdue-by",
+    "title": "Overdue counted by a field",
+    "purpose": "Counts the overdue open tickets of a board per assignee or per lane, largest first.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "centre",
+        "report",
+        "counts",
+        "overdue"
+    ],
+    "use_case": "Who or which lane is behind",
+    "parameters": {
+        "by": {
+            "type": "string",
+            "enum": [
+                "assignee",
+                "lane"
+            ],
+            "default": "assignee",
+            "description": "Count per assignee or per lane.",
+            "examples": [
+                "assignee",
+                "lane"
+            ],
+            "short": "-y"
+        },
+        "board": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
+            "default": "main",
+            "description": "The centre board, e.g. main or ops.",
+            "examples": [
+                "main",
+                "ops"
+            ],
+            "short": "-b"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.15",
+        "units": [
+            "centre_ticket_list"
+        ],
+        "programs": [
+            "centre"
+        ],
+        "wave": "A"
+    },
+    "guards": [
+        {
+            "policy": "tron/centre_read"
+        }
+    ],
+    "steps": [
+        {
+            "id": "list",
+            "unit": "centre_ticket_list",
+            "args": {
+                "board": "$param.board",
+                "status": "open",
+                "limit": 200
+            }
+        },
+        {
+            "id": "w0",
+            "op": "where",
+            "from": "$steps.list.items",
+            "field": "due",
+            "cmp": "notempty"
+        },
+        {
+            "id": "w1",
+            "op": "where",
+            "from": "$steps.w0",
+            "field": "due",
+            "cmp": "lt",
+            "value": "$today"
+        },
+        {
+            "id": "groups",
+            "op": "group",
+            "from": "$steps.w1",
+            "by": "$param.by"
+        }
+    ],
+    "output": {
+        "value": {
+            "board": "$param.board",
+            "total": "$steps.w1|count",
+            "groups": "$steps.groups"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "board",
+                "total",
+                "groups"
+            ],
+            "properties": {
+                "board": {
+                    "type": "string"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "groups": {
+                    "type": "array",
+                    "description": "key and count, largest first"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "Overdue per person",
+            "params": {
+                "board": "main",
+                "by": "assignee"
+            }
+        },
+        {
+            "title": "Overdue per lane",
+            "params": {
+                "board": "main",
+                "by": "lane"
+            }
+        }
+    ]
+}

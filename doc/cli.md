@@ -36,8 +36,9 @@ TRON_TOKEN=<token> tron.php serve --siteaccess=<sa>
 Refuses to start (exit 1, reason on stderr) when the token is refused, `--user` is given without a token while
 it is disabled (the default), the user is missing or disabled, the user
 lacks `tron/use`, or a tron table is missing. On start it prints
-`tron 0.0.0.1 serving stdio as <login>, <n> tools` to stderr. The session must begin with `initialize` (`ping`
-excepted). A line longer than 4 MB is refused with a parse error and the server carries on. Role changes and switches
+`tron 0.0.0.1 serving stdio as <login>, <n> tools` to stderr. The session must begin with `initialize`. A line
+longer than 4 MB is refused (dropped and logged by the SDK, answered with a parse error by the legacy layer) and the
+server carries on. Role changes and switches
 are read once at start: restart the client to pick them up.
 
 ### install
@@ -85,12 +86,18 @@ manifest), `disabled` (by `[ProgramSettings] Disabled[]` or a switch), `conflict
 ### token:create
 
 ```bash
-tron.php token:create --siteaccess=<sa> --user=<login> --name=<what for> [--days=<n>] [--scopes=<p1,p2>] [--out=<file>]
+TRON_TOKEN=<token> tron.php token:create --siteaccess=<sa> --user=<login> --name=<what for> [--days=<n>] [--scopes=<p1,p2>] [--out=<file>]
 ```
+
+The token given (`TRON_TOKEN` or `--token-file`) is the issuer: a user may create tokens for themselves, within their
+own token's scopes; for another user, or wider scopes, the issuer needs `tron/admin`. Without a token the command is
+refused (exit 1) unless an override sets `[StdioSettings] AllowLoginOption=enabled`, because then anyone who can run
+it could mint a token for any user. The first token of an installation comes from Setup > tron > Tokens.
 
 | Option | Default | Meaning |
 |---|---|---|
-| `--user` | required | the user the token acts as (must exist and be enabled) |
+| `--user` | required | the user the new token acts as (must exist and be enabled) |
+| `--token-file` | `TRON_TOKEN` | the issuer's token |
 | `--name` | required | 1 to 100 characters: where and what for (`claude@laptop`, `ci nightly`) |
 | `--days` | `[TokenSettings] DefaultLifetimeDays` (90) | lifetime; more than `MaxLifetimeDays` (365) is refused |
 | `--scopes` | all programs | comma-separated program names; the core program `tron` is always in scope |
@@ -136,15 +143,16 @@ duration. [audit.md](audit.md) explains every field and how to read the JSON-lin
 ### call
 
 ```bash
-tron.php call <tool> --siteaccess=<sa> --user=<login> [--json='{"limit":5}']
+TRON_TOKEN=<token> tron.php call <tool> --siteaccess=<sa> [--json='{"limit":5}']
 ```
 
-Calls one tool as a user, through the same server, permission check, schema validation and audit as a client
+Calls one tool as the token's user (`TRON_TOKEN` or `--token-file`; `--user=<login>` only where an override sets
+`[StdioSettings] AllowLoginOption=enabled`), through the same server, permission check, schema validation and audit as a client
 (transport `cli` in the audit). Prints the JSON-RPC answer; exit 1 when it is an error. Useful to test a program or a
 role without an MCP client.
 
 ```bash
-tron.php call centre_board_view --siteaccess=<sa> --user=agent-claude --json='{"board":"main","per_lane":5}'
+tron.php call centre_board_view --siteaccess=<sa> --token-file=$HOME/.config/tron/agent-claude.token --json='{"board":"main","per_lane":5}'
 ```
 
 ## tron-skills.php
@@ -153,9 +161,9 @@ Skills from the command line; `xsh tron:skill:*` runs the same commands as the s
 `lint [<pack dir>...]`, `harness --fixtures [--pack=<id>] [--write-proof] [--json]`, `try <name> --fixtures
 [--<param> <value> ...]`, `export <pack> --to=<dir|file.tar.gz>`. Inside the installation (`--use-siteaccess=<sa>`
 picks its siteaccess; `--siteaccess` is a skill parameter): `list [--state] [--pack] [--query] [--tag]`, `show <name>`,
-`packs`, `counts`, `run <name> --user=<login> [--<param> <value> ...]` (a live skill), `validate <name> --user=<login>`,
-`try <name> --user=<login>`, `unit <tool> --user=<login> --args=<json>` (a read unit), `harness --live
---user=<login> [--pack=<id>] [--write-proof]`, `install <dir|file.tar.gz> --extension=<ext>`, `export-local <pack>
+`packs`, `counts`, `run <name> [--<param> <value> ...]` (a live skill), `validate <name>`, `try <name>`,
+`unit <tool> --args=<json>` (a read unit), `harness --live [--pack=<id>] [--write-proof]`; these act as the token's user
+(`TRON_TOKEN` or `--token-file`), `--user=<login>` only where an override sets `[StdioSettings] AllowLoginOption=enabled`; `install <dir|file.tar.gz> --extension=<ext>`, `export-local <pack>
 --to=<dir>`. Exit codes 0 PASS, 1 FAIL, 2 usage. Approving has no command: it is a person's act in Setup > tron >
 Skills. See [skills.md](skills.md).
 

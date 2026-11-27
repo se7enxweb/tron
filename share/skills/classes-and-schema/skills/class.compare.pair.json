@@ -1,0 +1,169 @@
+{
+    "name": "class.compare.pair",
+    "title": "Compare two classes, counted",
+    "purpose": "The differences between two content classes (e.g. a classic class and its media-site counterpart): attributes only in one of them and attributes that differ, counted per kind of change.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "classes",
+        "diff",
+        "migration"
+    ],
+    "use_case": "Migrating content between two classes",
+    "parameters": {
+        "identifier": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_]{1,100}$",
+            "default": "article",
+            "description": "The first class.",
+            "examples": [
+                "article",
+                "folder"
+            ],
+            "short": "-a"
+        },
+        "other": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_]{1,100}$",
+            "default": "ng_article",
+            "description": "The second class.",
+            "examples": [
+                "ng_article",
+                "ng_container"
+            ],
+            "short": "-o"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "class_diff"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "d",
+            "unit": "class_diff",
+            "args": {
+                "identifier": "$param.identifier",
+                "other": "$param.other"
+            }
+        },
+        {
+            "id": "kinds",
+            "op": "group",
+            "from": "$steps.d.items",
+            "by": "change"
+        }
+    ],
+    "output": {
+        "value": {
+            "a": "$param.identifier",
+            "b": "$param.other",
+            "counts": "$steps.d.counts",
+            "per_change": "$steps.kinds",
+            "differences": "$steps.d.items"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "a",
+                "b",
+                "counts",
+                "per_change",
+                "differences"
+            ],
+            "properties": {
+                "a": {
+                    "type": "string"
+                },
+                "b": {
+                    "type": "string"
+                },
+                "counts": {
+                    "type": "object"
+                },
+                "per_change": {
+                    "type": "array"
+                },
+                "differences": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "Compare article and ng_article",
+            "params": {
+                "identifier": "article",
+                "other": "ng_article"
+            }
+        },
+        {
+            "title": "Compare article and ng_news",
+            "params": {
+                "identifier": "article",
+                "other": "ng_news"
+            }
+        },
+        {
+            "title": "Compare banner and ng_banner",
+            "params": {
+                "identifier": "banner",
+                "other": "ng_banner"
+            }
+        },
+        {
+            "title": "Compare blog_post and ng_blog_post",
+            "params": {
+                "identifier": "blog_post",
+                "other": "ng_blog_post"
+            }
+        },
+        {
+            "title": "Compare blog and ng_category",
+            "params": {
+                "identifier": "blog",
+                "other": "ng_category"
+            }
+        },
+        {
+            "title": "Compare feedback_form and ng_feedback_form",
+            "params": {
+                "identifier": "feedback_form",
+                "other": "ng_feedback_form"
+            }
+        },
+        {
+            "title": "Compare folder and ng_container",
+            "params": {
+                "identifier": "folder",
+                "other": "ng_container"
+            }
+        },
+        {
+            "title": "Compare frontpage and ng_frontpage",
+            "params": {
+                "identifier": "frontpage",
+                "other": "ng_frontpage"
+            }
+        },
+        {
+            "title": "Compare gallery and ng_gallery",
+            "params": {
+                "identifier": "gallery",
+                "other": "ng_gallery"
+            }
+        },
+        {
+            "title": "Compare image and ng_logo",
+            "params": {
+                "identifier": "image",
+                "other": "ng_logo"
+            }
+        }
+    ]
+}

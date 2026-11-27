@@ -1,0 +1,161 @@
+{
+    "name": "role.module",
+    "title": "A role's policies for a module",
+    "purpose": "The policies of a role for one module (content, user, setup, tron ...), with their limitations; policies for every module (*) count too.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "roles",
+        "policies"
+    ],
+    "use_case": "What may this role do in a module",
+    "parameters": {
+        "module": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]{1,64}$",
+            "default": "content",
+            "description": "The module, e.g. content, user or tron.",
+            "examples": [
+                "content",
+                "user"
+            ],
+            "short": "-m"
+        },
+        "role": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "default": "Anonymous",
+            "description": "The role name or id.",
+            "examples": [
+                "Anonymous",
+                "Administrator"
+            ],
+            "short": "-r"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "role_describe"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "r",
+            "unit": "role_describe",
+            "args": {
+                "role": "$param.role"
+            }
+        },
+        {
+            "id": "m",
+            "op": "where",
+            "from": "$steps.r.policies",
+            "field": "module",
+            "cmp": "in",
+            "value": [
+                "$param.module",
+                "*"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "role": "$steps.r.name",
+            "module": "$param.module",
+            "count": "$steps.m|count",
+            "policies": "$steps.m"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "role",
+                "module",
+                "count",
+                "policies"
+            ],
+            "properties": {
+                "role": {
+                    "type": "string"
+                },
+                "module": {
+                    "type": "string"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "policies": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "Class policies of a role",
+            "params": {
+                "role": "Anonymous",
+                "module": "class"
+            }
+        },
+        {
+            "title": "Content policies of a role",
+            "params": {
+                "role": "Anonymous",
+                "module": "content"
+            }
+        },
+        {
+            "title": "Exponential Layouts policies of a role",
+            "params": {
+                "role": "Anonymous",
+                "module": "explayouts"
+            }
+        },
+        {
+            "title": "Role policies of a role",
+            "params": {
+                "role": "Anonymous",
+                "module": "role"
+            }
+        },
+        {
+            "title": "Section policies of a role",
+            "params": {
+                "role": "Anonymous",
+                "module": "section"
+            }
+        },
+        {
+            "title": "Setup policies of a role",
+            "params": {
+                "role": "Anonymous",
+                "module": "setup"
+            }
+        },
+        {
+            "title": "Object state policies of a role",
+            "params": {
+                "role": "Anonymous",
+                "module": "state"
+            }
+        },
+        {
+            "title": "Tron policies of a role",
+            "params": {
+                "role": "Anonymous",
+                "module": "tron"
+            }
+        },
+        {
+            "title": "User policies of a role",
+            "params": {
+                "role": "Anonymous",
+                "module": "user"
+            }
+        }
+    ]
+}

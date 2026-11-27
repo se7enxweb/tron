@@ -89,6 +89,19 @@ Registered only where sevenx_katalyst is active (`[KatalystSettings] Source=kern
 | `katalyst_services_list` | katalyst_read | status, server_id, plan_id, customer_id, domain (needs katalyst_detail), gone (false), limit, offset | id, customer_id, server_id, domain (masked without katalyst_detail), status, hosting_type, plan_id, plesk_plan_id, service_kind, billing_cycle, next_due_date, disk_total_bytes, traffic_bytes, gone, created, modified |
 | `katalyst_orders_list` | katalyst_read | state, customer_id, since (YYYY-MM-DD), limit, offset | id, source, shop_order_nr, customer_id, state, currency, total_ex_vat, total_inc_vat, item_count, fraud_state, created, modified (newest first) |
 
+## Program search
+
+The installation's search, as the calling user (units `search.query` and `search.index`, see [units.md](units.md#search)).
+Registered wherever tron runs inside an installation. Read only.
+
+| Tool | Policy | Arguments | Answer |
+|---|---|---|---|
+| `search_query` | content/read (limited is fine) | **text**, node_id (below this node), subtree (node ids, at most 10), class (identifier or comma list), section (id), language (eng-GB), sort (relevance, published, modified, name, path, class_identifier, section), order (desc), facets (class, section, language), include_hidden (false), limit (10, max 50), offset | total, offset, items (node_id, object_id, name, class_identifier, url_alias, section_id, language, published, modified, excerpt), engine, sort (what the engine sorted by), facets_supported, facets (field => value, name, count), stop_words |
+| `search_index` | content/read (limited is fine) | node_id or object_id (both optional) | engine (name, class, facets, delayed_indexing), pending (objects in the indexing queue), object (object_id, node_id, name, indexed: true, false or null, queued) |
+
+Only content the user may read is found, and `total` counts only that: the user's content/read policies are the
+search's limitation, as on the site's own search page. A node the user may not read is "not found" in `search_index`.
+
 ## Errors
 
 | What | How it comes back |
@@ -99,7 +112,7 @@ Registered only where sevenx_katalyst is active (`[KatalystSettings] Source=kern
 | The tool's own refusal | tool result, isError, the tool's message |
 | Anything else | tool result, isError, "internal error"; details in the server log |
 | Unknown resource | JSON-RPC error -32002 with data.uri |
-| Unknown method | -32601; malformed JSON -32700; malformed request -32600 |
+| Unknown method | -32600 (the legacy layer: -32601); malformed JSON -32700; malformed request -32600 |
 
 ---
 

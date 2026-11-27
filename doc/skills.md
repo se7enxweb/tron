@@ -149,6 +149,10 @@ installation:
 | `assert` | `value`, `cmp`, `compare`, `message` | stops the run with `message` when the comparison fails |
 | `each` | `from`, `unit`, `args`, `max` (at most 50) | the unit's answer for every item, `$item` in `args` |
 
+A `field` or `by` may also be a parameter, `"$param.by"`, when that parameter is a string with an `enum`: one skill
+then filters, sorts or counts by any field the enum lists (`centre.count.by --by lane`), and the manifest still shows
+every field it can touch. A parameter without an enum is refused there.
+
 Comparisons: `eq ne lt le gt ge in nin contains prefix empty notempty match`. Any step may have `"when"`: a reference
 that must be true for the step to run. A run makes at most 100 unit calls and a skill has at most 16 steps.
 
@@ -157,8 +161,8 @@ that must be true for the step to run. A run makes at most 100 unit calls and a 
 ```
 php extension/tron/bin/php/tron-skills.php lint extension/myext/tron/skills/my-pack
 php extension/tron/bin/php/tron-skills.php try example.centre.labels --fixtures --board main
-php extension/tron/bin/php/tron-skills.php try content.class.count --user=<test admin> --class image
-php extension/tron/bin/php/tron-skills.php unit node_find --user=<test admin> --args='{"class":"image","limit":2}'
+php extension/tron/bin/php/tron-skills.php try content.class.count --token-file=<test admin token> --class image
+php extension/tron/bin/php/tron-skills.php unit node_find --token-file=<test admin token> --args='{"class":"image","limit":2}'
 ```
 
 Or over MCP: `skill_draft` with the manifest, then `skill_validate` with the draft id.
@@ -170,7 +174,7 @@ Or over MCP: `skill_draft` with the manifest, then `skill_validate` with the dra
 
 ```
 php extension/tron/bin/php/tron-skills.php harness --fixtures --write-proof              # tron's SQLite test world
-php extension/tron/bin/php/tron-skills.php harness --live --user=<test admin> --write-proof   # read-only on this installation
+php extension/tron/bin/php/tron-skills.php harness --live --token-file=<test admin token> --write-proof   # read-only on this installation
 ```
 
 For each skill it checks, in order: the manifest keeps the standard; every unit is registered here and only reads;

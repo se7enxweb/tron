@@ -1,12 +1,12 @@
 {
     "pack": "seo",
     "pack_version": "0.0.0.1",
-    "tron": "0.0.0.7",
-    "at": "2026-11-25T06:54:43Z",
+    "tron": "0.0.0.13",
+    "at": "2026-11-26T18:38:38Z",
     "skills": {
-        "seo.folder.deep": {
+        "seo.deep": {
             "version": "0.0.0.1",
-            "hash": "869c7dc794b6c08aa2d2caac3db61391ae5e5bc7b4631857c96699b3d0b5ab23",
+            "hash": "59e4210e064c9df76631b6fa87d79e939d7c5e413e2756ff1e03e33677d2f8a9",
             "result": "pass",
             "runs": {
                 "fixtures": "parked",
@@ -22,225 +22,9 @@
                 "redaction": "pass"
             }
         },
-        "seo.folder.urls": {
+        "seo.site-setting": {
             "version": "0.0.0.1",
-            "hash": "aacd7bafda8604717bd1b6350f1b737b8699f263ba596fe413a2218ca537d45d",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "seo.meta-data": {
-            "version": "0.0.0.1",
-            "hash": "403a8d9a7c933da7ad1173ba8167043cfff7dbad8cf299ef62bf96780699adc4",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "seo.ng-article.deep": {
-            "version": "0.0.0.1",
-            "hash": "bc7b1aba3c2b7d99ffbb72fbd23dbba6dda1cbf52653edb99a7d739c2e26fb9c",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "seo.ng-article.urls": {
-            "version": "0.0.0.1",
-            "hash": "e14681322da7ec3a096b9503cbdbfb26a35031f0ef67146a03ba4dfea2f903fa",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "seo.ng-blog-post.deep": {
-            "version": "0.0.0.1",
-            "hash": "d7591c03a0037c875beb0553b6464ff17e0210e7f62dc8cfefa52017c35a21da",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "seo.ng-blog-post.urls": {
-            "version": "0.0.0.1",
-            "hash": "ac489d112962dae1b091efba998a80ba4df9ca2bba72904b9da31dba11ef7eaf",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "seo.ng-landing-page.deep": {
-            "version": "0.0.0.1",
-            "hash": "cfc4aa6f636c79750a554f68c44d732006b40951f7d1dccc5b00548cdfac9c19",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "seo.ng-landing-page.urls": {
-            "version": "0.0.0.1",
-            "hash": "bcdb8f029555c74f13e4bf1f99d8b56ca50a36374a1953e2a6fad073e78335b0",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "seo.ng-news.deep": {
-            "version": "0.0.0.1",
-            "hash": "5376404b806d7483050258ada1e4f06b02a24353bbd7b1f2123bb60580245c0a",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "seo.ng-news.urls": {
-            "version": "0.0.0.1",
-            "hash": "de1d749f67b0fe0944f822b7f720cc26bfb70ad4b32ae807600a38b458e3e081",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "seo.ng-recipe.deep": {
-            "version": "0.0.0.1",
-            "hash": "15d4e4de15b79960f0ef6c692653f6058e802a3ec7468befb69aa667006ba70c",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "seo.ng-recipe.urls": {
-            "version": "0.0.0.1",
-            "hash": "d3d6384a55f0b97c761cd767e5284451004e2c03f50a0082c163b22dd90e4093",
-            "result": "pass",
-            "runs": {
-                "fixtures": "parked",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "seo.site-description": {
-            "version": "0.0.0.1",
-            "hash": "1147ccce81dc93fc7a542be82244f77de7f80a6a030dc97224d7dd3db7dcc6e9",
+            "hash": "0b94ac76a079a46b70ef585965b258f4eb300e98b0cb576d554bf7b8b77ea966",
             "result": "pass",
             "runs": {
                 "fixtures": "parked",
@@ -259,6 +43,24 @@
         "seo.site-url-https": {
             "version": "0.0.0.1",
             "hash": "b9ae00458c7e9b75c4015183fb32bac0dc8891a147715787fc4154dc3b52f439",
+            "result": "pass",
+            "runs": {
+                "fixtures": "parked",
+                "live": "pass"
+            },
+            "reason": "",
+            "waits": [],
+            "checks": {
+                "schema": "pass",
+                "units": "pass",
+                "policy": "pass",
+                "output": "pass",
+                "redaction": "pass"
+            }
+        },
+        "seo.urls": {
+            "version": "0.0.0.1",
+            "hash": "eed951a6d032cc4591869bab2ce80b0c9c1cecf777227ff107131b7ac5beca04",
             "result": "pass",
             "runs": {
                 "fixtures": "parked",

@@ -1,0 +1,266 @@
+{
+    "name": "content.latest",
+    "title": "Latest content of a class",
+    "purpose": "The nodes of one class most recently published below a node (the whole site by default), newest first, with how many there are in all.",
+    "version": "0.0.0.1",
+    "author": "7x",
+    "license": "GPL-2.0-or-later",
+    "tags": [
+        "content",
+        "inventory",
+        "latest"
+    ],
+    "use_case": "What was published lately",
+    "parameters": {
+        "class": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_]{1,100}$",
+            "default": "article",
+            "description": "The class identifier, e.g. article, image or ng_news.",
+            "examples": [
+                "article",
+                "ng_news"
+            ],
+            "short": "-c"
+        },
+        "node_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999999,
+            "default": 2,
+            "description": "Search below this node.",
+            "examples": [
+                2
+            ]
+        },
+        "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 10,
+            "description": "At most this many rows in the answer.",
+            "examples": [
+                5,
+                10
+            ],
+            "short": "-n"
+        }
+    },
+    "requires": {
+        "tron": "0.0.0.7",
+        "units": [
+            "node_find"
+        ],
+        "wave": "A"
+    },
+    "steps": [
+        {
+            "id": "find",
+            "unit": "node_find",
+            "args": {
+                "class": "$param.class",
+                "node_id": "$param.node_id",
+                "limit": "$param.limit",
+                "sort": "published",
+                "order": "desc"
+            }
+        },
+        {
+            "id": "rows",
+            "op": "pick",
+            "from": "$steps.find.items",
+            "fields": [
+                "node_id",
+                "name",
+                "url_alias",
+                "published",
+                "modified"
+            ]
+        }
+    ],
+    "output": {
+        "value": {
+            "total": "$steps.find.total",
+            "shown": "$steps.rows|count",
+            "nodes": "$steps.rows"
+        },
+        "schema": {
+            "type": "object",
+            "required": [
+                "total",
+                "shown",
+                "nodes"
+            ],
+            "properties": {
+                "total": {
+                    "type": "integer",
+                    "description": "How many match in all"
+                },
+                "shown": {
+                    "type": "integer"
+                },
+                "nodes": {
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "examples": [
+        {
+            "title": "Latest classic articles",
+            "params": {
+                "class": "article"
+            }
+        },
+        {
+            "title": "Latest newsletter articles",
+            "params": {
+                "class": "cjw_newsletter_article"
+            }
+        },
+        {
+            "title": "Latest files",
+            "params": {
+                "class": "file"
+            }
+        },
+        {
+            "title": "Latest folders",
+            "params": {
+                "class": "folder"
+            }
+        },
+        {
+            "title": "Latest help manuals",
+            "params": {
+                "class": "help_manual"
+            }
+        },
+        {
+            "title": "Latest help reference pages",
+            "params": {
+                "class": "help_reference"
+            }
+        },
+        {
+            "title": "Latest help tasks",
+            "params": {
+                "class": "help_task"
+            }
+        },
+        {
+            "title": "Latest images",
+            "params": {
+                "class": "image"
+            }
+        },
+        {
+            "title": "Latest articles",
+            "params": {
+                "class": "ng_article"
+            }
+        },
+        {
+            "title": "Latest banners",
+            "params": {
+                "class": "ng_banner"
+            }
+        },
+        {
+            "title": "Latest blog posts",
+            "params": {
+                "class": "ng_blog_post"
+            }
+        },
+        {
+            "title": "Latest categories",
+            "params": {
+                "class": "ng_category"
+            }
+        },
+        {
+            "title": "Latest containers",
+            "params": {
+                "class": "ng_container"
+            }
+        },
+        {
+            "title": "Latest front pages",
+            "params": {
+                "class": "ng_frontpage"
+            }
+        },
+        {
+            "title": "Latest galleries",
+            "params": {
+                "class": "ng_gallery"
+            }
+        },
+        {
+            "title": "Latest HTML boxes",
+            "params": {
+                "class": "ng_htmlbox"
+            }
+        },
+        {
+            "title": "Latest job positions",
+            "params": {
+                "class": "ng_job_position"
+            }
+        },
+        {
+            "title": "Latest landing pages",
+            "params": {
+                "class": "ng_landing_page"
+            }
+        },
+        {
+            "title": "Latest logos",
+            "params": {
+                "class": "ng_logo"
+            }
+        },
+        {
+            "title": "Latest news items",
+            "params": {
+                "class": "ng_news"
+            }
+        },
+        {
+            "title": "Latest people",
+            "params": {
+                "class": "ng_person"
+            }
+        },
+        {
+            "title": "Latest recipes",
+            "params": {
+                "class": "ng_recipe"
+            }
+        },
+        {
+            "title": "Latest shortcuts",
+            "params": {
+                "class": "ng_shortcut"
+            }
+        },
+        {
+            "title": "Latest topics",
+            "params": {
+                "class": "ng_topic"
+            }
+        },
+        {
+            "title": "Latest videos",
+            "params": {
+                "class": "ng_video"
+            }
+        },
+        {
+            "title": "Latest products",
+            "params": {
+                "class": "product"
+            }
+        }
+    ]
+}

@@ -8,7 +8,7 @@ A unit is an ordinary tron tool of an ordinary program. What makes it a unit is 
 (`programs/<area>/program.json`, key `"units"`): the unit id (`node.read`), the MCP tool name (`node_read`), the input
 types (`in`) and the output type (`out`). Every unit:
 
-- is a tool of its area's program (`ini`, `tpl`, `node`, `class`, `layout`, `role`), so a program or a single tool can
+- is a tool of its area's program (`ini`, `tpl`, `node`, `class`, `layout`, `role`, `search`), so a program or a single tool can
   be switched off in Setup > tron > Programs and tools;
 - checks the policies of the calling Exponential user (the session's user, never a service account), and node units
   read only what that user's `content/read` limitations allow;
@@ -43,6 +43,8 @@ Wave A (this release) has read units only. Nothing a unit does changes the insta
 | `block.definitions` | `layout_block_definitions` | explayouts/read | none | `block-definition[]` | (none) |
 | `role.describe` | `role_describe` | role/* | `role-ref` | `role` | `role`* (name or id) |
 | `user.find` | `role_user_find` | role/* | none | `user[]` | `text`* (2+ characters, login or name), `limit` (20, max 50), `offset` |
+| `search.query` | `search_query` | content/read | none, `node-ref` | `search-hit[]` | `text`*, `node_id` (below this node), `subtree` (node ids), `class`, `section`, `language`, `sort` (relevance), `order` (desc), `facets` (class, section, language), `include_hidden` (false), `limit` (10, max 50), `offset` |
+| `search.index` | `search_index` | content/read | none, `node-ref` | `search-index` | `node_id` or `object_id` |
 
 `*` required. `class` filters take one identifier or a comma list (`article,blog_post`). `sort` is one of published,
 modified, name, priority, path; `order` asc or desc.
@@ -80,7 +82,35 @@ turned into ("provides"); list types are `{ total, offset, items }` whose items 
 | `block-definition` | value | `identifier`, `name`, and the block type's settings | |
 | `role` | value | `id`, `name`, `policies` (module, function, limitations), `assignments` (kind, object_id, name, limit_identifier, limit_value) | role-ref |
 | `user` | value | `user_id`, `login`, `name`, `enabled`, `roles` | |
-| `node[]` `version[]` `ini-block[]` `class[]` `layout[]` `rule[]` `block-definition[]` `user[]` | list | `total`, `offset`, `items` | (per item) |
+| `search-hit` | value | `node_id`, `object_id`, `name`, `class_identifier`, `url_alias`, `section_id`, `language`, `published`, `modified`, `excerpt` | node-ref, class-ref, path-ref |
+| `search-index` | value | `engine` (name, class, facets, delayed_indexing), `pending`, `object` (object_id, node_id, name, indexed, queued; null without one) | |
+| `node[]` `version[]` `ini-block[]` `class[]` `layout[]` `rule[]` `block-definition[]` `user[]` `search-hit[]` | list | `total`, `offset`, `items` (`search-hit[]` also `engine`, `sort`, `facets_supported`, `facets`, `stop_words`) | (per item) |
+
+### Search
+
+`search.query` and `search.index` use the installation's own search engine, the one its search page uses
+(`[SearchSettings] SearchEngine` in site.ini: the built-in engine, eZ Find, or another plugin), with the parameters
+the kernel's `fetch( 'content', 'search' )` passes. The calling user's `content/read` policies go into the search as
+its limitation and the user is the current user for the call, so a hit the user may not read never comes back and
+`total` counts only what the user may read; each hit is also checked with the kernel's own read check.
+
+- `sort`: `relevance` (default), `published`, `modified`, `name`, `path`, `class_identifier`, `section`, with `order`.
+  The built-in engine does not rank by relevance; it then sorts by publication date and `sort` in the answer says so.
+- `facets`: `class`, `section` and `language` counts where the engine has facets (eZ Find); otherwise
+  `facets_supported` is false, `facets` is empty and a `note` says why.
+- `language`: hits available in that translation (the built-in engine also returns always-available objects).
+- `excerpt`: the engine's highlight when it gives one, else about 240 characters of plain text around the first
+  search word in the hit's text attributes. Names and excerpts are redacted like every unit answer (e-mail addresses,
+  tokens and secrets masked).
+- `search.index`: the engine (named `private` when it is in `[SystemAdapterSettings] PrivateNames[]`), its indexing
+  mode (`DelayedIndexing`), the objects waiting in the indexing queue (`ezpending_actions`), and for one node or object
+  whether the engine holds it (`indexed`: the built-in engine's word links; `null` for engines that do not say) and
+  whether it is queued. A node the user may not read is "not found".
+
+```
+node.find class=landing_page | search.query text=breakfast
+    a full-text search below every landing page (node-summary -> node-ref as the subtree)
+```
 
 The type catalog in code is `tronUnitTypes`; the units are read from the manifests by `tronUnitCatalog`, whose
 `contracts()` gives every unit's tool, types and output schema.

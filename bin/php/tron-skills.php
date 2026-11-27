@@ -14,12 +14,14 @@
  *   show   <name> [--json]
  *   packs  [--json]
  *   counts [--json]                       per state and per pack
- *   run    <name> --user=<login> [--<param> <value> ...] [--json]     a live skill, as that user
- *   validate <name> --user=<login>        the proof as that user (schema, units, policy simulation, runs, redaction)
- *   harness --live --user=<login> [--pack=<id>] [--write-proof] [--json]   prove every skill read-only on this installation
+ *   run    <name> [--<param> <value> ...] [--json]     a live skill, as the token's user
+ *   validate <name>                       the proof as the token's user (schema, units, policy simulation, runs, redaction)
+ *   harness --live [--pack=<id>] [--write-proof] [--json]   prove every skill read-only on this installation (a test administrator's token)
  *   install <dir|file.tar.gz> --extension=<ext>   copy a pack into extension/<ext>/tron/skills/<id>/ and register it
  *   export-local <pack id> --to=<dir>     write a local pack's approved drafts and forks as files
- *   unit   <tool> --user=<login> [--args=<json>]  run one read unit (while writing a skill)
+ *   unit   <tool> [--args=<json>]         run one read unit (while writing a skill)
+ * The commands that act as a user (run, validate, try, unit, harness --live) take a token: TRON_TOKEN=<token> or
+ * --token-file=<file>. --user=<login> without a token only where an override sets [StdioSettings] AllowLoginOption=enabled.
  *
  * Approving is a person's act in Setup > tron > Skills ("Verify it's you"); there is no command for it.
  * Exit codes: 0 PASS, 1 FAIL, 2 usage.
@@ -103,15 +105,21 @@ $finish = function ( int $code, string $line = '' ) use ( $say, &$kernel ) {
     exit( $code );
 };
 
-/** The server and a session as a user, inside the installation. */
-$kernelServer = function ( string $login ) use ( $finish ) {
-    $u = ( new tronKernelUserDirectory() )->byLogin( $login );
-    if ( !$u || !$u['enabled'] )
-        $finish( 1, "FAIL: no enabled user '$login'" );
+/**
+ * The server and a session inside the installation, as the token's user (TRON_TOKEN or --token-file). --user=<login>
+ * without a token only where an override sets [StdioSettings] AllowLoginOption=enabled (tronStdioIdentity).
+ */
+$kernelServer = function ( string $login ) use ( $finish, $opt, $command ) {
+    $token = getenv( 'TRON_TOKEN' ) ?: '';
+    if ( $token === '' && $opt( 'token-file' ) )
+        $token = trim( (string)@file_get_contents( (string)$opt( 'token-file' ) ) );
+    list( $principal, $code, $line ) = tronStdioIdentity::resolve( tronKernel::settings(), $token, $login, tronKernel::tokens(),
+                                                                   new tronKernelUserDirectory(), "tron-skills.php $command" );
+    if ( !$principal )
+        $finish( $code, $line );
     $access = new tronKernelAccessChecker();
-    $principal = new tronPrincipal( (int)$u['id'], (string)$u['login'] );
     if ( $access->check( $principal, 'tron', 'use' ) !== tronAccessChecker::YES )
-        $finish( 1, "FAIL: the user $login does not hold tron/use" );
+        $finish( 1, "FAIL: the user {$principal->login} does not hold tron/use" );
     $server = tronKernel::server( null, $access );
     return array( $server, new tronSession( $principal, 'stdio', false, '2025-11-25', 'cli' ) );
 };
@@ -170,8 +178,6 @@ try
             $live = (bool)$opt( 'live', false );
             if ( $live )
             {
-                if ( !$opt( 'user' ) )
-                    $finish( 2, 'harness --live needs --user=<login> (a test administrator, never the shared admin)' );
                 list( $server, $session ) = $kernelServer( (string)$opt( 'user' ) );
                 $env = tronSkillProgram::env( $server );
                 $catalog = tronSkillProgram::catalog( $env );
@@ -241,7 +247,7 @@ try
             if ( !isset( $all[$name] ) )
                 $finish( 1, "FAIL: no skill $name" );
             $m = $all[$name]['manifest'];
-            $r = ( new tronSkillRunner( $server, $session ) )->run( $m, tronSkillPacks::paramsFromOptions( $m, array_diff_key( $opts, array( 'fixtures' => 1, 'user' => 1, 'use-siteaccess' => 1, 'json' => 1 ) ) ) );
+            $r = ( new tronSkillRunner( $server, $session ) )->run( $m, tronSkillPacks::paramsFromOptions( $m, array_diff_key( $opts, array( 'fixtures' => 1, 'user' => 1, 'token-file' => 1, 'use-siteaccess' => 1, 'json' => 1 ) ) ) );
             $out( json_encode( $json ? $r : $r['output'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) );
             $finish( 0, "PASS: $name on " . ( $opt( 'fixtures', false ) ? 'the fixtures' : 'this installation' ) . " in {$r['ms']} ms" );
 
@@ -314,8 +320,8 @@ try
         case 'run':
         case 'validate':
             $name = (string)( $args[0] ?? '' );
-            if ( $name === '' || !$opt( 'user' ) )
-                $finish( 2, "$command <name> --user=<login> [--<param> <value> ...]" );
+            if ( $name === '' )
+                $finish( 2, "$command <name> [--<param> <value> ...] with a token (TRON_TOKEN or --token-file)" );
             list( $server, $session ) = $kernelServer( (string)$opt( 'user' ) );
             $env = tronSkillProgram::env( $server );
             $all = tronSkillProgram::all( $env );
@@ -337,8 +343,8 @@ try
 
         case 'unit':
             $tool = (string)( $args[0] ?? '' );
-            if ( $tool === '' || !$opt( 'user' ) )
-                $finish( 2, 'unit <tool> --user=<login> [--args=<json object>]   (try a unit while writing a skill)' );
+            if ( $tool === '' )
+                $finish( 2, 'unit <tool> [--args=<json object>] with a token (TRON_TOKEN or --token-file)   (try a unit while writing a skill)' );
             list( $server, $session ) = $kernelServer( (string)$opt( 'user' ) );
             $t = $server->registry()->findTool( $tool );
             if ( !$t )

@@ -1,7 +1,7 @@
 {
     "name": "system",
     "class": "tronSystemProgram",
-    "version": "0.0.0.14",
+    "version": "0.0.0.15",
     "title": "System adapters",
     "description": "The whole installation through a few generic tools: the API catalog and its coverage, any read fetch function, read template operators, module views described and read, allowlisted console commands and scripts as read-only or dry-run jobs, and the queue's jobs. Every call as the calling user, redacted, audited and journaled."
 }

@@ -1,7 +1,7 @@
 {
     "name": "api",
     "class": "tronApiProgram",
-    "version": "0.0.0.14",
+    "version": "0.0.0.15",
     "requires": "0.0.0.5",
     "title": "API",
     "description": "The Exponential APIs of this installation (REST v1, REST v2, GraphQL) with keys named from the secret store, a generic HTTP request to allowlisted hosts with a dry run, and an HTTP inspector (timings, headers, TLS, redirects)."

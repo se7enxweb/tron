@@ -1,7 +1,7 @@
 {
     "name": "katalyst",
     "class": "tronKatalystProgram",
-    "version": "0.0.0.14",
+    "version": "0.0.0.15",
     "requires": "0.0.0.1",
     "title": "Katalyst",
     "description": "Read-only views of Katalyst's services, plans and orders (ids, states and amounts; no personal data)."

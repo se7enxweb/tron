@@ -1,30 +1,12 @@
 {
     "pack": "centre-planning",
-    "pack_version": "0.0.0.1",
-    "tron": "0.0.0.7",
-    "at": "2026-11-25T06:51:09Z",
+    "pack_version": "0.0.0.2",
+    "tron": "0.0.0.15",
+    "at": "2026-11-27T04:03:01Z",
     "skills": {
-        "centre.board.health-main": {
+        "centre.board.health": {
             "version": "0.0.0.1",
-            "hash": "8fe5317d79960edcdc66875a26f89459fb9a82eb2223686a248a382518838b4a",
-            "result": "pass",
-            "runs": {
-                "fixtures": "pass",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "centre.board.health-ops": {
-            "version": "0.0.0.1",
-            "hash": "24cde218fcad07a59c7d8cd2bff8957f266b0b1e06a2d6918b44c3e740e9c147",
+            "hash": "ea8fa5d92a4d2fc4a5914dda57311ad15beb184b3dea21f5eafba416bd063ef2",
             "result": "pass",
             "runs": {
                 "fixtures": "pass",
@@ -76,117 +58,9 @@
                 "redaction": "pass"
             }
         },
-        "centre.count.by-assignee": {
+        "centre.count.by": {
             "version": "0.0.0.1",
-            "hash": "897150489d4845f32e792d44c48acef128be0f4e6ad99fb763c4924fac489fb9",
-            "result": "pass",
-            "runs": {
-                "fixtures": "pass",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "centre.count.by-kind": {
-            "version": "0.0.0.1",
-            "hash": "df88b9ebbca601f3edae55bd82c29c0b9fc0db71983e9d196c1c005a914cb9fe",
-            "result": "pass",
-            "runs": {
-                "fixtures": "pass",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "centre.count.by-label": {
-            "version": "0.0.0.1",
-            "hash": "d9025bc5a9368464bd8fd5c93ff66b65451cd4657849bbaa614d176ff97a7064",
-            "result": "pass",
-            "runs": {
-                "fixtures": "pass",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "centre.count.by-lane": {
-            "version": "0.0.0.1",
-            "hash": "b707d56cc40087b4dedcd2244a501665745823f114dd2d7725e896ca8c58243d",
-            "result": "pass",
-            "runs": {
-                "fixtures": "pass",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "centre.count.by-priority": {
-            "version": "0.0.0.1",
-            "hash": "c81bb89d7005decf42ebaf042b57088f4c195c5ec7dc13e1dc7dce770fda81d8",
-            "result": "pass",
-            "runs": {
-                "fixtures": "pass",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "centre.count.closed-by-person": {
-            "version": "0.0.0.1",
-            "hash": "57d50dcf6083e3d5c6f4d836ca8aa5c0c17349f3aa39a6600e87f41a7ba074d3",
-            "result": "pass",
-            "runs": {
-                "fixtures": "pass",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "centre.count.closed-by-reason": {
-            "version": "0.0.0.1",
-            "hash": "2453cfc9a0cb76360a26acafd35f4183d7c76b951a21918682971d5d2f12fbc4",
+            "hash": "dbbeece46e771d8899871a211645ac1ada2018e2a43c5704e9e189b07a03f1d7",
             "result": "pass",
             "runs": {
                 "fixtures": "pass",
@@ -238,27 +112,9 @@
                 "redaction": "pass"
             }
         },
-        "centre.count.overdue-by-assignee": {
+        "centre.count.overdue-by": {
             "version": "0.0.0.1",
-            "hash": "a6c8309a16d9cd98da493a177fabed33a4e72a08d4b48f83ffbac0d486841712",
-            "result": "pass",
-            "runs": {
-                "fixtures": "pass",
-                "live": "pass"
-            },
-            "reason": "",
-            "waits": [],
-            "checks": {
-                "schema": "pass",
-                "units": "pass",
-                "policy": "pass",
-                "output": "pass",
-                "redaction": "pass"
-            }
-        },
-        "centre.count.overdue-by-lane": {
-            "version": "0.0.0.1",
-            "hash": "1def89cda8baccd7239fa2c6a68ccadba8324c973e6189f1e6f8fc484c5164b5",
+            "hash": "aeaf2e1f23ea616ba0dc430e0b885cb6c1c91342b8d7ba4c273ac2e7dd2759c5",
             "result": "pass",
             "runs": {
                 "fixtures": "pass",

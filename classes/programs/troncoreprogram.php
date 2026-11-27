@@ -199,7 +199,8 @@ final class tronCoreProgram implements tronProgram
         }
         return array(
             'tron' => tronVersion::VERSION,
-            'protocol_versions' => tronProtocol::VERSIONS,
+            'protocol' => $env->has( 'tron.server' ) ? $env->get( 'tron.server' )->protocol()->name() : 'legacy',
+            'protocol_versions' => $env->has( 'tron.server' ) ? $env->get( 'tron.server' )->protocol()->versions() : tronProtocol::VERSIONS,
             'programs' => $programs,
             'tools' => (int)( $info['tools'] ?? 0 ),
             'not_registered' => (object)( $info['unavailable'] ?? array() ),

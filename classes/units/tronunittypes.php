@@ -79,11 +79,18 @@ final class tronUnitTypes
             'required' => array( 'id', 'name', 'policies', 'assignments' ), 'provides' => array( 'role-ref' => array( 'role' => 'name' ) ) ),
         'user' => array( 'title' => 'A user account: id, login, name, enabled, roles (nothing else)',
             'required' => array( 'user_id', 'login', 'name' ), 'provides' => array() ),
+        'search-hit' => array( 'title' => 'A search hit: ids, name, class, path, dates and a short excerpt',
+            'required' => array( 'node_id', 'object_id', 'name', 'class_identifier', 'url_alias', 'modified', 'excerpt' ),
+            'provides' => array( 'node-ref' => array( 'node_id' => 'node_id' ), 'class-ref' => array( 'identifier' => 'class_identifier' ),
+                                 'path-ref' => array( 'path' => 'url_alias' ) ) ),
+        'search-index' => array( 'title' => 'The search engine, its indexing queue, and whether one object is indexed',
+            'required' => array( 'engine', 'pending', 'object' ), 'provides' => array() ),
     );
 
     const LISTS = array(
         'node[]' => 'node-summary', 'version[]' => 'version', 'ini-block[]' => 'ini-block', 'class[]' => 'class-summary',
         'layout[]' => 'layout-summary', 'rule[]' => 'rule', 'block-definition[]' => 'block-definition', 'user[]' => 'user',
+        'search-hit[]' => 'search-hit',
     );
 
     public static function isRef( string $t ): bool

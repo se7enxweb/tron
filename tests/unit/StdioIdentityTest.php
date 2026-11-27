@@ -1,7 +1,8 @@
 <?php
 /**
  * serve --user=<login> is disabled by default ([StdioSettings] AllowLoginOption), a token always works, and an
- * override can enable --user again: in tronStdioIdentity and over real stdio.
+ * override can enable --user again: in tronStdioIdentity and over real stdio. call, token:create and the
+ * tron-skills.php commands that act as a user follow the same rule (0.0.0.15).
  *
  * @copyright Copyright (C) 1998 - 2026 Exponential Foundation and 7x; All rights reserved.
  * @license GNU General Public License v2.0 (or any later version)
@@ -79,6 +80,36 @@ final class TronStdioIdentityTest extends TronTestCase
         $this->assertSame( null, $p, 'a revoked token does not fall back to --user' );
         $this->assertSame( 1, $code );
         $this->assertContains( 'the token was refused', $line );
+    }
+
+    /** call and the tron-skills.php commands use the same rule as serve, and their refusals name the command. */
+    public function testOtherCommandsNameThemselves(): void
+    {
+        foreach ( array( 'call', 'tron-skills.php run' ) as $what )
+        {
+            list( $p, $code, $line ) = tronStdioIdentity::resolve( self::DISABLED, '', 'admin', $this->world['tokens'], $this->world['users'], $what );
+            $this->assertSame( null, $p, "$what --user: refused" );
+            $this->assertSame( 1, $code );
+            $this->assertContains( "$what --user is disabled", $line );
+            list( , $code, $line ) = tronStdioIdentity::resolve( self::DISABLED, '', '', $this->world['tokens'], $this->world['users'], $what );
+            $this->assertSame( 2, $code );
+            $this->assertContains( "tron $what needs a token", $line );
+        }
+    }
+
+    /** token:create: who may issue a token for whom, with which scopes (tronStdioIdentity::mayIssue). */
+    public function testWhoMayIssueATokenForWhom(): void
+    {
+        $access = TronFixture::access();
+        $editor = new tronPrincipal( TronFixture::EDITOR, 'editor', 5, array( '*' ) );
+        $scoped = new tronPrincipal( TronFixture::EDITOR, 'editor', 6, array( 'centre' ) );
+        $admin = new tronPrincipal( TronFixture::ADMIN, 'admin', 7, array( 'centre' ) );
+        $this->assertSame( '', tronStdioIdentity::mayIssue( null, TronFixture::ADMIN, array( '*' ), $access ), 'AllowLoginOption enabled: as before' );
+        $this->assertSame( '', tronStdioIdentity::mayIssue( $editor, TronFixture::EDITOR, array( '*' ), $access ), 'a token for oneself' );
+        $this->assertContains( 'only for themselves', tronStdioIdentity::mayIssue( $editor, TronFixture::ADMIN, array( '*' ), $access ), 'not for another user without tron/admin' );
+        $this->assertSame( '', tronStdioIdentity::mayIssue( $scoped, TronFixture::EDITOR, array( 'centre' ), $access ), 'within its own scopes' );
+        $this->assertContains( 'cannot create one for the scope *', tronStdioIdentity::mayIssue( $scoped, TronFixture::EDITOR, array( '*' ), $access ), 'no wider scope than its own' );
+        $this->assertSame( '', tronStdioIdentity::mayIssue( $admin, TronFixture::EDITOR, array( '*' ), $access ), 'tron/admin: for another user, any scope' );
     }
 
     /** Runs the stdio fixture, sends initialize and tools/list, and returns exit code, stderr and the answers. */

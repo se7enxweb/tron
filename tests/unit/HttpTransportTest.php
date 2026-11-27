@@ -37,9 +37,9 @@ final class TronHttpTransportTest extends TronTestCase
 
     public function testInitializeAndCall(): void
     {
-        $r = $this->req( array( 'jsonrpc' => '2.0', 'id' => 1, 'method' => 'initialize', 'params' => array( 'protocolVersion' => '2025-06-18' ) ) );
+        $r = $this->req( array( 'jsonrpc' => '2.0', 'id' => 1, 'method' => 'initialize', 'params' => array( 'protocolVersion' => '2025-06-18', 'capabilities' => new stdClass(), 'clientInfo' => array( 'name' => 't', 'version' => '1' ) ) ) );
         $this->assertSame( 200, $r->status );
-        $this->assertSame( 'application/json; charset=utf-8', $r->headers['Content-Type'] );
+        $this->assertSame( 0, strpos( $r->headers['Content-Type'], 'application/json' ) );
         $this->assertSame( 'no-store', $r->headers['Cache-Control'] );
         $this->assertFalse( isset( $r->headers['Mcp-Session-Id'] ), 'stateless: no session id' );
         $this->assertSame( '2025-06-18', json_decode( $r->body, true )['result']['protocolVersion'] );

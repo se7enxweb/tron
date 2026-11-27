@@ -31,9 +31,9 @@ $send( array( 'jsonrpc' => '2.0', 'id' => 2, 'method' => 'tools/call', 'params' 
 $r = $receive();
 echo "tools/call -> ticket #{$r['result']['structuredContent']['id']} \"{$r['result']['structuredContent']['title']}\"\n";
 
-$send( array( 'jsonrpc' => '2.0', 'id' => 3, 'method' => 'nope/nothing' ) );
+$send( array( 'jsonrpc' => '2.0', 'id' => 3, 'method' => 'tools/call', 'params' => array( 'name' => 'nope_nothing', 'arguments' => new stdClass() ) ) );
 $e = $receive();
-echo "unknown method -> {$e['error']['code']} {$e['error']['message']}\n";
+echo "unknown tool -> {$e['error']['code']} {$e['error']['message']}\n";
 
 fclose( $pipes[0] );                                                                    // end of input: the server ends
 fclose( $pipes[1] );

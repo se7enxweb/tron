@@ -44,7 +44,7 @@ final class TronJournalTest extends TronTestCase
     private function editorSession(): tronSession
     {
         $s = new tronSession( new tronPrincipal( TronFixture::EDITOR, 'editor', 7 ), 'stdio', true, null, 'stdio' );
-        $this->rpc( $s, 'initialize', array( 'protocolVersion' => '2025-11-25', 'clientInfo' => array( 'name' => 'Claude Code', 'version' => '2.1.0' ) ) );
+        $this->rpc( $s, 'initialize', array( 'protocolVersion' => '2025-11-25', 'capabilities' => new stdClass(), 'clientInfo' => array( 'name' => 'Claude Code', 'version' => '2.1.0' ) ) );
         $this->call( $s, 'tron_journal_note', array( 'kind' => 'intent', 'title' => 'Tidy the inbox', 'text' => 'Close what is done, file the rest.' ) );
         $this->call( $s, 'tron_whoami' );
         $this->call( $s, 'centre_ticket_create', array( 'title' => 'Deploy notes', 'body' => 'see runbook' ) );

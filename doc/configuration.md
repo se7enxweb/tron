@@ -11,13 +11,14 @@ instead of adding to it. After a change: `php bin/php/ezcache.php --clear-tag=in
 | | Instructions | (empty) | text appended to the initialize instructions |
 | | PageSize | 100 | items per tools/list (and resources, prompts) page |
 | | ResponseMaxBytes | 200000 | answers above this are cut with a note; structuredContent is left out |
+| | Protocol | auto | the protocol layer: auto (the official MCP PHP SDK where it can run, else legacy), sdk, legacy; [protocol.md](protocol.md) |
 | ProgramSettings | ExtensionScan | enabled | look for programs in active extensions; `disabled`: tron's own only |
 | | Disabled[] | (none) | program names to leave out; the core `tron` cannot be |
 | AuditSettings | Sinks[] | database | `database` and/or `file`; at least one |
 | | FilePath | var/log/tron-audit.log | the file sink, JSON lines |
 | TokenSettings | DefaultLifetimeDays | 90 | token:create without --days |
 | | MaxLifetimeDays | 365 | upper limit |
-| StdioSettings | AllowLoginOption | disabled | stdio needs a token (`TRON_TOKEN`, `--token-file`); `enabled` allows `serve --user=<login>` without one |
+| StdioSettings | AllowLoginOption | disabled | the command line needs a token (`TRON_TOKEN`, `--token-file`); `enabled` allows `serve`, `call` and the user commands of tron-skills.php with `--user=<login>` and no token, and `token:create` without an issuer token |
 | HTTPSettings | Enabled | false | the endpoint /tron/mcp answers 404 until `true` |
 | | SiteAccesses[] | (none) | siteaccesses that serve the endpoint |
 | | AllowedOrigins[] | (none) | browser origins (scheme://host[:port]); empty refuses any request with an Origin header |

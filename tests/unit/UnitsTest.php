@@ -12,7 +12,7 @@ require_once dirname( __DIR__ ) . '/fixtures/units_sources.php';
 
 final class TronUnitsTest extends TronTestCase
 {
-    const AREAS = array( 'ini' => 3, 'tpl' => 3, 'node' => 4, 'class' => 3, 'layout' => 5, 'role' => 2 );
+    const AREAS = array( 'ini' => 3, 'tpl' => 3, 'node' => 4, 'class' => 3, 'layout' => 5, 'role' => 2, 'search' => 2 );
 
     /** @var array */ private $f;
 
@@ -49,10 +49,10 @@ final class TronUnitsTest extends TronTestCase
 
     // ------------------------------------------------------------------ catalog and types
 
-    public function testCatalogDeclaresTwentyUnitsWithKnownTypes(): void
+    public function testCatalogDeclaresTwentyTwoUnitsWithKnownTypes(): void
     {
         $units = tronUnitCatalog::units();
-        $this->assertCount( 20, $units );
+        $this->assertCount( 22, $units );
         $per = array();
         foreach ( $units as $u )
             $per[$u['program']] = ( $per[$u['program']] ?? 0 ) + 1;
@@ -62,7 +62,7 @@ final class TronUnitsTest extends TronTestCase
         $this->assertSame( $want, $per );
         $this->assertSame( 'node_read', tronUnitCatalog::find( 'node.read' )['tool'] );
         $this->assertSame( 'rule.list', tronUnitCatalog::find( 'layout_rule_list' )['id'] );
-        $this->assertCount( 20, tronUnitCatalog::contracts() );
+        $this->assertCount( 22, tronUnitCatalog::contracts() );
         foreach ( tronUnitCatalog::contracts() as $tool => $c )
             $this->assertSame( 'object', $c['outputSchema']['type'], $tool );
     }
@@ -113,7 +113,7 @@ final class TronUnitsTest extends TronTestCase
         }
         TronFixture::write( "$dir/ok/program.json", json_encode( array( 'name' => 'x', 'units' => array( array( 'id' => 'x.read', 'tool' => 'x_read', 'in' => array( 'none' ), 'out' => 'node' ) ) ) ) );
         $this->assertCount( 1, tronUnitCatalog::units( array( "$dir/ok/program.json" ) ) );
-        $this->assertCount( 20, tronUnitCatalog::units(), 'an explicit manifest list does not replace the cached catalog' );
+        $this->assertCount( 22, tronUnitCatalog::units(), 'an explicit manifest list does not replace the cached catalog' );
     }
 
     public function testTypesConvertByProvides(): void
@@ -444,7 +444,7 @@ final class TronUnitsTest extends TronTestCase
     {
         $r = $this->f['server']->handle( array( 'jsonrpc' => '2.0', 'id' => 1, 'method' => 'resources/read', 'params' => array( 'uri' => 'tron://units' ) ), TronUnitFixture::session( TronUnitFixture::NOBODY ) );
         $d = json_decode( $r['result']['contents'][0]['text'], true );
-        $this->assertCount( 20, $d['units'] );
+        $this->assertCount( 22, $d['units'] );
         $this->assertSame( 8, $d['limits']['steps'] );
     }
 }

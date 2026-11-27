@@ -135,7 +135,12 @@ installation.
 
 References in `args`, ops and `output.value` MUST name an existing parameter, an earlier step, or one of `$now`,
 `$today`, `$week`, `$date.±Nd|w`, `$ago.<number param>`, `$ahead.<number param>`, `$user`; `$item` only inside
-`each`. A step MUST NOT run another skill (`skill_*`): skills do not nest.
+`each`. A step MUST NOT run another skill (`skill_*`): skills do not nest. An op's `field` or `by` MAY be
+`$param.<name>` when that parameter is a string with an `enum` (the fields it may name).
+
+One skill per question: a value that only selects (a label, a lane, a day window, a class, a siteaccess, an INI
+setting) is a parameter with a default and examples, not a skill of its own. Ship `centre.label --label ops`, not
+`centre.label.ops`, `centre.label.security` and so on.
 
 ## 5. Units and programs a pack needs
 
@@ -174,7 +179,7 @@ Nothing is offered until it is proven:
 1. `php extension/tron/bin/php/tron-skills.php lint extension/<ext>/tron/skills/<pack>` passes (the standard).
 2. The harness passes for every skill:
    `tron-skills.php harness --fixtures --pack=<id> --write-proof` (tron's SQLite world, with planted canaries) and/or
-   `tron-skills.php harness --live --user=<test administrator> --pack=<id> --write-proof` (read-only on a real
+   `tron-skills.php harness --live --token-file=<test administrator's token> --pack=<id> --write-proof` (read-only on a real
    installation). Each skill: standard, units here and read-only, policy simulation, every example run with its answer
    matching the output schema, no unredacted value in any answer.
 3. `proof.json` is committed with the pack. It holds the hash of each proven manifest; a manifest that differs from
@@ -297,7 +302,7 @@ Enabled=enabled
 ```
 $ php extension/tron/bin/php/tron-skills.php lint extension/expskillsexample/tron/skills/example-centre
 PASS example-centre                  1 skills
-$ php extension/tron/bin/php/tron-skills.php harness --live --user=<test admin> --pack=example-centre --write-proof
+$ php extension/tron/bin/php/tron-skills.php harness --live --token-file=<test admin token> --pack=example-centre --write-proof
 PACK example-centre               pass   1  fail   0  parked   0
 ```
 
